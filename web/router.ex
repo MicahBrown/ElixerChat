@@ -16,7 +16,10 @@ defmodule Daychat.Router do
   scope "/", Daychat do
     pipe_through :browser # Use the default browser stack
 
-    resources "/chats", ChatController, only: [:new, :create, :show]
+    resources "/chats", ChatController, only: [:new, :create, :show] do
+      resources "/participants", ParticipantController, only: [:new, :create]
+    end
+
     get "/", ChatController, :new
   end
 
