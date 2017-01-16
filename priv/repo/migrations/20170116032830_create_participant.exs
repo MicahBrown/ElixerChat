@@ -16,16 +16,3 @@ defmodule Daychat.Repo.Migrations.CreateParticipant do
     create unique_index(:participants, [:chat_id, :position])
   end
 end
-
-
-# create_table :participants do |t|
-#   t.belongs_to :user,     null: false
-#   t.belongs_to :chat,     null: false
-#   t.integer    :position, null: false, default: 0
-#   t.timestamps            null: false
-# end
-
-# add_index :participants, [:user_id, :chat_id], unique: true
-# add_index :participants, [:chat_id, :position], unique: true
-# add_foreign_key :participants, :chats, on_delete: :cascade
-# add_foreign_key :participants, :users, on_delete: :cascade
