@@ -4,6 +4,8 @@ defmodule Daychat.User do
   schema "users" do
     field :name, :string
     field :token, :string
+    has_many :chats, Daychat.Chat
+    has_many :participants, Daychat.Participant
 
     timestamps()
   end

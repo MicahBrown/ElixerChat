@@ -6,6 +6,7 @@ defmodule Daychat.Chat do
     field :token, :string
     field :participants_count, :integer
     belongs_to :user, Daychat.User
+    has_many :participants, Daychat.Participant
 
     timestamps()
   end
