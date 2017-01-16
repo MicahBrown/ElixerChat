@@ -1,37 +1,45 @@
 defmodule Authentication do
   import Plug.Conn
 
-  def require_user(auth_conn, params) do
-    auth_conn =
-      unless current_user(auth_conn) do
+  def require_user(conn, params) do
+    conn =
+      unless current_user(conn) do
         changeset = Daychat.User.changeset(%Daychat.User{})
         user = Daychat.Repo.insert!(changeset)
 
-        set_current_user(auth_conn, user)
+        put_current_user(conn, user)
       else
-        auth_conn
+        conn
       end
 
-    authenticate(auth_conn, params)
+    authenticate(conn, params)
   end
 
-  def current_user(auth_conn) do
-    if id = get_session(auth_conn, :user_id) do
+  def current_user(conn) do
+    conn.assigns["current_user"] || get_current_user(conn)
+  end
+
+  def authenticate(conn, _) do
+    if user = get_current_user(conn) do
+      assign_current_user(conn, user)
+    else
+      halt(conn)
+    end
+  end
+
+  defp get_current_user(conn) do
+    if id = get_session(conn, :user_id) do
       Daychat.Repo.get_by(Daychat.User, token: id)
     else
       nil
     end
   end
 
-  def authenticate(auth_conn, _) do
-    if user = current_user(auth_conn) do
-      assign(auth_conn, :current_user, user)
-    else
-      halt(auth_conn)
-    end
+  defp put_current_user(conn, user) do
+    put_session(conn, :user_id, user.token)
   end
 
-  defp set_current_user(auth_conn, user) do
-    put_session(auth_conn, :user_id, user.token)
+  defp assign_current_user(conn, user) do
+    assign(conn, :current_user, user)
   end
 end
