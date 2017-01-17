@@ -21,13 +21,13 @@ defmodule Daychat.Participant do
   end
 
   def set_position(changeset) do
-    chat = changeset.data.chat
-
-    if get_change(changeset, :name) && chat do
+    unless get_change(changeset, :position) do
+      chat     = changeset.data.chat
       position = chat.participants_count + 1
-      put_change(changeset, :name, position)
-    end
 
-    changeset
+      put_change(changeset, :position, position)
+    else
+      changeset
+    end
   end
 end
