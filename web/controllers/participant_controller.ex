@@ -2,6 +2,10 @@ defmodule Daychat.ParticipantController do
   use Daychat.Web, :controller
 
   alias Daychat.Participant
+  alias Daychat.Chat
+
+  plug :find_chat
+  plug :require_user when action in [:create]
 
   # def index(conn, _params) do
   #   participants = Repo.all(Participant)
@@ -14,13 +18,13 @@ defmodule Daychat.ParticipantController do
   end
 
   def create(conn, %{"participant" => participant_params}) do
-    changeset = Participant.changeset(%Participant{}, participant_params)
+    changeset = Participant.changeset(%Participant{user: current_user(conn), chat: conn.assigns[:chat]}, participant_params)
 
     case Repo.insert(changeset) do
       {:ok, _participant} ->
         conn
         |> put_flash(:info, "Participant created successfully.")
-        |> redirect(to: chat_participant_path(conn, :new))
+        |> redirect(to: chat_path(conn, :show, conn.assigns[:chat].name))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -62,4 +66,11 @@ defmodule Daychat.ParticipantController do
   #   |> put_flash(:info, "Participant deleted successfully.")
   #   |> redirect(to: participant_path(conn, :index))
   # end
+
+  defp find_chat(conn, _) do
+    chat_id = conn.params["chat_id"]
+    chat = Repo.get_by!(Chat, name: chat_id)
+
+    conn |> assign(:chat, chat)
+  end
 end
