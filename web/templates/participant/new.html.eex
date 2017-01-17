@@ -1,6 +1,5 @@
 <h2>New participant</h2>
-
 <%= render "form.html", changeset: @changeset,
-                        action: chat_participant_path(@conn, :create) %>
+                        action: chat_participant_path(@conn, :create, @chat.name) %>
 
 <%#= link "Back", to: "/" #participant_path(@conn, :index) %>
