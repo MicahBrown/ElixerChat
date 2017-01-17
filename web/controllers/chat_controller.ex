@@ -3,7 +3,9 @@ defmodule Daychat.ChatController do
 
   alias Daychat.Chat
 
+  plug :find_chat when action in [:show]
   plug :require_user when action in [:create, :show]
+  plug :require_participant when action in [:show]
 
   # def index(conn, _params) do
   #   chats = Repo.all(Chat)
@@ -29,8 +31,7 @@ defmodule Daychat.ChatController do
   end
 
   def show(conn, %{"id" => name}) do
-    chat = Repo.get_by!(Chat, name: name)
-    render(conn, "show.html", chat: chat)
+    render(conn, "show.html", chat: conn.assigns[:chat])
   end
 
   # def edit(conn, %{"id" => id}) do
@@ -64,4 +65,29 @@ defmodule Daychat.ChatController do
   #   |> put_flash(:info, "Chat deleted successfully.")
   #   |> redirect(to: chat_path(conn, :index))
   # end
+
+  defp require_participant(conn, _) do
+    participants = Repo.all(Ecto.assoc(current_user(conn), :participants))
+
+    unless part_of_chat?(conn, participants) do
+      redirect(conn, to: chat_participant_path(conn, :new, conn.assigns[:chat].name))
+    end
+
+    conn
+  end
+
+  defp part_of_chat?(conn, []), do: false
+  defp part_of_chat?(conn, participants) do
+    part_chat_ids = Enum.map(participants, fn(x) -> x.chat_id end)
+    chat_id = conn.assigns.chat.id
+
+    Enum.member?(part_chat_ids, chat_id)
+  end
+
+  defp find_chat(conn, _) do
+    chat_id = conn.params["id"]
+    chat = Repo.get_by!(Chat, name: chat_id)
+
+    conn |> assign(:chat, chat)
+  end
 end
