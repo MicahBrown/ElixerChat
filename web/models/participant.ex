@@ -15,6 +15,19 @@ defmodule Daychat.Participant do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:position])
-    |> validate_required([:position])
+    |> cast_assoc(:user, required: true)
+    |> cast_assoc(:chat, required: true)
+    |> set_position
+  end
+
+  def set_position(changeset) do
+    chat = changeset.data.chat
+
+    if get_change(changeset, :name) && chat do
+      position = chat.participants_count + 1
+      put_change(changeset, :name, position)
+    end
+
+    changeset
   end
 end
