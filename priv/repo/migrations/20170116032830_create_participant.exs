@@ -14,5 +14,9 @@ defmodule Daychat.Repo.Migrations.CreateParticipant do
     create index(:participants, [:chat_id])
     create unique_index(:participants, [:user_id, :chat_id])
     create unique_index(:participants, [:chat_id, :position])
+
+    execute "CREATE TRIGGER update_chat_participants_count
+              AFTER INSERT OR UPDATE OR DELETE ON participants
+              FOR EACH ROW EXECUTE PROCEDURE counter_cache('chats', 'participants_count', 'chat_id');"
   end
 end
