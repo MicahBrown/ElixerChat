@@ -1,23 +1,60 @@
-<h2>Show chat</h2>
+<div class="container">
+  <ul>
+    <li><%#= link_to "Share", '' %></li>
+  </ul>
 
-<ul>
+  <ul class="chat" id="chat-<%= @chat.id %>" data-chat-id="<%= @chat.id %>">
+    <%#= render @chat.messages.includes(:user) %>
+  </ul>
+</div>
 
-  <li>
-    <strong>User:</strong>
-    <%= @chat.user_id %>
-  </li>
+<div class="actions">
+  <div class="container">
+    <%#= form_for [@chat, Message.new], remote: true, html: { class: 'message-form' } do |f| %>
+      <%#= f.text_area :body, style: 'width: 100%' %>
+      <%#= f.submit "Send" %>
+    <%# end %>
 
-  <li>
-    <strong>Token:</strong>
-    <%= @chat.token %>
-  </li>
+    <%= form_for @message_changeset, chat_message_path(@conn, :create, @chat.name), fn f -> %>
+      <%= textarea f, :body, style: 'width: 100%;' %>
+      <%= submit "Submit" %>
+    <% end %>
+  </div>
+</div>
 
-  <li>
-    <strong>Participants count:</strong>
-    <%= @chat.participants_count %>
-  </li>
-
-</ul>
-
-<%#= link "Edit", to: chat_path(@conn, :edit, @chat) %>
-<%#= link "Back", to: chat_path(@conn, :index) %>
+<style>
+.actions {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  background: #fff;
+}
+.actions form {
+  padding: 2rem 0;
+  margin: 0;
+}
+.chat {
+  margin: 0;
+  list-style-type: none;
+}
+.message {
+  margin: 0;
+}
+.message .message-details {
+  color: #333;
+  font-size: 1.25rem;
+  margin-top: 0.75rem;
+  letter-spacing: 0.05rem;
+}
+.message .message-author {
+  font-weight: bold;
+}
+.message .message-timestamp {
+  color: #888;
+  float: right;
+}
+.message > p {
+  margin: 0;
+}
+</style>
