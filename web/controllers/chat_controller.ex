@@ -30,8 +30,13 @@ defmodule Daychat.ChatController do
     end
   end
 
-  def show(conn, %{"id" => name}) do
-    render(conn, "show.html", chat: conn.assigns[:chat])
+  def show(conn, %{"id" => _name}) do
+    chat = conn.assigns[:chat]
+    message_changeset = Daychat.Message.new_changeset(%Daychat.Message{})
+
+    conn
+    |> assign(:message_changeset, message_changeset)
+    |> render("show.html", chat: chat)
   end
 
   # def edit(conn, %{"id" => id}) do
@@ -76,7 +81,7 @@ defmodule Daychat.ChatController do
     conn
   end
 
-  defp part_of_chat?(conn, []), do: false
+  defp part_of_chat?(_conn, []), do: false
   defp part_of_chat?(conn, participants) do
     part_chat_ids = Enum.map(participants, fn(x) -> x.chat_id end)
     chat_id = conn.assigns.chat.id
