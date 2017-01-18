@@ -18,6 +18,7 @@ defmodule Daychat.Router do
 
     resources "/chats", ChatController, only: [:new, :create, :show] do
       resources "/participants", ParticipantController, only: [:new, :create]
+      resources "/messages", MessageController, only: [:create]
     end
 
     get "/", ChatController, :new
