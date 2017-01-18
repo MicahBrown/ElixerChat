@@ -56,8 +56,8 @@ defmodule Daychat.MessageController do
   # end
 
   defp find_chat(conn, _) do
-    chat_id = conn.params["id"]
-    chat = Repo.get_by!(Chat, name: chat_id)
+    chat_id = conn.params["chat_id"]
+    chat = Repo.get_by!(Daychat.Chat, name: chat_id)
 
     conn |> assign(:chat, chat)
   end
