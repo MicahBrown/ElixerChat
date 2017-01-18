@@ -11,7 +11,7 @@ defmodule Daychat.MessageController do
   # end
 
   def create(conn, %{"message" => message_params}) do
-    changeset = Message.changeset(%Message{}, message_params)
+    changeset = Message.changeset(%Message{user: current_user(conn), chat: conn.assigns[:chat]}, message_params)
 
     case Repo.insert(changeset) do
       {:ok, message} ->
