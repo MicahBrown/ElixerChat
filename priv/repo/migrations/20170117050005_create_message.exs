@@ -3,8 +3,8 @@ defmodule Daychat.Repo.Migrations.CreateMessage do
 
   def change do
     create table(:messages) do
-      add :user_id, references(:user, on_delete: :delete_all)
-      add :chat_id, references(:chat, on_delete: :delete_all), null: false
+      add :user_id, references(:users, on_delete: :delete_all)
+      add :chat_id, references(:chats, on_delete: :delete_all), null: false
       add :body, :text, null: false
 
       timestamps()
