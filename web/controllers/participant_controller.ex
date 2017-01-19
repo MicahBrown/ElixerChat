@@ -13,7 +13,7 @@ defmodule Daychat.ParticipantController do
   # end
 
   def new(conn, _params) do
-    changeset = Participant.changeset(%Participant{})
+    changeset = Participant.new_changeset(%Participant{})
     render(conn, "new.html", changeset: changeset)
   end
 

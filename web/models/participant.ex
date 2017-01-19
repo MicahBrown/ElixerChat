@@ -30,6 +30,11 @@ defmodule Daychat.Participant do
     |> set_position
   end
 
+  def new_changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [])
+  end
+
   def set_position(changeset) do
     unless get_change(changeset, :position) do
       chat     = changeset.data.chat
