@@ -3,7 +3,9 @@
     <li><%#= link_to "Share", '' %></li>
   </ul>
 
-  <ul class="chat" id="chat-<%= @chat.token %>" data-chat-id="<%= @chat.token %>" style="padding-bottom: 18rem;">
+  <ul class="chat" id="chat-<%= @chat.token %>"
+                   data-chat-id="<%= @chat.token %>"
+                   style="padding-bottom: 18rem;">
     <%= for message <- @messages do %>
       <%= render Daychat.MessageView, "message.html", message: message, participants: @participants %>
     <% end %>
@@ -44,20 +46,27 @@
 .message {
   margin: 0;
 }
+.message .message-details,
+.message .message-content { padding-right: 8rem; width: 100%; }
 .message .message-details {
+  position: relative;
   color: #333;
   font-size: 1.25rem;
-  margin-top: 0.75rem;
-  letter-spacing: 0.05rem;
+  position: relative;
 }
 .message .message-author {
   font-weight: bold;
+  margin-top: 0.75rem;
+  width: 100%;
 }
-.message .message-timestamp {
-  color: #888;
-  float: right;
+.message .message-gutter {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  text-align: right;
+  width: 100%;
 }
-.message > p {
+.message .message-body {
   margin: 0;
 }
 </style>
