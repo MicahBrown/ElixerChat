@@ -1,0 +1,5 @@
+<% participant = Enum.find(@participants, fn(p) -> p.user_id == @message.user_id end) %>
+<li>
+  <small style="color: <%= Daychat.Participant.color(participant) %>"><strong><%= @message.user.name %></strong></small>
+  <p><%= @message.body %></p>
+</li>

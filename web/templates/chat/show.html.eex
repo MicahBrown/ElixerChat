@@ -3,12 +3,15 @@
     <li><%#= link_to "Share", '' %></li>
   </ul>
 
-  <ul class="chat" id="chat-<%= @chat.id %>" data-chat-id="<%= @chat.id %>">
-    <%#= render @chat.messages.includes(:user) %>
+  <ul class="chat" id="chat-<%= @chat.token %>" data-chat-id="<%= @chat.token %>" style="padding-bottom: 18rem;">
+    <%= for message <- @messages do %>
+      <%= render Daychat.MessageView, "message.html", message: message, participants: @participants %>
+    <% end %>
   </ul>
 </div>
 
 <div class="actions">
+  <hr style="margin: 0;"/>
   <div class="container">
     <%#= form_for [@chat, Message.new], remote: true, html: { class: 'message-form' } do |f| %>
       <%#= f.text_area :body, style: 'width: 100%' %>

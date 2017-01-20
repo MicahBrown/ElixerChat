@@ -33,6 +33,7 @@ defmodule Daychat.ChatController do
   def show(conn, %{"id" => _name}) do
     chat = conn.assigns[:chat]
     message_changeset = Daychat.Message.new_changeset(%Daychat.Message{})
+    participants = Repo.all from p in Daychat.Participant, where: [chat_id: ^chat.id]
     messages = Repo.all from m in Daychat.Message,
                 where: [chat_id: ^chat.id],
                 preload: [:user]
@@ -40,6 +41,7 @@ defmodule Daychat.ChatController do
     conn
     |> assign(:message_changeset, message_changeset)
     |> assign(:messages, messages)
+    |> assign(:participants, participants)
     |> render("show.html", chat: chat)
   end
 
