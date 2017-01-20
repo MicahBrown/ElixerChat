@@ -2,7 +2,6 @@
   <ul>
     <li><%#= link_to "Share", '' %></li>
   </ul>
-
   <ul class="chat" id="chat-<%= @chat.token %>"
                    data-chat-id="<%= @chat.token %>"
                    style="padding-bottom: 18rem;">
@@ -13,6 +12,9 @@
 </div>
 
 <div class="actions">
+  <%= if Mix.env == :dev do %>
+    <div style="position: absolute; right: 1rem; top: 1rem;" onclick="this.parentNode.remove()">x</div>
+  <% end %>
   <hr style="margin: 0;"/>
   <div class="container">
     <%#= form_for [@chat, Message.new], remote: true, html: { class: 'message-form' } do |f| %>
