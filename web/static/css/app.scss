@@ -16,7 +16,13 @@
 // @import url('https://fonts.googleapis.com/css?family=Athiti:400,700');
 @import url('https://fonts.googleapis.com/css?family=Khula:400,700');
 
-a { text-decoration: none; }
+html { box-sizing: border-box; }
+
+// Set box-sizing globally to handle padding and border widths
+*,
+*::before,
+*::after { box-sizing: inherit; }
+
 body {
   letter-spacing: 0.025rem;
   line-height: 1.5;
@@ -36,3 +42,5 @@ body {
   // font-family: 'Athiti', sans-serif;
   font-family: 'Khula', sans-serif;
 }
+
+a { text-decoration: none; }
