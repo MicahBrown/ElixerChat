@@ -1,8 +1,12 @@
 <div class="container">
-  <ul>
-    <li><%#= link_to "Share", '' %></li>
+  <%# <ul>
+    <li>= link_to "Share", '' </li>
+  </ul> %>
+  <ul id="UserList" class="list-unstyled">
+    <li>Loading online users...</li>
   </ul>
   <ul class="chat" id="chat-<%= @chat.token %>"
+                   data-user-id="<%= @current_user.token %>"
                    data-chat-id="<%= @chat.token %>"
                    style="padding-bottom: 18rem;">
     <%= for message <- @messages do %>
