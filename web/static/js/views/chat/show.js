@@ -66,25 +66,6 @@ var sticky = {
 
 document.addEventListener("DOMContentLoaded", sticky.init.bind(sticky));
 
-var sortList = function(ul) {
-  var new_ul = ul.cloneNode(false);
-  var lis = [];
-  for(var i = ul.childNodes.length; i--;){
-    if(ul.childNodes[i].nodeName === 'LI')
-      lis.push(ul.childNodes[i]);
-  }
-  lis.sort(function(a, b){
-    return a.children[0].textContent.localeCompare(b.children[0].textContent);
-    // return parseInt(b.childNodes[0].data , 10) - parseInt(a.childNodes[0].data , 10);
-  });
-  for(var i = 0; i < lis.length; i++)
-    new_ul.appendChild(lis[i]);
-
-  if (ul.parentNode != null)
-    ul.parentNode.replaceChild(new_ul, ul);
-}
-
-
 var convertTimeToLocal = function(el, time){
   var m     = moment.utc(time),
       local = m.local();
