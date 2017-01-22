@@ -4,7 +4,7 @@ import {Presence, Socket} from "phoenix"
 export default class View extends MainView {
   mount() {
     super.mount();
-    loadMessager();
+    loadMessages();
     loadChannel();
   }
 
@@ -16,6 +16,23 @@ export default class View extends MainView {
   }
 }
 
+var sortList = function(ul) {
+  var new_ul = ul.cloneNode(false);
+  var lis = [];
+  for(var i = ul.childNodes.length; i--;){
+    if(ul.childNodes[i].nodeName === 'LI')
+      lis.push(ul.childNodes[i]);
+  }
+  lis.sort(function(a, b){
+    return a.children[0].textContent.localeCompare(b.children[0].textContent);
+    // return parseInt(b.childNodes[0].data , 10) - parseInt(a.childNodes[0].data , 10);
+  });
+  for(var i = 0; i < lis.length; i++)
+    new_ul.appendChild(lis[i]);
+
+  if (ul.parentNode != null)
+    ul.parentNode.replaceChild(new_ul, ul);
+}
 
 var hasClass = function(el, className) {
   return (' ' + el.className + ' ').indexOf(' ' + className + ' ') > -1;
@@ -77,7 +94,7 @@ var processMessage = function(message){
   return message;
 }
 
-var loadMessager = function(){
+var loadMessages = function(){
   var messages = document.getElementsByClassName('message');
   for (var i = 0; i < messages.length; i++) {
     processMessage(messages[i]);
@@ -86,11 +103,11 @@ var loadMessager = function(){
 }
 
 var loadChannel = function(){
-  let chat     = document.getElementsByClassName("chat")[0]
+  let chat      = document.getElementsByClassName("chat")[0]
   let chatToken = chat.dataset.chatToken
-  let chatName = chat.dataset.chatName
+  let chatName  = chat.dataset.chatName
   let userToken = chat.dataset.userToken
-  let socket   = new Socket("/socket", {params: {token: userToken}})
+  let socket    = new Socket("/socket", {params: {token: userToken}})
   socket.connect()
 
   let presences = {}
@@ -106,17 +123,17 @@ var loadChannel = function(){
     }
   }
 
-  let userList = document.getElementById("UserList")
+  let userList = document.getElementById("chat-users-list")
   let render = (presences) => {
     userList.innerHTML = Presence.list(presences, listBy)
       .map(presence => `
         <li>
-          ${presence.user}
-          <br>
-          <small>online since ${presence.onlineAt}</small>
+          <small>${presence.user}</small>
         </li>
       `)
       .join("")
+
+    userList
   }
 
   // Channels

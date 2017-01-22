@@ -2,9 +2,13 @@
   <%# <ul>
     <li>= link_to "Share", '' </li>
   </ul> %>
-  <ul id="UserList" class="list-unstyled">
-    <li>Loading online users...</li>
-  </ul>
+  <div id="chat-users">
+    <span id="chat-users-count"></span>
+    <ul id="chat-users-list" class="list-unstyled" style="display: none;">
+      <li>Loading online users...</li>
+    </ul>
+  </div>
+
   <ul class="chat" id="chat-<%= @chat.token %>"
                    data-user-token="<%= Phoenix.Token.sign(@conn, "user_token", @current_user.token) %>"
                    data-chat-token="<%= Phoenix.Token.sign(@conn, "chat_token", @chat.token) %>"
