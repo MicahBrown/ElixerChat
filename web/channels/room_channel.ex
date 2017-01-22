@@ -5,7 +5,6 @@ defmodule Daychat.RoomChannel do
   alias Daychat.Chat
 
   def join("room:" <> id, %{"token" => token}, socket) do
-
     case Phoenix.Token.verify(socket, "chat_token", token) do
       {:ok, chat_token} ->
         chat = Daychat.Repo.get_by!(Chat, token: chat_token)
