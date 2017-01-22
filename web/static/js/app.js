@@ -22,7 +22,7 @@ import "phoenix_html"
 import MainView from './views/main';
 import loadView from './views/loader';
 
-function handleDOMContentLoaded() {
+var handleDOMContentLoaded = function() {
   // Get the current view name
   const viewName = document.getElementsByTagName('body')[0].dataset.jsViewName;
 
@@ -34,7 +34,7 @@ function handleDOMContentLoaded() {
   window.currentView = view;
 }
 
-function handleDocumentUnload() {
+var handleDocumentUnload = function() {
   window.currentView.unmount();
 }
 
