@@ -15,4 +15,10 @@ defmodule Daychat.MessageView do
       chat_id: message.chat_id,
       body: message.body}
   end
+
+  def timestamp(message) do
+    message.inserted_at
+    |> Ecto.DateTime.cast!
+    |> DateTimeFormatter.to_datetime
+  end
 end

@@ -2,7 +2,7 @@ defmodule Daychat.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", Daychat.RoomChannel
+  channel "room:*", Daychat.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
@@ -19,8 +19,19 @@ defmodule Daychat.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket) do
-    {:ok, socket}
+  def connect(%{"token" => token}, socket) do
+    case Phoenix.Token.verify(socket, "user_token", token) do
+      {:ok, user_token} ->
+        user   = Daychat.Repo.get_by!(Daychat.User, token: user_token)
+        socket =
+          socket
+          |> assign(:user, user)
+          |> assign(:user_name, user.name)
+
+        {:ok, socket}
+      {:error, _} ->
+        :error
+    end
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:

@@ -14,6 +14,7 @@ defmodule Daychat do
       supervisor(Daychat.Endpoint, []),
       # Start your own worker by calling: Daychat.Worker.start_link(arg1, arg2, arg3)
       # worker(Daychat.Worker, [arg1, arg2, arg3]),
+      supervisor(Daychat.Presence, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
