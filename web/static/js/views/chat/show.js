@@ -16,24 +16,6 @@ export default class View extends MainView {
   }
 }
 
-var sortList = function(ul) {
-  var new_ul = ul.cloneNode(false);
-  var lis = [];
-  for(var i = ul.childNodes.length; i--;){
-    if(ul.childNodes[i].nodeName === 'LI')
-      lis.push(ul.childNodes[i]);
-  }
-  lis.sort(function(a, b){
-    return a.children[0].textContent.localeCompare(b.children[0].textContent);
-    // return parseInt(b.childNodes[0].data , 10) - parseInt(a.childNodes[0].data , 10);
-  });
-  for(var i = 0; i < lis.length; i++)
-    new_ul.appendChild(lis[i]);
-
-  if (ul.parentNode != null)
-    ul.parentNode.replaceChild(new_ul, ul);
-}
-
 var hasClass = function(el, className) {
   return (' ' + el.className + ' ').indexOf(' ' + className + ' ') > -1;
 }
@@ -52,6 +34,61 @@ var removeClass = function(el, className) {
     el.className=el.className.replace(reg, ' ')
   }
 }
+
+var sticky = {
+  sticky_after: 150,
+  init: function() {
+
+    // this.container = this.header.parentNode
+    // this.clone = this.header.cloneNode(true);
+
+    // this.container.insertBefore(this.clone, this.container.childNodes[0]);
+    this.scroll();
+    this.events();
+  },
+
+  scroll: function() {
+    this.header = document.getElementsByClassName("chat-menu")[0];
+
+    if(window.scrollY > this.header.offsetHeight) {
+      addClass(this.header, "clone");
+    } else {
+      removeClass(this.header, "clone");
+    }
+
+    if(window.scrollY > this.sticky_after) {
+      addClass(document.body, "down");
+    }
+    else {
+      removeClass(document.body, "down");
+    }
+  },
+
+  events: function() {
+    window.addEventListener("scroll", this.scroll.bind(this));
+  }
+};
+
+document.addEventListener("DOMContentLoaded", sticky.init.bind(sticky));
+
+var sortList = function(ul) {
+  var new_ul = ul.cloneNode(false);
+  var lis = [];
+  for(var i = ul.childNodes.length; i--;){
+    if(ul.childNodes[i].nodeName === 'LI')
+      lis.push(ul.childNodes[i]);
+  }
+  lis.sort(function(a, b){
+    return a.children[0].textContent.localeCompare(b.children[0].textContent);
+    // return parseInt(b.childNodes[0].data , 10) - parseInt(a.childNodes[0].data , 10);
+  });
+  for(var i = 0; i < lis.length; i++)
+    new_ul.appendChild(lis[i]);
+
+  if (ul.parentNode != null)
+    ul.parentNode.replaceChild(new_ul, ul);
+}
+
 
 var convertTimeToLocal = function(el, time){
   var m     = moment.utc(time),
@@ -123,11 +160,11 @@ var loadChannel = function(){
     }
   }
 
-  let userCount = document.getElementById("chat-users-count")
-  let userList = document.getElementById("chat-users-list")
+  let userCount = document.getElementsByClassName("chat-users-count")[0]
+  let userList = document.getElementsByClassName("chat-users-list")[0]
   let render = (presences) => {
     var count = Object.keys(presences).length
-    userCount.innerHTML = count + " " + (count == 1 ? "User" : "Users") + " Online"
+    userCount.innerHTML = "<i class='fa fa-group'></i> " + count + " " + (count == 1 ? "User" : "Users") + " Online"
     userList.innerHTML = Presence.list(presences, listBy)
       .map(presence => `
         <li>

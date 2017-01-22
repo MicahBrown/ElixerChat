@@ -1,19 +1,17 @@
-<div id="chat-menu">
-  <div class="container">
-    <a>Share</a>
-    <div id="chat-users" class="u-pull-right">
-      <a id="chat-users-count"></a>
-      <ul id="chat-users-list" class="list-unstyled" style="display: none;">
-        <li>Loading online users...</li>
-      </ul>
+<div class="chat-menu-wrapper">
+  <div class="chat-menu">
+    <div class="container">
+      <a><i class="fa fa-share-alt"></i> Share</a>
+      <div class="chat-users u-pull-right">
+        <a class="chat-users-count"><i class="fa fa-user-group"></i></a>
+        <ul class="chat-users-list" class="list-unstyled" style="display: none;">
+          <li>Loading online users...</li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
 <div class="container">
-  <%# <ul>
-    <li>= link_to "Share", '' </li>
-  </ul> %>
-
   <ul class="chat" id="chat-<%= @chat.token %>"
                    data-user-token="<%= Phoenix.Token.sign(@conn, "user_token", @current_user.token) %>"
                    data-chat-token="<%= Phoenix.Token.sign(@conn, "chat_token", @chat.token) %>"
@@ -29,13 +27,7 @@
   <%= if Mix.env == :dev do %>
     <div style="position: absolute; right: 1rem; top: 1rem;" onclick="this.parentNode.remove()">x</div>
   <% end %>
-  <hr style="margin: 0;"/>
   <div class="container">
-    <%#= form_for [@chat, Message.new], remote: true, html: { class: 'message-form' } do |f| %>
-      <%#= f.text_area :body, style: 'width: 100%' %>
-      <%#= f.submit "Send" %>
-    <%# end %>
-
     <%= form_for @message_changeset, chat_message_path(@conn, :create, @chat.name), fn f -> %>
       <%= textarea f, :body, style: 'width: 100%;' %>
       <%= submit "Submit" %>
@@ -50,6 +42,8 @@
   left: 0;
   bottom: 0;
   background: #fff;
+  border-top: 1px solid #ddd;
+  box-shadow: 0 -2px 5px -5px rgba(0,0,0,0.40);
 }
 .actions form {
   padding: 2rem 0;
@@ -85,4 +79,37 @@
 .message .message-body {
   margin: 0;
 }
+
+.chat-menu-wrapper {
+  position: relative;
+  width: 100%;
+  height: 28px;
+}
+.chat-menu-wrapper .chat-menu {
+  line-height: 28px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1001;
+  height: 100%;
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+  box-shadow: 0 2px 5px -5px rgba(0,0,0,0.40);
+}
+
+.chat-menu-wrapper .chat-menu.clone {
+  position: fixed;
+  top: -32px;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  height: 28px;
+  transition: 0.2s top cubic-bezier(.3,.73,.3,.74);
+}
+
+/*.chat-menu-wrapper .chat-menu .container { background: #fff; height: 28px; }*/
+/*.chat-menu-wrapper .chat-menu.clone .container {  }*/
+body.down .chat-menu-wrapper .chat-menu.clone {
+  top: 0; }
 </style>

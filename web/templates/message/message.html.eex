@@ -2,7 +2,7 @@
 <li class="message" data-user="<%= @message.user.name %>" data-time="<%= timestamp(@message) %>">
   <div class="message-details">
     <div class="message-author">
-      <span style="color: <%= Daychat.Participant.color(participant) %>"><%= @message.user.name %></span>
+      <span style="color: <%= Daychat.Participant.color(participant) %>"><i class="fa fa-user-circle"></i> <%= @message.user.name %></span>
     </div>
     <div class="message-gutter">
       <time>10:01 PM<%#= @message.inserted_at %></time>
