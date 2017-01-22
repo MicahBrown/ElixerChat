@@ -6,8 +6,9 @@
     <li>Loading online users...</li>
   </ul>
   <ul class="chat" id="chat-<%= @chat.token %>"
-                   data-user-id="<%= @current_user.token %>"
-                   data-chat-id="<%= @chat.token %>"
+                   data-user-token="<%= Phoenix.Token.sign(@conn, "user_token", @current_user.token) %>"
+                   data-chat-token="<%= Phoenix.Token.sign(@conn, "chat_token", @chat.token) %>"
+                   data-chat-name="<%= @chat.name %>"
                    style="padding-bottom: 18rem;">
     <%= for message <- @messages do %>
       <%= render Daychat.MessageView, "message.html", message: message, participants: @participants %>

@@ -17,68 +17,67 @@ export default class View extends MainView {
 }
 
 
-var loadMessager = function(){
+var hasClass = function(el, className) {
+  return (' ' + el.className + ' ').indexOf(' ' + className + ' ') > -1;
+}
 
-  var hasClass = function(el, className) {
-    return (' ' + el.className + ' ').indexOf(' ' + className + ' ') > -1;
+var addClass = function(el, className) {
+  if (el.classList)
+    el.classList.add(className)
+  else if (!hasClass(el, className)) el.className += " " + className
+}
+
+var removeClass = function(el, className) {
+  if (el.classList)
+    el.classList.remove(className)
+  else if (hasClass(el, className)) {
+    var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
+    el.className=el.className.replace(reg, ' ')
+  }
+}
+
+var convertTimeToLocal = function(el, time){
+  var m     = moment.utc(time),
+      local = m.local();
+  el.innerHTML = local.format("h:mm A");
+  el.title     = local.format("MMMM Do YYYY, h:mm A");
+}
+
+var processMessage = function(message){
+  if (hasClass(message, 'processed')) {
+    return false;
   }
 
-  var addClass = function(el, className) {
-    if (el.classList)
-      el.classList.add(className)
-    else if (!hasClass(el, className)) el.className += " " + className
-  }
+  addClass(message, 'processed');
 
-  var removeClass = function(el, className) {
-    if (el.classList)
-      el.classList.remove(className)
-    else if (hasClass(el, className)) {
-      var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
-      el.className=el.className.replace(reg, ' ')
-    }
-  }
+  var sibling     = message.previousElementSibling,
+      time        = message.getElementsByTagName('time')[0],
+      messageUser = message.dataset.user,
+      messageTime = message.dataset.time;
 
-  var convertTimeToLocal = function(el, time){
-    var m     = moment.utc(time),
-        local = m.local();
-    el.innerHTML = local.format("h:mm A");
-    el.title     = local.format("MMMM Do YYYY, h:mm A");
-  }
+  if (sibling == null) {
+    convertTimeToLocal(time, messageTime);
+  } else {
+    var siblingUser = sibling.dataset.user,
+        siblingTime = sibling.dataset.time;
 
-  var processMessage = function(message){
-    if (hasClass(message, 'processed')) {
-      return false;
-    }
-
-    addClass(message, 'processed');
-
-    var sibling     = message.previousElementSibling,
-        time        = message.getElementsByTagName('time')[0],
-        messageUser = message.dataset.user,
-        messageTime = message.dataset.time;
-
-    if (sibling == null) {
-      convertTimeToLocal(time, messageTime);
+    if (siblingTime == messageTime) {
+      time.remove();
     } else {
-      var siblingUser = sibling.dataset.user,
-          siblingTime = sibling.dataset.time;
-
-      if (siblingTime == messageTime) {
-        time.remove();
-      } else {
-        convertTimeToLocal(time, messageTime);
-      }
-
-      if (siblingUser == messageUser) {
-        var user = message.getElementsByClassName('message-author')[0]
-        user.remove();
-      }
-
+      convertTimeToLocal(time, messageTime);
     }
 
-    return message;
+    if (siblingUser == messageUser) {
+      var user = message.getElementsByClassName('message-author')[0]
+      user.remove();
+    }
+
   }
 
+  return message;
+}
+
+var loadMessager = function(){
   var messages = document.getElementsByClassName('message');
   for (var i = 0; i < messages.length; i++) {
     processMessage(messages[i]);
@@ -87,9 +86,11 @@ var loadMessager = function(){
 }
 
 var loadChannel = function(){
-  let chat = document.getElementsByClassName("chat")[0]
-  let user = chat.dataset.userId
-  let socket = new Socket("/socket", {params: {user: user}})
+  let chat     = document.getElementsByClassName("chat")[0]
+  let chatToken = chat.dataset.chatToken
+  let chatName = chat.dataset.chatName
+  let userToken = chat.dataset.userToken
+  let socket   = new Socket("/socket", {params: {token: userToken}})
   socket.connect()
 
   let presences = {}
@@ -119,7 +120,7 @@ var loadChannel = function(){
   }
 
   // Channels
-  let room = socket.channel("room:lobby")
+  let room = socket.channel("room:" + chatName, {token: chatToken})
   room.on("presence_state", state => {
     presences = Presence.syncState(presences, state)
     render(presences)
@@ -137,17 +138,31 @@ var loadChannel = function(){
     if (e.keyCode == 13 && messageInput.value != "") {
       room.push("message:new", messageInput.value)
       messageInput.value = ""
+      return false;
     }
   })
 
   let renderMessage = (message) => {
     let messageElement = document.createElement("li")
+    messageElement.dataset.user = message.user
+    messageElement.dataset.time = message.timestamp
     messageElement.innerHTML = `
-      <b>${message.user}</b>
-      <i>${formatTimestamp(message.timestamp)}</i>
-      <p>${message.body}</p>
+      <div class="message-details">
+        <div class="message-author">
+          <span style="color: ${message.color}">${message.user}</span>
+        </div>
+        <div class="message-gutter">
+          <time></time>
+        </div>
+      </div>
+      <div class="message-content">
+        <p class="message-body">${message.body}</p>
+      </div>
     `
+    addClass(messageElement, 'message')
+
     chat.appendChild(messageElement)
+    processMessage(messageElement)
     chat.scrollTop = chat.scrollHeight;
   }
 

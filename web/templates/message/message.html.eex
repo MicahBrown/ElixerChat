@@ -1,5 +1,5 @@
 <% participant = Enum.find(@participants, fn(p) -> p.user_id == @message.user_id end) %>
-<li class="message" data-user="<%= @message.user.name %>" data-time="<%= DateTimeFormatter.to_datetime(Ecto.DateTime.cast!(@message.inserted_at)) %>">
+<li class="message" data-user="<%= @message.user.name %>" data-time="<%= timestamp(@message) %>">
   <div class="message-details">
     <div class="message-author">
       <span style="color: <%= Daychat.Participant.color(participant) %>"><%= @message.user.name %></span>
