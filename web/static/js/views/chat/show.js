@@ -38,11 +38,6 @@ var removeClass = function(el, className) {
 var sticky = {
   sticky_after: 150,
   init: function() {
-
-    // this.container = this.header.parentNode
-    // this.clone = this.header.cloneNode(true);
-
-    // this.container.insertBefore(this.clone, this.container.childNodes[0]);
     this.scroll();
     this.events();
   },
