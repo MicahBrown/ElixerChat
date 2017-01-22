@@ -163,7 +163,7 @@ var loadChannel = function(){
 
     chat.appendChild(messageElement)
     processMessage(messageElement)
-    chat.scrollTop = chat.scrollHeight;
+    window.scrollTo(0, document.body.scrollHeight)
   }
 
   room.on("message:new", message => renderMessage(message))
