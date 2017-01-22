@@ -1,13 +1,18 @@
+<div id="chat-menu">
+  <div class="container">
+    <a>Share</a>
+    <div id="chat-users" class="u-pull-right">
+      <a id="chat-users-count"></a>
+      <ul id="chat-users-list" class="list-unstyled" style="display: none;">
+        <li>Loading online users...</li>
+      </ul>
+    </div>
+  </div>
+</div>
 <div class="container">
   <%# <ul>
     <li>= link_to "Share", '' </li>
   </ul> %>
-  <div id="chat-users">
-    <span id="chat-users-count"></span>
-    <ul id="chat-users-list" class="list-unstyled" style="display: none;">
-      <li>Loading online users...</li>
-    </ul>
-  </div>
 
   <ul class="chat" id="chat-<%= @chat.token %>"
                    data-user-token="<%= Phoenix.Token.sign(@conn, "user_token", @current_user.token) %>"

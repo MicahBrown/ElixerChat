@@ -123,8 +123,11 @@ var loadChannel = function(){
     }
   }
 
+  let userCount = document.getElementById("chat-users-count")
   let userList = document.getElementById("chat-users-list")
   let render = (presences) => {
+    var count = Object.keys(presences).length
+    userCount.innerHTML = count + " " + (count == 1 ? "User" : "Users") + " Online"
     userList.innerHTML = Presence.list(presences, listBy)
       .map(presence => `
         <li>
@@ -152,12 +155,15 @@ var loadChannel = function(){
 
   let messageInput = document.getElementById("message_body")
   messageInput.addEventListener("keypress", (e) => {
-    if (e.keyCode == 13 && messageInput.value != "") {
-      room.push("message:new", messageInput.value)
+    if (e.keyCode == 13) {
+      if (messageInput.value != "")
+        room.push("message:new", messageInput.value)
       messageInput.value = ""
       return false;
     }
   })
+
+
 
   let renderMessage = (message) => {
     let messageElement = document.createElement("li")
