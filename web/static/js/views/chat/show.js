@@ -172,7 +172,7 @@ var loadChannel = function(){
   let messageInput = document.getElementById("message-body")
 
   messageInput.onkeydown = (e) => {
-    if (e.keyCode == 13 && e.ctrlKey) {
+    if (e.keyCode == 13 && (e.ctrlKey || e.metaKey)) {
       messageInput.value = messageInput.value + "\n"
       return false;
     }
