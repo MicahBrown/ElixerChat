@@ -28,8 +28,8 @@
     <div style="position: absolute; right: 1rem; top: 1rem;" onclick="this.parentNode.remove()">x</div>
   <% end %>
   <div class="container">
-    <%= form_for @message_changeset, chat_message_path(@conn, :create, @chat.name), fn f -> %>
-      <%= textarea f, :body, style: 'width: 100%;' %>
+    <%= form_for @message_changeset, chat_message_path(@conn, :create, @chat.name), [id: "message-form"], fn f -> %>
+      <%= textarea f, :body, style: "width: 100%;", id: "message-body" %>
       <%= submit "Submit" %>
     <% end %>
   </div>

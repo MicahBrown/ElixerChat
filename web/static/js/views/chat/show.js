@@ -166,16 +166,34 @@ var loadChannel = function(){
 
   room.join()
 
-  let messageInput = document.getElementById("message_body")
-  messageInput.addEventListener("keypress", (e) => {
-    if (e.keyCode == 13) {
-      if (messageInput.value != "")
-        room.push("message:new", messageInput.value)
-      messageInput.value = ""
+
+  let messageForm = document.getElementById("message-form")
+  let messageInput = document.getElementById("message-body")
+
+  messageInput.onkeydown = (e) => {
+    if (e.keyCode == 13 && e.ctrlKey) {
+      messageInput.value = messageInput.value + "\n"
       return false;
     }
-  })
+  }
 
+
+
+  messageForm.onsubmit = (e) => {
+    if (messageInput.value.trim != "") {
+      room.push("message:new", messageInput.value)
+      messageInput.value = ""
+    }
+
+    return false;
+  }
+
+  messageInput.onkeypress = (e) => {
+    if (e.keyCode == 13 && !e.ctrlKey) {
+      messageForm.onsubmit();
+      return false;
+    }
+  }
 
 
   let renderMessage = (message) => {
