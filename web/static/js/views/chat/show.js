@@ -36,6 +36,11 @@ var removeClass = function(el, className) {
   }
 }
 
+function findAncestor (el, className) {
+    while ((el = el.parentElement) && !hasClass(el, className));
+    return el;
+}
+
 // var sticky = {
 //   sticky_after: 150,
 //   init: function() {
@@ -138,15 +143,13 @@ var loadChannel = function(){
   }
 
   let userCount = document.getElementsByClassName("chat-users-count")[0]
-  let userList = document.getElementsByClassName("chat-users-list")[0]
   let render = (presences) => {
+    let userList = document.getElementsByClassName("chat-users-list")[0]
     var count = Object.keys(presences).length
     userCount.innerHTML = "<i class='fa fa-group'></i> " + count + " " + (count == 1 ? "User" : "Users") + " Online"
     userList.innerHTML = Presence.list(presences, listBy)
       .map(presence => `
-        <li>
-          <small>${presence.user}</small>
-        </li>
+        <li>${presence.user}</li>
       `)
       .join("")
 
@@ -226,22 +229,73 @@ var loadChannel = function(){
 
 var loadHeaderLinks = function(){
   let shareLink  = document.getElementsByClassName("chat-share-link")[0]
-  let buildModal = (elId) => {
-    let modal    = document.getElementById(elId)
-    let newModal = document.createElement('div');
+  let usersLink  = document.getElementsByClassName("chat-users-count")[0]
+  let buildModal = (modalName) => {
+    let modal    = document.getElementById(modalName)
+    let modalWrap = document.createElement('div')
 
-    newModal.innerHTML = "<div class='container'>" + modal.outerHTML + "</div>"
-    addClass(newModal, "modal-wrapper")
-
+    modalWrap.innerHTML = "<div class='container'><a class='modal-close'><i class='fa fa-close fa-2x'></i></a>" + modal.outerHTML + "</div>"
+    addClass(modalWrap, "modal-wrapper")
     modal.remove()
-    document.body.appendChild(newModal)
+    document.body.appendChild(modalWrap)
 
-    let copyBtn = newModal.getElementsByTagName("button")[0]
+    modal = modalWrap.getElementsByClassName("modal")[0]
+    showModal(modalWrap)
 
-    new Clipboard(copyBtn);
+    let modalClose = modalWrap.getElementsByClassName("modal-close")[0]
+    modalClose.onclick = (e) => {
+      toggleModal(modalName)
+      return false;
+    }
+    addClass(modal, "is-built")
+
+    return modal;
+  }
+
+  let showModal = (modalWrap) => {
+    let visibleModal = document.getElementsByClassName('modal-wrapper is-visible')[0]
+
+    if (visibleModal != undefined)
+      hideModal(visibleModal);
+
+    addClass(modalWrap, 'is-visible');
+    return modalWrap;
+  }
+
+  let hideModal = (modalWrap) => {
+    removeClass(modalWrap, 'is-visible');
+    return modalWrap;
+  }
+
+  let toggleModal = (modalName) => {
+    let modal = document.getElementById(modalName);
+
+    if (modal == null)
+      return false;
+
+    if (hasClass(modal, 'is-built')) {
+      let modalWrap = findAncestor(modal, 'modal-wrapper');
+
+      if (hasClass(modalWrap, 'is-visible')) {
+        hideModal(modalWrap);
+      } else {
+        showModal(modalWrap);
+      }
+    } else {
+      buildModal(modalName);
+    }
+
+    return modal;
   }
 
   shareLink.onclick = (e) => {
-    buildModal('share-modal');
+    let modal = toggleModal('share-modal');
+
+    let copyBtn = modal.getElementsByTagName("button")[0]
+    new Clipboard(copyBtn);
+  }
+
+  usersLink.onclick = (e) => {
+    toggleModal('chat-users-modal');
   }
 }

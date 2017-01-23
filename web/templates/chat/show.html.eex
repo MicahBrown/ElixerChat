@@ -2,12 +2,7 @@
   <div class="chat-menu">
     <div class="container">
       <a class="chat-share-link"><i class="fa fa-share-alt"></i> Share</a>
-      <div class="chat-users u-pull-right">
-        <a class="chat-users-count"><i class="fa fa-user-group"></i></a>
-        <ul class="chat-users-list" class="list-unstyled" style="display: none;">
-          <li>Loading online users...</li>
-        </ul>
-      </div>
+      <a class="chat-users-count u-pull-right"><i class="fa fa-user-group"></i></a>
     </div>
   </div>
 </div>
@@ -38,6 +33,14 @@
   </div>
 </div>
 
+<div class="modal" id="chat-users-modal">
+  <h1>Online Chat Participants</h1>
+  <div class="chat-users">
+    <ul class="chat-users-list" class="list-unstyled">
+      <li>Loading online users...</li>
+    </ul>
+  </div>
+</div>
 
 <div class="modal" id="share-modal">
   <h1>Share This Chat</h1>
@@ -130,7 +133,15 @@ body.down .chat-menu-wrapper .chat-menu.clone {
   display: block;
 }
 
+.modal-close {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
 .modal-wrapper {
+  overflow-y: auto;
+  display: none;
   color: #fff;
   position: fixed;
   z-index: 1000;
@@ -140,6 +151,9 @@ body.down .chat-menu-wrapper .chat-menu.clone {
   padding-top: 5rem;
   height: 100%;
   width: 100%;
+}
+.modal-wrapper.is-visible {
+  display: block;
 }
 
 .modal-wrapper button,
