@@ -5,7 +5,7 @@
       <span style="color: <%= Daychat.Participant.color(participant) %>"><i class="fa fa-user-circle"></i> <%= @message.user.name %></span>
     </div>
     <div class="message-gutter">
-      <time>10:01 PM<%#= @message.inserted_at %></time>
+      <time></time>
     </div>
   </div>
   <div class="message-content">
