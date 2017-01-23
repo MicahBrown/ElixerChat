@@ -28,7 +28,7 @@
     <div style="position: absolute; right: 1rem; top: 1rem;" onclick="this.parentNode.remove()">x</div>
   <% end %>
   <div class="container">
-    <%= form_for @message_changeset, chat_message_path(@conn, :create, @chat.name), [id: "message-form"], fn f -> %>
+    <%= form_for @message_changeset, chat_message_url(@conn, :create, @chat.name), [id: "message-form"], fn f -> %>
       <%= submit "Submit", class: "u-pull-right", style: "height: 64px; margin: 0px; padding: 0 20px;" %>
       <div style="overflow: hidden; padding-right: .5em;">
         <%= textarea f, :body, style: "width: 100%; resize: none; margin: 0;", id: "message-body" %>
@@ -41,6 +41,10 @@
 
 <div class="modal" id="share-modal">
   <h1>Share This Chat</h1>
+  <button type="submit" class="u-pull-right" data-clipboard-target="#chat-url">Copy</button>
+  <div style="overflow: hidden; padding-right: .5em;">
+    <input type="text" value="<%= chat_path(@conn, :show, @chat.name) %>" style="width: 100%;" id="chat-url" />
+  </div>
 </div>
 
 <style>
@@ -127,13 +131,22 @@ body.down .chat-menu-wrapper .chat-menu.clone {
 }
 
 .modal-wrapper {
+  color: #fff;
   position: fixed;
   z-index: 1000;
   left: 0;
   top: 0;
-  background: rgba(255,255,255,0.8);
-  padding-top: 32px;
+  background: rgba(0,0,0,0.8);
+  padding-top: 5rem;
   height: 100%;
   width: 100%;
 }
+
+.modal-wrapper button,
+.modal-wrapper input,
+.modal-wrapper optgroup,
+.modal-wrapper select,
+.modal-wrapper textarea { color: #555; }
+
+.modal-wrapper button { background: #555; color: #fff; }
 </style>

@@ -227,14 +227,18 @@ var loadChannel = function(){
 var loadHeaderLinks = function(){
   let shareLink  = document.getElementsByClassName("chat-share-link")[0]
   let buildModal = (elId) => {
-    var modal    = document.getElementById(elId)
-    var newModal = document.createElement('div');
+    let modal    = document.getElementById(elId)
+    let newModal = document.createElement('div');
 
     newModal.innerHTML = "<div class='container'>" + modal.outerHTML + "</div>"
     addClass(newModal, "modal-wrapper")
 
     modal.remove()
     document.body.appendChild(newModal)
+
+    let copyBtn = newModal.getElementsByTagName("button")[0]
+
+    new Clipboard(copyBtn);
   }
 
   shareLink.onclick = (e) => {
