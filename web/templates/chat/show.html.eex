@@ -1,7 +1,7 @@
 <div class="chat-menu-wrapper">
   <div class="chat-menu">
     <div class="container">
-      <a><i class="fa fa-share-alt"></i> Share</a>
+      <a class="chat-share-link"><i class="fa fa-share-alt"></i> Share</a>
       <div class="chat-users u-pull-right">
         <a class="chat-users-count"><i class="fa fa-user-group"></i></a>
         <ul class="chat-users-list" class="list-unstyled" style="display: none;">
@@ -16,7 +16,7 @@
                    data-user-token="<%= Phoenix.Token.sign(@conn, "user_token", @current_user.token) %>"
                    data-chat-token="<%= Phoenix.Token.sign(@conn, "chat_token", @chat.token) %>"
                    data-chat-name="<%= @chat.name %>"
-                   style="padding-bottom: 18rem;">
+                   style="padding-bottom: 12.5rem;">
     <%= for message <- @messages do %>
       <%= render Daychat.MessageView, "message.html", message: message, participants: @participants %>
     <% end %>
@@ -29,15 +29,24 @@
   <% end %>
   <div class="container">
     <%= form_for @message_changeset, chat_message_path(@conn, :create, @chat.name), [id: "message-form"], fn f -> %>
-      <%= textarea f, :body, style: "width: 100%; resize: none;", id: "message-body" %>
-      <%= submit "Submit" %>
+      <%= submit "Submit", class: "u-pull-right", style: "height: 64px; margin: 0px; padding: 0 20px;" %>
+      <div style="overflow: hidden; padding-right: .5em;">
+        <%= textarea f, :body, style: "width: 100%; resize: none; margin: 0;", id: "message-body" %>
+      </div>
+   </div>
     <% end %>
   </div>
+</div>
+
+
+<div class="modal" id="share-modal">
+  <h1>Share This Chat</h1>
 </div>
 
 <style>
 .actions {
   position: fixed;
+  z-index: 999;
   width: 100%;
   left: 0;
   bottom: 0;
@@ -78,6 +87,8 @@
 }
 .message .message-body {
   margin: 0;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .chat-menu-wrapper {
@@ -87,27 +98,42 @@
 }
 .chat-menu-wrapper .chat-menu {
   line-height: 28px;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   z-index: 1001;
-  height: 100%;
+  height: 28px;
   width: 100%;
   border-bottom: 1px solid #ddd;
   background: #fff;
   box-shadow: 0 2px 5px -5px rgba(0,0,0,0.40);
 }
 
-.chat-menu-wrapper .chat-menu.clone {
+/*.chat-menu-wrapper .chat-menu.clone {
   position: fixed;
   top: -100px;
   left: 0;
   right: 0;
-  z-index: 999;
   height: 28px;
   transition: 0.2s top cubic-bezier(.3,.73,.3,.74);
 }
 
 body.down .chat-menu-wrapper .chat-menu.clone {
-  top: 0; }
+  top: 0; }*/
+
+.modal { display: none; }
+.modal-wrapper .modal {
+  display: block;
+}
+
+.modal-wrapper {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  background: rgba(255,255,255,0.8);
+  padding-top: 32px;
+  height: 100%;
+  width: 100%;
+}
 </style>

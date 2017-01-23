@@ -6,6 +6,7 @@ export default class View extends MainView {
     super.mount();
     loadMessages();
     loadChannel();
+    loadHeaderLinks();
   }
 
   unmount() {
@@ -35,36 +36,36 @@ var removeClass = function(el, className) {
   }
 }
 
-var sticky = {
-  sticky_after: 150,
-  init: function() {
-    this.scroll();
-    this.events();
-  },
+// var sticky = {
+//   sticky_after: 150,
+//   init: function() {
+//     this.scroll();
+//     this.events();
+//   },
 
-  scroll: function() {
-    this.header = document.getElementsByClassName("chat-menu")[0];
+//   scroll: function() {
+//     this.header = document.getElementsByClassName("chat-menu")[0];
 
-    if(window.scrollY > this.header.offsetHeight) {
-      addClass(this.header, "clone");
-    } else {
-      removeClass(this.header, "clone");
-    }
+//     if(window.scrollY > this.header.offsetHeight) {
+//       addClass(this.header, "clone");
+//     } else {
+//       removeClass(this.header, "clone");
+//     }
 
-    if(window.scrollY > this.sticky_after) {
-      addClass(document.body, "down");
-    }
-    else {
-      removeClass(document.body, "down");
-    }
-  },
+//     if(window.scrollY > this.sticky_after) {
+//       addClass(document.body, "down");
+//     }
+//     else {
+//       removeClass(document.body, "down");
+//     }
+//   },
 
-  events: function() {
-    window.addEventListener("scroll", this.scroll.bind(this));
-  }
-};
+//   events: function() {
+//     window.addEventListener("scroll", this.scroll.bind(this));
+//   }
+// };
 
-document.addEventListener("DOMContentLoaded", sticky.init.bind(sticky));
+// document.addEventListener("DOMContentLoaded", sticky.init.bind(sticky));
 
 var convertTimeToLocal = function(el, time){
   var m     = moment.utc(time),
@@ -203,7 +204,7 @@ var loadChannel = function(){
     messageElement.innerHTML = `
       <div class="message-details">
         <div class="message-author">
-          <span style="color: ${message.color}">${message.user}</span>
+          <span style="color: ${message.color}"><i class="fa fa-user-circle"></i> ${message.user}</span>
         </div>
         <div class="message-gutter">
           <time></time>
@@ -221,4 +222,22 @@ var loadChannel = function(){
   }
 
   room.on("message:new", message => renderMessage(message))
+}
+
+var loadHeaderLinks = function(){
+  let shareLink  = document.getElementsByClassName("chat-share-link")[0]
+  let buildModal = (elId) => {
+    var modal    = document.getElementById(elId)
+    var newModal = document.createElement('div');
+
+    newModal.innerHTML = "<div class='container'>" + modal.outerHTML + "</div>"
+    addClass(newModal, "modal-wrapper")
+
+    modal.remove()
+    document.body.appendChild(newModal)
+  }
+
+  shareLink.onclick = (e) => {
+    buildModal('share-modal');
+  }
 }
