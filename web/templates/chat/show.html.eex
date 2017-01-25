@@ -1,55 +1,57 @@
-<div class="chat-menu-wrapper">
-  <div class="chat-menu">
+<div class="canvas">
+  <div class="chat-menu-wrapper">
+    <div class="chat-menu">
+      <div class="container">
+        <a class="chat-share-link"><i class="fa fa-share-alt"></i> Share</a>
+        <a class="chat-users-count u-pull-right"><i class="fa fa-user-group"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="fixed-container" style="background: #fff;">
+    <div class="gutter-highlight"></div>
+    <ul class="chat" id="chat-<%= @chat.token %>"
+                     data-user-token="<%= Phoenix.Token.sign(@conn, "user_token", @current_user.token) %>"
+                     data-chat-token="<%= Phoenix.Token.sign(@conn, "chat_token", @chat.token) %>"
+                     data-chat-name="<%= @chat.name %>"
+                     style="padding-bottom: 12.5rem;">
+      <%= for message <- @messages do %>
+        <%= render Daychat.MessageView, "message.html", message: message, participants: @participants %>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="actions">
+    <%= if Mix.env == :dev do %>
+      <div style="position: absolute; right: 1rem; top: 1rem;" onclick="this.parentNode.remove()">x</div>
+    <% end %>
     <div class="container">
-      <a class="chat-share-link"><i class="fa fa-share-alt"></i> Share</a>
-      <a class="chat-users-count u-pull-right"><i class="fa fa-user-group"></i></a>
+      <%= form_for @message_changeset, chat_message_url(@conn, :create, @chat.name), [id: "message-form"], fn f -> %>
+        <%= submit "Send", class: "u-pull-right", style: "height: 64px; margin: 0px; padding: 0 20px;" %>
+        <div style="overflow: hidden; padding-right: 1rem;">
+          <%= textarea f, :body, style: "width: 100%; resize: none; margin: 0;", id: "message-body" %>
+        </div>
+     </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="modal" id="chat-users-modal">
+    <h1>Online Chat Participants</h1>
+    <div class="chat-users">
+      <ul class="chat-users-list" class="list-unstyled">
+        <li>Loading online users...</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="modal" id="share-modal">
+    <h1>Share This Chat</h1>
+    <button type="submit" class="u-pull-right" data-clipboard-target="#chat-url">Copy</button>
+    <div style="overflow: hidden; padding-right: .5em;">
+      <input type="text" value="<%= chat_path(@conn, :show, @chat.name) %>" style="width: 100%;" id="chat-url" />
     </div>
   </div>
 </div>
-<div class="container">
-  <ul class="chat" id="chat-<%= @chat.token %>"
-                   data-user-token="<%= Phoenix.Token.sign(@conn, "user_token", @current_user.token) %>"
-                   data-chat-token="<%= Phoenix.Token.sign(@conn, "chat_token", @chat.token) %>"
-                   data-chat-name="<%= @chat.name %>"
-                   style="padding-bottom: 12.5rem;">
-    <%= for message <- @messages do %>
-      <%= render Daychat.MessageView, "message.html", message: message, participants: @participants %>
-    <% end %>
-  </ul>
-</div>
-
-<div class="actions">
-  <%= if Mix.env == :dev do %>
-    <div style="position: absolute; right: 1rem; top: 1rem;" onclick="this.parentNode.remove()">x</div>
-  <% end %>
-  <div class="container">
-    <%= form_for @message_changeset, chat_message_url(@conn, :create, @chat.name), [id: "message-form"], fn f -> %>
-      <%= submit "Submit", class: "u-pull-right", style: "height: 64px; margin: 0px; padding: 0 20px;" %>
-      <div style="overflow: hidden; padding-right: .5em;">
-        <%= textarea f, :body, style: "width: 100%; resize: none; margin: 0;", id: "message-body" %>
-      </div>
-   </div>
-    <% end %>
-  </div>
-</div>
-
-<div class="modal" id="chat-users-modal">
-  <h1>Online Chat Participants</h1>
-  <div class="chat-users">
-    <ul class="chat-users-list" class="list-unstyled">
-      <li>Loading online users...</li>
-    </ul>
-  </div>
-</div>
-
-<div class="modal" id="share-modal">
-  <h1>Share This Chat</h1>
-  <button type="submit" class="u-pull-right" data-clipboard-target="#chat-url">Copy</button>
-  <div style="overflow: hidden; padding-right: .5em;">
-    <input type="text" value="<%= chat_path(@conn, :show, @chat.name) %>" style="width: 100%;" id="chat-url" />
-  </div>
-</div>
-
 <style>
 .actions {
   position: fixed;
@@ -57,29 +59,36 @@
   width: 100%;
   left: 0;
   bottom: 0;
-  background: #fff;
-  border-top: 1px solid #ddd;
-  box-shadow: 0 -2px 5px -5px rgba(0,0,0,0.40);
+  background: #5193ff;
+  /*box-shadow: 0 -5px 5px -5px rgba(0,0,0,0.40);*/
 }
 .actions form {
-  padding: 2rem 0;
+  padding: 1rem 0;
   margin: 0;
+}
+.actions form textarea { border: 2px solid #555; }
+.actions form button {
+  border: 0;
+  background: #555;
+  color: #fff;
 }
 .chat {
   margin: 0;
   list-style-type: none;
+  padding: 1rem 0;
 }
 .message {
   margin: 0;
 }
 .message .message-details,
-.message .message-content { padding-right: 8rem; width: 100%; }
+.message .message-content { padding-left: 1rem; padding-right: 7.75rem; width: 100%; }
 .message .message-details {
   position: relative;
   color: #333;
   font-size: 1.25rem;
   position: relative;
 }
+.message.first .message-author { margin-top: 0; }
 .message .message-author {
   font-weight: bold;
   margin-top: 0.75rem;
@@ -91,6 +100,7 @@
   top: 100%;
   text-align: right;
   width: 100%;
+  padding-right: 1rem;
 }
 .message .message-body {
   margin: 0;
@@ -111,11 +121,11 @@
   z-index: 1001;
   height: 28px;
   width: 100%;
-  border-bottom: 1px solid #ddd;
-  background: #fff;
-  box-shadow: 0 2px 5px -5px rgba(0,0,0,0.40);
+  background: #5193ff;
+  /*box-shadow: 0 5px 5px -5px rgba(0,0,0,0.40);*/
 }
-
+.chat-menu a, .chat-menu { color: #fff; }
+.canvas { background: #ededff; }
 /*.chat-menu-wrapper .chat-menu.clone {
   position: fixed;
   top: -100px;
@@ -127,6 +137,15 @@
 
 body.down .chat-menu-wrapper .chat-menu.clone {
   top: 0; }*/
+
+.gutter-highlight {
+  width: 7.75rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background: #f6f6ff;
+}
 
 .modal { display: none; }
 .modal-wrapper .modal {

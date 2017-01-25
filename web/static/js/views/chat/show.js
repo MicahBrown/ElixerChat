@@ -92,6 +92,7 @@ var processMessage = function(message){
       messageTime = message.dataset.time;
 
   if (sibling == null) {
+    addClass(message, 'first');
     convertTimeToLocal(time, messageTime);
   } else {
     var siblingUser = sibling.dataset.user,
