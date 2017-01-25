@@ -2,8 +2,11 @@
   <div class="chat-menu-wrapper">
     <div class="chat-menu">
       <div class="container">
-        <a class="chat-share-link"><i class="fa fa-share-alt"></i> Share</a>
-        <a class="chat-users-count u-pull-right"><i class="fa fa-user-group"></i></a>
+        <a class="chat-share-link"><i class="fa fa-share-alt"></i><span class="show-for-medium"> Share</span></a>
+        <a class="chat-users-count"><i class="fa fa-user-group"></i></a>
+        <span class="title">
+          <a>1DayChat</a>
+        </span>
       </div>
     </div>
   </div>
@@ -124,7 +127,23 @@
   background: #5193ff;
   /*box-shadow: 0 5px 5px -5px rgba(0,0,0,0.40);*/
 }
-.chat-menu a, .chat-menu { color: #fff; }
+.chat-menu a { color: #fff; cursor: pointer; display: inline-block; padding: 0 1rem; }
+.chat-menu a:hover { color: #eee; cursor: pointer; }
+.chat-menu .container > a:first-child { background: #555; }
+
+.chat-menu .title {
+  float: right;
+  position: relative;
+}
+.chat-menu .title a {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-weight: bold;
+  background: #5193ff;
+  border-radius: 0 0 11px 11px;
+  padding: 2.5px 1.5rem;
+}
 .canvas { background: #ededff; }
 /*.chat-menu-wrapper .chat-menu.clone {
   position: fixed;
@@ -153,8 +172,9 @@ body.down .chat-menu-wrapper .chat-menu.clone {
 }
 
 .modal-close {
+  cursor: pointer;
   position: absolute;
-  right: 0;
+  right: 1rem;
   top: 0;
 }
 
@@ -182,4 +202,12 @@ body.down .chat-menu-wrapper .chat-menu.clone {
 .modal-wrapper textarea { color: #555; }
 
 .modal-wrapper button { background: #555; color: #fff; }
+
+.user-count {
+  animation: blinker 1s linear;
+}
+
+@keyframes blinker {
+  35% { opacity: 0; }
+}
 </style>

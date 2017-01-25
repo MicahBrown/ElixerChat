@@ -403,8 +403,12 @@ there.
 */
 
 
+.show-for-medium { display: none; }
+
 /* Larger than mobile */
-@media (min-width: 400px) {}
+@media (min-width: 400px) {
+  .show-for-medium { display: initial; }
+}
 
 /* Larger than phablet (also point when grid becomes active) */
 @media (min-width: 550px) {}

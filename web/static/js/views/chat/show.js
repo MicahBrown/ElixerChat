@@ -147,7 +147,7 @@ var loadChannel = function(){
   let render = (presences) => {
     let userList = document.getElementsByClassName("chat-users-list")[0]
     var count = Object.keys(presences).length
-    userCount.innerHTML = "<i class='fa fa-group'></i> " + count + " " + (count == 1 ? "User" : "Users") + " Online"
+    userCount.innerHTML = "<i class='fa fa-group'></i><span class='user-count'> " + count + " " + (count == 1 ? "User" : "Users") + "</span> Online"
     userList.innerHTML = Presence.list(presences, listBy)
       .map(presence => `
         <li>${presence.user}</li>
