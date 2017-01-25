@@ -21,7 +21,7 @@ defmodule Daychat.Router do
       resources "/messages", MessageController, only: [:create]
     end
 
-    get "/", ChatController, :new
+    get "/", ChatController, :new, as: :root
   end
 
   # Other scopes may use custom stacks.
