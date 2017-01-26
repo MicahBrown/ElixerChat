@@ -17,8 +17,8 @@ defmodule Daychat.ChatController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"chat" => chat_params}) do
-    changeset = Chat.changeset(%Chat{user: current_user(conn)}, chat_params)
+  def create(conn, _) do
+    changeset = Chat.changeset(%Chat{user: current_user(conn)})
 
     case Repo.insert(changeset) do
       {:ok, chat} ->
