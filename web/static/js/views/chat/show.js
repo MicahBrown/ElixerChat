@@ -17,6 +17,17 @@ export default class View extends MainView {
   }
 }
 
+var addEvent = function(object, type, callback) {
+  if (object == null || typeof(object) == 'undefined') return;
+  if (object.addEventListener) {
+    object.addEventListener(type, callback, false);
+  } else if (object.attachEvent) {
+    object.attachEvent("on" + type, callback);
+  } else {
+    object["on"+type] = callback;
+  }
+};
+
 var hasClass = function(el, className) {
   return (' ' + el.className + ' ').indexOf(' ' + className + ' ') > -1;
 }
@@ -175,16 +186,7 @@ var loadChannel = function(){
   let messageForm = document.getElementById("message-form")
   let messageInput = document.getElementById("message-body")
 
-  messageInput.onkeydown = (e) => {
-    if (e.keyCode == 13 && (e.ctrlKey || e.metaKey)) {
-      messageInput.value = messageInput.value + "\n"
-      return false;
-    }
-  }
-
-
-
-  messageForm.onsubmit = (e) => {
+  let submitForm = (e) => {
     if (messageInput.value.trim != "") {
       room.push("message:new", messageInput.value)
       messageInput.value = ""
@@ -193,9 +195,17 @@ var loadChannel = function(){
     return false;
   }
 
+  messageInput.onkeydown = (e) => {
+    if (e.keyCode == 13 && (e.ctrlKey || e.metaKey)) {
+      messageInput.value = messageInput.value + "\n"
+      return false;
+    }
+  }
+
+  messageForm.onsubmit = submitForm
   messageInput.onkeypress = (e) => {
     if (e.keyCode == 13 && !e.ctrlKey) {
-      messageForm.onsubmit();
+      submitForm(e);
       return false;
     }
   }
@@ -225,6 +235,20 @@ var loadChannel = function(){
     window.scrollTo(0, document.body.scrollHeight)
   }
 
+  let actions = document.getElementsByClassName("actions")[0]
+  let menu = document.getElementsByClassName("chat-menu")[0]
+  let sizeToFit = (e) => {
+    let windowHeight = window.innerHeight
+                  || document.documentElement.clientHeight
+                  || document.body.clientHeight;
+
+    chat.style.paddingBottom = (actions.offsetHeight + 10) + "px"
+    chat.style.minHeight = (windowHeight - menu.offsetHeight) + "px"
+  }
+
+  addEvent(window, "resize", sizeToFit)
+  sizeToFit();
+
   room.on("message:new", message => renderMessage(message))
 }
 
@@ -244,10 +268,9 @@ var loadHeaderLinks = function(){
     showModal(modalWrap)
 
     let modalClose = modalWrap.getElementsByClassName("modal-close")[0]
-    modalClose.onclick = (e) => {
+    addEvent(modalClose, 'click', (e) => {
       toggleModal(modalName)
-      return false;
-    }
+    })
     addClass(modal, "is-built")
 
     return modal;
@@ -289,14 +312,14 @@ var loadHeaderLinks = function(){
     return modal;
   }
 
-  shareLink.onclick = (e) => {
+  addEvent(shareLink, 'click', (e) => {
     let modal = toggleModal('share-modal');
 
     let copyBtn = modal.getElementsByTagName("button")[0]
     new Clipboard(copyBtn);
-  }
+  })
 
-  usersLink.onclick = (e) => {
+  addEvent(usersLink, 'click', (e) => {
     toggleModal('chat-users-modal');
-  }
+  })
 }
