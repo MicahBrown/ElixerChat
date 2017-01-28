@@ -5,7 +5,5 @@
     </div>
   <% end %>
 
-  <div class="form-group">
-    <%= submit "Start New Chat" %>
-  </div>
+  <%= submit Phoenix.HTML.raw("<i class='fa fa-plus-circle'></i> Start Chat"), class: "control-button" %>
 <% end %>
