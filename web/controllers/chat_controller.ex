@@ -12,9 +12,8 @@ defmodule Daychat.ChatController do
   #   render(conn, "index.html", chats: chats)
   # end
 
-  def new(conn, _params) do
-    changeset = Chat.new_changeset(%Chat{})
-    render(conn, "new.html", changeset: changeset)
+  def new(conn, _) do
+    redirect(conn, to: root_path(conn, :index))
   end
 
   def create(conn, _) do

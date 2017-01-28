@@ -1,36 +1,97 @@
-<div class="jumbotron">
-  <h2><%= gettext "Welcome to %{name}", name: "Phoenix!" %></h2>
-  <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
+<div style="background: transparent url('https://subtlepatterns.com/patterns/geometry2.png') repeat scroll 0% 0%; min-height: 100%; position: relative;">
+  <div class="header" style="text-align: center; background: #555; line-height: 1; padding: 1rem; font-weight: bold; color:#fff;">
+    1DayChat
+  </div>
+  <div class="content" style="text-align: center; padding-bottom: 200px;">
+    <h1 style="margin-top:75px">Start Chatting Instantly!</h1>
+    <ul style="text-align: left; display: inline-block; margin-bottom: 75px">
+      <li>Chat rooms last for 24 hours</li>
+      <li>No sign-up required</li>
+    </ul>
+
+    <div class="control u-cf">
+      <div class="control-column">
+        <div class="control-display top">
+          <h4>Begin New Chat Room</h4>
+          <%= render Daychat.ChatView, "form.html", changeset: @changeset,
+                              action: chat_path(@conn, :create) %>
+        </div>
+        <div class="control-display bottom">
+        </div>
+      </div>
+      <div class="control-column">
+        <div class="control-display top">
+          <h4>Join Existing Chat Room</h4>
+          <%= submit Phoenix.HTML.raw("<i class='fa fa-handshake-o'></i> Join Chat"), class: "control-button alt" %>
+        </div>
+        <div class="control-display bottom">
+        </div>
+      </div>
+      <div class="control-overlay">
+        <div class="control-pattern"></div>
+        <div class="control-background"></div>
+        <div class="control-background alt"></div>
+      </div>
+    </div>
+
+    <div class="steps" style="margin-bottom: 100px;">
+      <div class="container">
+        <h2 style="margin-top: 100px;">Communicate with Your Peers in <em>1, 2, 3</em></h2>
+        <div class="row">
+          <div class="columns four" style="background: #eee; box-shadow: 0 3px 3px rgba(0,0,0,0.2);">
+            <div style="margin: 30px 0;">
+              <div><i style="font-size: 4rem;" class="fa fa-plus-circle"></i></div>
+              <strong>1. Create Room</strong>
+            </div>
+          </div>
+          <div class="columns four" style="background: #eee; box-shadow: 0 3px 3px rgba(0,0,0,0.2);">
+            <div style="margin: 30px 0;">
+              <div><i style="font-size: 4rem;" class="fa fa-share-alt"></i></div>
+              <strong>2. Share Link</strong>
+            </div>
+          </div>
+          <div class="columns four" style="background: #eee; box-shadow: 0 3px 3px rgba(0,0,0,0.2);">
+            <div style="margin: 30px 0;">
+              <div><i style="font-size: 4rem;" class="fa fa-comments-o"></i></div>
+              <strong>3. Chat!</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer" style="height: 200px; background: #ddd; position: absolute; left:0; bottom: 0; width: 100%;">
+  </div>
 </div>
 
-<div class="row marketing">
-  <div class="col-lg-6">
-    <h4>Resources</h4>
-    <ul>
-      <li>
-        <a href="http://phoenixframework.org/docs/overview">Guides</a>
-      </li>
-      <li>
-        <a href="https://hexdocs.pm/phoenix">Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-    </ul>
-  </div>
+<style>
+.control {
+  position: relative;
+  width: 100%;
+}
+.control-column {
+ color: #fff; z-index: 50; position: relative;
+}
+.control-display { padding: 50px 1rem; }
+.control-overlay {
+  position: absolute; left: 0; height: 100%; width: 100%; top: 0; z-index: 49;
+}
+.control-pattern {
+  position: absolute; left: 0; height: 100%; width: 100%; top: 0; background-image: url('/images/pattern.png');
+}
+.control-background { height: 50%; background: #555; }
+@media (min-width: 550px) {
+  .control-column {
+    width: 50%; float: left;
+  }
+  .control-background {
+    float: left; width: 50%; height: 100%;
+  }
+}
 
-  <div class="col-lg-6">
-    <h4>Help</h4>
-    <ul>
-      <li>
-        <a href="http://groups.google.com/group/phoenix-talk">Mailing list</a>
-      </li>
-      <li>
-        <a href="http://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">@elixirphoenix</a>
-      </li>
-    </ul>
-  </div>
-</div>
+.control-background.alt { background: #5193ff; }
+.control-button {
+  margin: 0 0.5rem; background: #fff; color: #555; border: 0;
+}
+.control-button.alt { color: #5193ff; }
+</style>
