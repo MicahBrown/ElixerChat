@@ -5,7 +5,7 @@
         <a class="chat-share-link"><i class="fa fa-share-alt"></i><span class="show-for-medium"> Share</span></a>
         <a class="chat-users-count"><i class="fa fa-user-group"></i></a>
         <span class="title">
-          <a href="<%= root_path(@conn, :new) %>">1DayChat</a>
+          <a href="<%= root_path(@conn, :index) %>">1DayChat</a>
         </span>
       </div>
     </div>
