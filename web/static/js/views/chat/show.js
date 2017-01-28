@@ -1,5 +1,6 @@
 import MainView from '../main';
-import {Presence, Socket} from "phoenix"
+import {Presence, Socket} from "phoenix";
+import {findAncestor, hasClass, addClass, removeClass, addEvent} from "../../utils";
 
 export default class View extends MainView {
   mount() {
@@ -17,40 +18,6 @@ export default class View extends MainView {
   }
 }
 
-var addEvent = function(object, type, callback) {
-  if (object == null || typeof(object) == 'undefined') return;
-  if (object.addEventListener) {
-    object.addEventListener(type, callback, false);
-  } else if (object.attachEvent) {
-    object.attachEvent("on" + type, callback);
-  } else {
-    object["on"+type] = callback;
-  }
-};
-
-var hasClass = function(el, className) {
-  return (' ' + el.className + ' ').indexOf(' ' + className + ' ') > -1;
-}
-
-var addClass = function(el, className) {
-  if (el.classList)
-    el.classList.add(className)
-  else if (!hasClass(el, className)) el.className += " " + className
-}
-
-var removeClass = function(el, className) {
-  if (el.classList)
-    el.classList.remove(className)
-  else if (hasClass(el, className)) {
-    var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
-    el.className=el.className.replace(reg, ' ')
-  }
-}
-
-function findAncestor (el, className) {
-    while ((el = el.parentElement) && !hasClass(el, className));
-    return el;
-}
 
 // var sticky = {
 //   sticky_after: 150,
