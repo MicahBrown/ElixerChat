@@ -17,6 +17,7 @@
                               action: chat_path(@conn, :create) %>
         </div>
         <div class="control-display bottom">
+          <h4>Prove You're Not A Robot</h4>
         </div>
       </div>
       <div class="control-column">
@@ -25,6 +26,7 @@
           <%= submit Phoenix.HTML.raw("<i class='fa fa-handshake-o'></i> Join Chat"), class: "control-button alt" %>
         </div>
         <div class="control-display bottom">
+          <h4>Enter Room Token</h4>
         </div>
       </div>
       <div class="control-overlay">
@@ -73,6 +75,7 @@
  color: #fff; z-index: 50; position: relative;
 }
 .control-display { padding: 50px 1rem; }
+.control-display.bottom { display: none; }
 .control-overlay {
   position: absolute; left: 0; height: 100%; width: 100%; top: 0; z-index: 49;
 }
