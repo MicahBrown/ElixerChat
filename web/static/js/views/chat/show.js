@@ -94,10 +94,9 @@ var processMessage = function(message){
 
 var loadMessages = function(){
   var messages = document.getElementsByClassName('message');
-  for (var i = 0; i < messages.length; i++) {
-    processMessage(messages[i]);
+  for (var message of messages) {
+    processMessage(message)
   }
-
 }
 
 var loadChannel = function(){
