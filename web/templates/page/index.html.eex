@@ -1,3 +1,5 @@
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 <div style="background: transparent url('https://subtlepatterns.com/patterns/geometry2.png') repeat scroll 0% 0%; min-height: 100%; position: relative;">
   <div class="header" style="text-align: center; background: #555; line-height: 1; padding: 1rem; font-weight: bold; color:#fff;">
     1DayChat
@@ -13,11 +15,12 @@
       <div class="control-column">
         <div class="control-display top">
           <h4>Begin New Chat Room</h4>
-          <%= render Daychat.ChatView, "form.html", changeset: @changeset,
-                              action: chat_path(@conn, :create) %>
+          <%= submit Phoenix.HTML.raw("<i class='fa fa-plus-circle'></i> Start Chat"), class: "control-button" %>
         </div>
         <div class="control-display bottom">
-          <h4>Prove You're Not A Robot</h4>
+          <h4>Prove Your Humanity</h4>
+          <%= render Daychat.ChatView, "form.html", changeset: @changeset,
+                              action: chat_path(@conn, :create) %>
         </div>
       </div>
       <div class="control-column">
@@ -40,19 +43,19 @@
       <div class="container">
         <h2 style="margin-top: 100px;">Communicate with Your Peers in <em>1, 2, 3</em></h2>
         <div class="row">
-          <div class="columns four" style="background: #eee; box-shadow: 0 3px 3px rgba(0,0,0,0.2);">
+          <div class="columns four" style="margin-bottom: 1rem; background: #eee; box-shadow: 0 3px 3px rgba(0,0,0,0.2);">
             <div style="margin: 30px 0;">
               <div><i style="font-size: 4rem;" class="fa fa-plus-circle"></i></div>
               <strong>1. Create Room</strong>
             </div>
           </div>
-          <div class="columns four" style="background: #eee; box-shadow: 0 3px 3px rgba(0,0,0,0.2);">
+          <div class="columns four" style="margin-bottom: 1rem; background: #eee; box-shadow: 0 3px 3px rgba(0,0,0,0.2);">
             <div style="margin: 30px 0;">
               <div><i style="font-size: 4rem;" class="fa fa-share-alt"></i></div>
               <strong>2. Share Link</strong>
             </div>
           </div>
-          <div class="columns four" style="background: #eee; box-shadow: 0 3px 3px rgba(0,0,0,0.2);">
+          <div class="columns four" style="margin-bottom: 1rem; background: #eee; box-shadow: 0 3px 3px rgba(0,0,0,0.2);">
             <div style="margin: 30px 0;">
               <div><i style="font-size: 4rem;" class="fa fa-comments-o"></i></div>
               <strong>3. Chat!</strong>
@@ -67,6 +70,7 @@
 </div>
 
 <style>
+.g-recaptcha { display: inline-block; }
 .control {
   position: relative;
   width: 100%;

@@ -37,5 +37,11 @@ var loadControl = function(){
   for (var button of buttons) {
     initializeButton(button)
   }
-  console.log("loaded")
 }
+
+var submitForm = function(){
+  let form = document.getElementById("chat-form")
+  form.submit()
+}
+
+window.submitForm = submitForm

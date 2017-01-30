@@ -4,6 +4,7 @@ defmodule Daychat.ChatController do
   alias Daychat.Chat
 
   plug :find_chat when action in [:show]
+  plug :verify_recaptcha when action in [:create]
   plug :require_user when action in [:create, :show]
   plug :require_participant when action in [:show]
 
@@ -99,5 +100,16 @@ defmodule Daychat.ChatController do
     chat = Repo.get_by!(Chat, name: chat_id)
 
     conn |> assign(:chat, chat)
+  end
+
+  defp verify_recaptcha(conn, _) do
+    response = conn.body_params["g-recaptcha-response"]
+
+    case Recaptcha.verify(response) do
+      {:ok, msg} ->
+        conn
+      {:error, msg} ->
+        redirect(conn, to: root_path(conn, :index))
+    end
   end
 end

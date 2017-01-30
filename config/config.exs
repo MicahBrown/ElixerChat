@@ -22,9 +22,6 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :daychat, recaptcha_key: System.get_env("RECAPTCHA_KEY")
-config :daychat, recaptcha_secret:  System.get_env("RECAPTCHA_SECRET")
-
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
