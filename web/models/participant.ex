@@ -38,7 +38,8 @@ defmodule Daychat.Participant do
   def set_position(changeset) do
     unless get_change(changeset, :position) do
       chat     = changeset.data.chat
-      position = chat.participants_count + 1
+      count    = if Map.has_key?(chat, :participants_count) do chat.participants_count else 0 end
+      position = count + 1
 
       put_change(changeset, :position, position)
     else

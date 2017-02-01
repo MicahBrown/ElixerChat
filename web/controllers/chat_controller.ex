@@ -2,6 +2,7 @@ defmodule Daychat.ChatController do
   use Daychat.Web, :controller
 
   alias Daychat.Chat
+  alias Daychat.Participant
 
   plug :find_chat when action in [:show]
   plug :verify_recaptcha when action in [:create]
@@ -22,18 +23,21 @@ defmodule Daychat.ChatController do
 
     case Repo.insert(changeset) do
       {:ok, chat} ->
+        participant = Ecto.build_assoc(chat, :participants, user: current_user(conn), chat: chat)
+        Repo.insert(participant)
+
         conn
         |> put_flash(:info, "Chat created successfully.")
         |> redirect(to: chat_path(conn, :show, chat.name()))
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        redirect(conn, to: root_path(conn, :index))
     end
   end
 
   def show(conn, %{"id" => _name}) do
     chat = conn.assigns[:chat]
     message_changeset = Daychat.Message.new_changeset(%Daychat.Message{})
-    participants = Repo.all from p in Daychat.Participant, where: [chat_id: ^chat.id]
+    participants = Repo.all from p in Participant, where: [chat_id: ^chat.id]
     messages = Repo.all from m in Daychat.Message,
                 where: [chat_id: ^chat.id],
                 preload: [:user]
@@ -106,9 +110,9 @@ defmodule Daychat.ChatController do
     response = conn.body_params["g-recaptcha-response"]
 
     case Recaptcha.verify(response) do
-      {:ok, msg} ->
+      {:ok, _msg} ->
         conn
-      {:error, msg} ->
+      {:error, _msg} ->
         redirect(conn, to: root_path(conn, :index))
     end
   end
