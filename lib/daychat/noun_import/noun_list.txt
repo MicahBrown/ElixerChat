@@ -1466,7 +1466,6 @@ sky\n
 slap\n
 slash\n
 slate\n
-slave\n
 sled\n
 sleep\n
 sleeve\n
