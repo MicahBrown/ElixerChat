@@ -85,7 +85,10 @@ defmodule Daychat.ChatController do
     participants = Repo.all(Ecto.assoc(current_user(conn), :participants))
 
     unless part_of_chat?(conn, participants) do
-      redirect(conn, to: chat_participant_path(conn, :new, conn.assigns[:chat].name))
+      new_participant_path = chat_participant_path(conn, :new, conn.assigns[:chat].name)
+      conn
+      |> redirect(to: new_participant_path)
+      |> halt
     end
 
     conn
@@ -113,7 +116,9 @@ defmodule Daychat.ChatController do
       {:ok, _msg} ->
         conn
       {:error, _msg} ->
-        redirect(conn, to: root_path(conn, :index))
+        conn
+        |> redirect(to: root_path(conn, :index))
+        |> halt
     end
   end
 end
