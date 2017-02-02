@@ -27,8 +27,11 @@ let initializeButton = function(button){
       bottom.style.display = "block"
       Velocity(bottom, {opacity: 1}, 500, function(){
         column.style.minHeight = null
+
+        sizeControls()
       })
     })
+
     return false;
   }
 }
@@ -57,13 +60,40 @@ var loadRoomSearch = function(){
     form.onsubmit = submitTokenForm
 }
 
+let control = document.getElementsByClassName("control")[0]
+let columns = control.getElementsByClassName("control-column")
+let overlay = control.getElementsByClassName("control-overlay")[0]
+
+var sizeControls = function(){
+  let index = 0
+
+  for (var column of columns) {
+    let floatStyle = window.getComputedStyle(column)["float"]
+    let colOverlay = overlay.getElementsByClassName("control-background")[index]
+
+    if (floatStyle == "none" ) {
+      colOverlay.style.height = column.offsetHeight + "px"
+    } else {
+      colOverlay.style.height = null
+    }
+
+    index += 1
+  }
+}
+
 var loadControl = function(){
+  if (control == null || columns == null || overlay == null) {
+    return false
+  }
+
   let buttons = document.getElementsByClassName("control-button")
   for (var button of buttons) {
     initializeButton(button)
   }
 
+  utils.addEvent(window, "resize", sizeControls)
   loadRoomSearch()
+  sizeControls()
 }
 
 var submitChatForm = function(){
