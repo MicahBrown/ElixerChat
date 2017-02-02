@@ -30,6 +30,13 @@
         </div>
         <div class="control-display bottom">
           <h4>Enter Room Token</h4>
+
+          <%= form_for @conn, search_path(@conn, :index), [as: :search, method: :get, id: "search-form", style: "margin: 0; padding: 0 40px;"], fn f -> %>
+            <%= submit "Go", class: "u-pull-right", style: "margin: 0px; padding: 0 20px; background: #555; border: 0; color: #fff;" %>
+            <div style="overflow: hidden; padding-right: 1rem;">
+              <%= text_input f, :name, style: "width: 100%; margin: 0; color: #555;" %>
+            </div>
+          <% end %>
         </div>
       </div>
       <div class="control-overlay">

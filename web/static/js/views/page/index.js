@@ -1,5 +1,6 @@
 import MainView from '../main';
 import {findAncestor} from '../../utils';
+import * as request from '../../ajax';
 
 export default class View extends MainView {
   mount() {
@@ -32,14 +33,28 @@ let initializeButton = function(button){
   }
 }
 
-var submitTokenForm = function(){
+let form = document.getElementById("search-form")
 
+var submitTokenForm = function(){
+  let input = document.getElementById("search_name")
+  let value = input.value.trim()
+
+  if (value != "") {
+    request['ajax'].get("/search", {q: value}, function(response){
+      let resp = JSON.parse(response)
+
+      if (resp['data'] != null && resp['data']['name'] != null) {
+        window.location = "/chats/" + resp['data']['name']
+      }
+    })
+  }
+
+  return false;
 }
 
 var loadRoomSearch = function(){
-  let form = document.getElementById("search-form")
-
-  form.onsubmit = submitTokenForm
+  if (form != null)
+    form.onsubmit = submitTokenForm
 }
 
 var loadControl = function(){
