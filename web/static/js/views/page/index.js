@@ -5,7 +5,7 @@ import * as request from '../../ajax';
 export default class View extends MainView {
   mount() {
     super.mount();
-    loadControl();
+    loadIndex();
   }
 
   unmount() {
@@ -13,87 +13,91 @@ export default class View extends MainView {
   }
 }
 
-let initializeButton = function(button){
-  let top    = utils.findAncestor(button, "control-display")
-  let bottom = top.nextElementSibling
-  let column = utils.findAncestor(top, "control-column")
+let loadIndex = function(){
+  let initializeButton = function(button){
+    let top    = utils.findAncestor(button, "control-display")
+    let bottom = top.nextElementSibling
+    let column = utils.findAncestor(top, "control-column")
 
-  button.onclick = function(){
-    let displayHeight = top.offsetHeight
-    column.style.minHeight = displayHeight + "px"
-    Velocity(top, {opacity: 0}, 500, function(){
-      top.style.display = "none"
-      bottom.style.opacity = 0
-      bottom.style.display = "block"
-      Velocity(bottom, {opacity: 1}, 500, function(){
-        column.style.minHeight = null
+    button.onclick = function(){
+      let displayHeight = top.offsetHeight
+      column.style.minHeight = displayHeight + "px"
+      Velocity(top, {opacity: 0}, 500, function(){
+        top.style.display = "none"
+        bottom.style.opacity = 0
+        bottom.style.display = "block"
+        Velocity(bottom, {opacity: 1}, 500, function(){
+          column.style.minHeight = null
 
-        sizeControls()
+          sizeControls()
+        })
       })
-    })
+
+      return false;
+    }
+  }
+
+  let form = document.getElementById("search-form")
+
+  var submitTokenForm = function(){
+    let input = document.getElementById("search_name")
+    let value = input.value.trim()
+
+    if (value != "") {
+      request['ajax'].get("/search", {q: value}, function(response){
+        let resp = JSON.parse(response)
+
+        if (resp['data'] != null && resp['data']['name'] != null) {
+          window.location = "/chats/" + resp['data']['name']
+        }
+      })
+    }
 
     return false;
   }
-}
 
-let form = document.getElementById("search-form")
-
-var submitTokenForm = function(){
-  let input = document.getElementById("search_name")
-  let value = input.value.trim()
-
-  if (value != "") {
-    request['ajax'].get("/search", {q: value}, function(response){
-      let resp = JSON.parse(response)
-
-      if (resp['data'] != null && resp['data']['name'] != null) {
-        window.location = "/chats/" + resp['data']['name']
-      }
-    })
+  var loadRoomSearch = function(){
+    if (form != null)
+      form.onsubmit = submitTokenForm
   }
 
-  return false;
-}
+  let control = document.getElementsByClassName("control")[0]
+  let columns = control.getElementsByClassName("control-column")
+  let overlay = control.getElementsByClassName("control-overlay")[0]
 
-var loadRoomSearch = function(){
-  if (form != null)
-    form.onsubmit = submitTokenForm
-}
+  var sizeControls = function(){
+    let index = 0
 
-let control = document.getElementsByClassName("control")[0]
-let columns = control.getElementsByClassName("control-column")
-let overlay = control.getElementsByClassName("control-overlay")[0]
+    for (var column of columns) {
+      let floatStyle = window.getComputedStyle(column)["float"]
+      let colOverlay = overlay.getElementsByClassName("control-background")[index]
 
-var sizeControls = function(){
-  let index = 0
+      if (floatStyle == "none" ) {
+        colOverlay.style.height = column.offsetHeight + "px"
+      } else {
+        colOverlay.style.height = null
+      }
 
-  for (var column of columns) {
-    let floatStyle = window.getComputedStyle(column)["float"]
-    let colOverlay = overlay.getElementsByClassName("control-background")[index]
+      index += 1
+    }
+  }
 
-    if (floatStyle == "none" ) {
-      colOverlay.style.height = column.offsetHeight + "px"
-    } else {
-      colOverlay.style.height = null
+  var loadControl = function(){
+    if (control == null || columns == null || overlay == null) {
+      return false
     }
 
-    index += 1
-  }
-}
+    let buttons = document.getElementsByClassName("control-button")
+    for (var button of buttons) {
+      initializeButton(button)
+    }
 
-var loadControl = function(){
-  if (control == null || columns == null || overlay == null) {
-    return false
-  }
-
-  let buttons = document.getElementsByClassName("control-button")
-  for (var button of buttons) {
-    initializeButton(button)
+    utils.addEvent(window, "resize", sizeControls)
+    loadRoomSearch()
+    sizeControls()
   }
 
-  utils.addEvent(window, "resize", sizeControls)
-  loadRoomSearch()
-  sizeControls()
+  loadControl()
 }
 
 var submitChatForm = function(){
