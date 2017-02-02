@@ -32,16 +32,28 @@ let initializeButton = function(button){
   }
 }
 
+var submitTokenForm = function(){
+
+}
+
+var loadRoomSearch = function(){
+  let form = document.getElementById("search-form")
+
+  form.onsubmit = submitTokenForm
+}
+
 var loadControl = function(){
   let buttons = document.getElementsByClassName("control-button")
   for (var button of buttons) {
     initializeButton(button)
   }
+
+  loadRoomSearch()
 }
 
-var submitForm = function(){
+var submitChatForm = function(){
   let form = document.getElementById("chat-form")
   form.submit()
 }
 
-window.submitForm = submitForm
+window.submitChatForm = submitChatForm

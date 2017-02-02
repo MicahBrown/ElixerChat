@@ -5,5 +5,5 @@
     </div>
   <% end %>
 
-  <div class="g-recaptcha" data-sitekey="<%= Recaptcha.key %>" data-callback="submitForm"></div>
+  <div class="g-recaptcha" data-sitekey="<%= Recaptcha.key %>" data-callback="submitChatForm"></div>
 <% end %>

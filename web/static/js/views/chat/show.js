@@ -152,7 +152,7 @@ var loadChannel = function(){
   let messageForm = document.getElementById("message-form")
   let messageInput = document.getElementById("message-body")
 
-  let submitForm = (e) => {
+  let submitMessageForm = (e) => {
     if (messageInput.value.trim != "") {
       room.push("message:new", messageInput.value)
       messageInput.value = ""
@@ -168,10 +168,10 @@ var loadChannel = function(){
     }
   }
 
-  messageForm.onsubmit = submitForm
+  messageForm.onsubmit = submitMessageForm
   messageInput.onkeypress = (e) => {
     if (e.keyCode == 13 && !e.ctrlKey) {
-      submitForm(e);
+      submitMessageForm(e);
       return false;
     }
   }
