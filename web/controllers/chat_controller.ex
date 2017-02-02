@@ -86,9 +86,10 @@ defmodule Daychat.ChatController do
 
     unless part_of_chat?(conn, participants) do
       new_participant_path = chat_participant_path(conn, :new, conn.assigns[:chat].name)
-      conn
-      |> redirect(to: new_participant_path)
-      |> halt
+      conn =
+        conn
+        |> redirect(to: new_participant_path)
+        |> halt
     end
 
     conn
