@@ -1,6 +1,6 @@
 import MainView from '../main';
 import {Presence, Socket} from "phoenix";
-import {findAncestor, hasClass, addClass, removeClass, addEvent} from "../../utils";
+import * as utils from "../../utils";
 
 export default class View extends MainView {
   mount() {
@@ -58,11 +58,11 @@ var convertTimeToLocal = function(el, time){
 }
 
 var processMessage = function(message){
-  if (hasClass(message, 'processed')) {
+  if (utils.hasClass(message, 'processed')) {
     return false;
   }
 
-  addClass(message, 'processed');
+  utils.addClass(message, 'processed');
 
   var sibling     = message.previousElementSibling,
       time        = message.getElementsByTagName('time')[0],
@@ -70,7 +70,7 @@ var processMessage = function(message){
       messageTime = message.dataset.time;
 
   if (sibling == null) {
-    addClass(message, 'first');
+    utils.addClass(message, 'first');
     convertTimeToLocal(time, messageTime);
   } else {
     var siblingUser = sibling.dataset.user,
@@ -195,7 +195,7 @@ var loadChannel = function(){
         <p class="message-body">${message.body}</p>
       </div>
     `
-    addClass(messageElement, 'message')
+    utils.addClass(messageElement, 'message')
 
     chat.appendChild(messageElement)
     processMessage(messageElement)
@@ -213,7 +213,7 @@ var loadChannel = function(){
     chat.style.minHeight = (windowHeight - menu.offsetHeight) + "px"
   }
 
-  addEvent(window, "resize", sizeToFit)
+  utils.addEvent(window, "resize", sizeToFit)
   sizeToFit();
 
   room.on("message:new", message => renderMessage(message))
@@ -227,7 +227,7 @@ var loadHeaderLinks = function(){
     let modalWrap = document.createElement('div')
 
     modalWrap.innerHTML = "<div class='container'><a class='modal-close'><i class='fa fa-close fa-2x'></i></a>" + modal.outerHTML + "</div>"
-    addClass(modalWrap, "modal-wrapper")
+    utils.addClass(modalWrap, "modal-wrapper")
     modal.remove()
     document.body.appendChild(modalWrap)
 
@@ -235,10 +235,10 @@ var loadHeaderLinks = function(){
     showModal(modalWrap)
 
     let modalClose = modalWrap.getElementsByClassName("modal-close")[0]
-    addEvent(modalClose, 'click', (e) => {
+    utils.addEvent(modalClose, 'click', (e) => {
       toggleModal(modalName)
     })
-    addClass(modal, "is-built")
+    utils.addClass(modal, "is-built")
 
     return modal;
   }
@@ -249,12 +249,12 @@ var loadHeaderLinks = function(){
     if (visibleModal != undefined)
       hideModal(visibleModal);
 
-    addClass(modalWrap, 'is-visible');
+    utils.addClass(modalWrap, 'is-visible');
     return modalWrap;
   }
 
   let hideModal = (modalWrap) => {
-    removeClass(modalWrap, 'is-visible');
+    utils.removeClass(modalWrap, 'is-visible');
     return modalWrap;
   }
 
@@ -264,10 +264,10 @@ var loadHeaderLinks = function(){
     if (modal == null)
       return false;
 
-    if (hasClass(modal, 'is-built')) {
-      let modalWrap = findAncestor(modal, 'modal-wrapper');
+    if (utils.hasClass(modal, 'is-built')) {
+      let modalWrap = utils.findAncestor(modal, 'modal-wrapper');
 
-      if (hasClass(modalWrap, 'is-visible')) {
+      if (utils.hasClass(modalWrap, 'is-visible')) {
         hideModal(modalWrap);
       } else {
         showModal(modalWrap);
@@ -279,14 +279,14 @@ var loadHeaderLinks = function(){
     return modal;
   }
 
-  addEvent(shareLink, 'click', (e) => {
+  utils.addEvent(shareLink, 'click', (e) => {
     let modal = toggleModal('share-modal');
 
     let copyBtn = modal.getElementsByTagName("button")[0]
     new Clipboard(copyBtn);
   })
 
-  addEvent(usersLink, 'click', (e) => {
+  utils.addEvent(usersLink, 'click', (e) => {
     toggleModal('chat-users-modal');
   })
 }

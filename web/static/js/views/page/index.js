@@ -1,5 +1,5 @@
 import MainView from '../main';
-import {findAncestor} from '../../utils';
+import * as utils from '../../utils';
 import * as request from '../../ajax';
 
 export default class View extends MainView {
@@ -14,9 +14,9 @@ export default class View extends MainView {
 }
 
 let initializeButton = function(button){
-  let top    = findAncestor(button, "control-display")
+  let top    = utils.findAncestor(button, "control-display")
   let bottom = top.nextElementSibling
-  let column = findAncestor(top, "control-column")
+  let column = utils.findAncestor(top, "control-column")
 
   button.onclick = function(){
     let displayHeight = top.offsetHeight
