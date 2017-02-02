@@ -153,8 +153,9 @@ var loadChannel = function(){
   let messageInput = document.getElementById("message-body")
 
   let submitMessageForm = (e) => {
-    if (messageInput.value.trim != "") {
-      room.push("message:new", messageInput.value)
+    let value = messageInput.value.trim()
+    if (value != "") {
+      room.push("message:new", value)
       messageInput.value = ""
     }
 
