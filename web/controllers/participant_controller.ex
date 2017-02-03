@@ -17,8 +17,8 @@ defmodule Daychat.ParticipantController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"participant" => participant_params}) do
-    changeset = Participant.changeset(%Participant{user: current_user(conn), chat: conn.assigns[:chat]}, participant_params)
+  def create(conn, _params) do
+    changeset = Participant.changeset(%Participant{user: current_user(conn), chat: conn.assigns[:chat]})
 
     case Repo.insert(changeset) do
       {:ok, _participant} ->
