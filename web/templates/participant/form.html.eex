@@ -1,11 +1,9 @@
-<%= form_for @changeset, @action, fn f -> %>
+<%= form_for @changeset, @action, [style: "display: none;", id: "participant-form"], fn f -> %>
   <%= if false && @changeset.action do %>
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
 
-  <div class="form-group">
-    <%= submit "Enter", style: "background: #fff; color: #555; border: 0;" %>
-  </div>
+  <div class="g-recaptcha" data-sitekey="<%= Recaptcha.key %>" data-callback="submitParticipantForm"></div>
 <% end %>
