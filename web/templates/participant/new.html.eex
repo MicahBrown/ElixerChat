@@ -2,7 +2,7 @@
 
 <div style="min-height: 100%; background: #5193ff; color: #fff;">
   <div class="header" style="text-align: center; background: #555; line-height: 1; padding: 1rem; font-weight: bold; color:#fff;">
-    1DayChat
+    <a href="<%= root_path(@conn, :index) %>">1DayChat</a>
   </div>
   <div class="container" style="text-align: center; padding: 40px 0;">
     <h2>Join the Discussion</h2>
