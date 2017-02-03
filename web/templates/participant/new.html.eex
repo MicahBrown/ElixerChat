@@ -1,5 +1,10 @@
-<h2>New participant</h2>
-<%= render "form.html", changeset: @changeset,
-                        action: chat_participant_path(@conn, :create, @chat.name) %>
-
-<%#= link "Back", to: "/" #participant_path(@conn, :index) %>
+<div style="min-height: 100%; background: #5193ff; color: #fff;">
+  <div class="header" style="text-align: center; background: #555; line-height: 1; padding: 1rem; font-weight: bold; color:#fff;">
+      1DayChat
+  </div>
+  <div class="container" style="text-align: center; padding: 40px 0;">
+    <h2>Join the Discussion</h2>
+    <%= render "form.html", changeset: @changeset,
+                            action: chat_participant_path(@conn, :create, @chat.name) %>
+  </div>
+</div>

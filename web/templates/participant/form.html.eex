@@ -1,17 +1,11 @@
 <%= form_for @changeset, @action, fn f -> %>
-  <%= if @changeset.action do %>
+  <%= if false && @changeset.action do %>
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
 
   <div class="form-group">
-    <%= label f, :position, class: "control-label" %>
-    <%= number_input f, :position, class: "form-control" %>
-    <%= error_tag f, :position %>
-  </div>
-
-  <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
+    <%= submit "Enter", style: "background: #fff; color: #555; border: 0;" %>
   </div>
 <% end %>
