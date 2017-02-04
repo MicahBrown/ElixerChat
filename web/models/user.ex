@@ -2,8 +2,8 @@ defmodule Daychat.User do
   use Daychat.Web, :model
 
   schema "users" do
-    field :name, :string
     field :token, :string
+    field :auth_key, :string
     has_many :chats, Daychat.Chat
     has_many :participants, Daychat.Participant
     has_many :messages, Daychat.Message
@@ -17,11 +17,11 @@ defmodule Daychat.User do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [])
-    |> generate_name
     |> generate_token
-    |> validate_required([:name, :token])
-    |> validate_length(:name, max: 32)
-    |> validate_length(:token, max: 255)
+    |> generate_auth_key
+    |> validate_required([:token, :auth_key])
+    |> validate_length(:token, max: 32)
+    |> validate_length(:auth_key, max: 255)
   end
 
   def new_changeset(struct, params \\ %{}) do
@@ -29,19 +29,19 @@ defmodule Daychat.User do
     |> cast(params, [])
   end
 
-  defp generate_name(changeset) do
-    unless get_change(changeset, :name) do
-      name = NameGenerator.get_unique_for(Daychat.User, :name)
+  defp generate_token(changeset) do
+    unless get_change(changeset, :token) do
+      token = TokenGenerator.get_unique_for(Daychat.User, :token)
 
-      put_change(changeset, :name, name)
+      put_change(changeset, :token, token)
     else
       changeset
     end
   end
 
-  def generate_token(changeset) do
-    unless get_change(changeset, :token) do
-      put_change(changeset, :token, Tokenizer.generate)
+  def generate_auth_key(changeset) do
+    unless get_change(changeset, :auth_key) do
+      put_change(changeset, :auth_key, Keygen.generate)
     else
       changeset
     end
