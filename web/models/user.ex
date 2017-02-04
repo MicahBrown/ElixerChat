@@ -25,14 +25,12 @@ defmodule Daychat.User do
   end
 
   def new_changeset(struct, params \\ %{}) do
-    struct
-    |> cast(params, [])
+    struct |> cast(params, [])
   end
 
   defp generate_token(changeset) do
     unless get_change(changeset, :token) do
-      token = TokenGenerator.get_unique_for(Daychat.User, :token)
-
+      token = TokenGenerator.get_unique(Daychat.User)
       put_change(changeset, :token, token)
     else
       changeset
@@ -41,7 +39,8 @@ defmodule Daychat.User do
 
   def generate_auth_key(changeset) do
     unless get_change(changeset, :auth_key) do
-      put_change(changeset, :auth_key, AuthKeyGenerator.generate)
+      auth_key = AuthKeyGenerator.get_unique(Daychat.User)
+      put_change(changeset, :auth_key, auth_key)
     else
       changeset
     end

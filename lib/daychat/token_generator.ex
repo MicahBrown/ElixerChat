@@ -10,16 +10,12 @@ defmodule TokenGenerator do
     "silver", "teal", "white", "yellow"
   ]
 
-  def get_unique_for(model_name, column) do
-    comp  = generate()
-    token = compile(comp)
-
-    if length(existing(model_name, column, token)) > 0 do
-      get_unique_for(model_name, column)
-    else
-      increment_weight!(comp[:noun])
-      token
-    end
+  def get_unique(model, column \\ :token), do: find_unique({model, column}, generate())
+  defp find_unique(target, comp), do: find_unique(target, comp, existing(target, comp))
+  defp find_unique({model, column}, _comp, existing) when length(existing) > 0, do: get_unique(model, column)
+  defp find_unique(_target, comp, existing) when length(existing) <= 0 do
+    reset_weight!(comp[:noun])
+    compile(comp)
   end
 
   def generate do
@@ -82,15 +78,16 @@ defmodule TokenGenerator do
     %{number: nil, color: nil, noun: nil}
   end
 
-  defp existing(model_name, column, token) do
-    query = from object in model_name,
+  defp existing({model, column}, comp) do
+    token = compile(comp)
+    query = from object in model,
       where: field(object, ^column) == ^token,
       limit: 1
 
     Daychat.Repo.all(query)
   end
 
-  defp increment_weight!(noun) do
+  defp reset_weight!(noun) do
     changeset = Noun.changeset(noun, %{weight: 0})
     Daychat.Repo.update!(changeset)
   end
