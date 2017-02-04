@@ -51,14 +51,14 @@ export default class View extends MainView {
 
 // document.addEventListener("DOMContentLoaded", sticky.init.bind(sticky));
 
-var convertTimeToLocal = function(el, time){
-  var m     = moment.utc(time),
+let convertTimeToLocal = function(el, time){
+  let m     = moment.utc(time),
       local = m.local();
   el.innerHTML = local.format("h:mm A");
   el.title     = local.format("MMMM Do YYYY, h:mm A");
 }
 
-var processMessage = function(message){
+let processMessage = function(message){
   if (utils.hasClass(message, 'processed')) {
     return false;
   }
@@ -90,23 +90,24 @@ var processMessage = function(message){
   }
 
   if (messageUser == "BOT") {
-    utils.addClass(message, 'bot')
     let user = message.getElementsByClassName('message-author')[0]
     if (user != undefined)
-      user.remove();
+      user.remove()
+
+    utils.addClass(message, 'bot')
   }
 
-  return message;
+  return message
 }
 
-var loadMessages = function(){
-  var messages = document.getElementsByClassName('message');
-  for (var message of messages) {
+let loadMessages = () => {
+  let messages = document.getElementsByClassName('message');
+  [...messages].forEach(function(message){
     processMessage(message)
-  }
+  })
 }
 
-var loadChannel = function(){
+let loadChannel = () => {
   let chat      = document.getElementById("chat")
   let chatKey   = chat.dataset.chatAuthKey
   let chatToken = chat.dataset.chatToken
@@ -130,7 +131,7 @@ var loadChannel = function(){
   let userCount = document.getElementsByClassName("chat-users-count")[0]
   let render = (presences) => {
     let userList = document.getElementsByClassName("chat-users-list")[0]
-    var count = Object.keys(presences).length
+    let count = Object.keys(presences).length
     userCount.innerHTML = "<i class='fa fa-group'></i><span class='user-count'> " + count + " " + (count == 1 ? "User" : "Users") + "</span> Online"
     userList.innerHTML = Presence.list(presences, listBy)
       .map(presence => `
@@ -185,9 +186,12 @@ var loadChannel = function(){
     }
   }
 
-  let formatMessageBody = (body) => {
-    let safe_body  = utils.escapeHtml(body)
-    let paragraphs = safe_body.split("\n\n")
+  let formatMessageBody = (message) => {
+    let body = message.body
+    if (message.user != "BOT")
+      body = utils.escapeHtml(body)
+
+    let paragraphs = body.split("\n\n")
     let returned   = ""
 
     paragraphs.forEach(function(paragraph){
@@ -213,7 +217,7 @@ var loadChannel = function(){
         </div>
       </div>
       <div class="message-content">
-        <div class="message-body">${formatMessageBody(message.body)}</div>
+        <div class="message-body">${formatMessageBody(message)}</div>
       </div>
     `
     utils.addClass(messageElement, 'message')
@@ -240,7 +244,7 @@ var loadChannel = function(){
   room.on("message:new", message => renderMessage(message))
 }
 
-var loadHeaderLinks = function(){
+let loadHeaderLinks = function(){
   let shareLink  = document.getElementsByClassName("chat-share-link")[0]
   let usersLink  = document.getElementsByClassName("chat-users-count")[0]
   let buildModal = (modalName) => {
@@ -316,11 +320,11 @@ var loadHeaderLinks = function(){
 
 let loadClock = () => {
   function getTimeRemaining(endtime) {
-    var t = Date.parse(endtime) - Date.parse(new Date());
-    var seconds = Math.floor((t / 1000) % 60);
-    var minutes = Math.floor((t / 1000 / 60) % 60);
-    var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-    var days = Math.floor(t / (1000 * 60 * 60 * 24));
+    let t = Date.parse(endtime) - Date.parse(new Date());
+    let seconds = Math.floor((t / 1000) % 60);
+    let minutes = Math.floor((t / 1000 / 60) % 60);
+    let hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+    let days = Math.floor(t / (1000 * 60 * 60 * 24));
     return {
       'total': t,
       'days': days,
