@@ -4,7 +4,7 @@
       <div class="container">
         <a class="chat-share-link"><i class="fa fa-share-alt"></i><span class="show-for-medium"> Share</span></a>
         <a class="chat-users-count"><i class="fa fa-user-group"></i></a>
-        <div id="clock" class="clock" data-deadline="<%= deadline(@chat) %>">
+        <div id="clock" class="clock" data-deadline="<%= deadline(@chat) %>" title="Time left for this chat room to be active">
           <div class="face">
             <span class="hours">00</span> :
             <span class="minutes">00</span> :
