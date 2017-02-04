@@ -282,9 +282,11 @@ var loadHeaderLinks = function(){
 
   utils.addEvent(shareLink, 'click', (e) => {
     let modal   = toggleModal('share-modal')
-    let copyBtn = document.getElementById("share-button")
+    let urlBtn = document.getElementById("url-button")
+    let tokenBtn = document.getElementById("token-button")
 
-    new Clipboard(copyBtn);
+    new Clipboard(urlBtn);
+    new Clipboard(tokenBtn);
   })
 
   utils.addEvent(usersLink, 'click', (e) => {

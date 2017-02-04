@@ -55,9 +55,17 @@
 
   <div class="modal" id="share-modal">
     <h1>Share This Chat</h1>
-    <button id="share-button" type="submit" class="u-pull-right" data-clipboard-target="#chat-url">Copy</button>
+
+    <div><i class="fa fa-link"></i> Link</div>
+    <button id="url-button" type="submit" class="u-pull-right" data-clipboard-target="#chat-url">Copy</button>
     <div style="overflow: hidden; padding-right: .5em;">
-      <input type="text" value="<%= chat_path(@conn, :show, @chat.name) %>" style="width: 100%;" id="chat-url" />
+      <input type="text" value="<%= chat_url(@conn, :show, @chat.name) %>" style="width: 100%;" id="chat-url" />
+    </div>
+
+    <div><i class="fa fa-tag"></i> Token (entered on the homepage)</div>
+    <button id="token-button" type="submit" class="u-pull-right" data-clipboard-target="#chat-token">Copy</button>
+    <div style="overflow: hidden; padding-right: .5em;">
+      <input type="text" value="<%= @chat.name %>" style="width: 100%;" id="chat-token" />
     </div>
   </div>
 </div>
