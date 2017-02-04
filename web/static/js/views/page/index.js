@@ -42,14 +42,25 @@ let loadIndex = function(){
   var submitTokenForm = function(){
     let input = document.getElementById("search_name")
     let value = input.value.trim()
+    let column = utils.findAncestor(input, "control-column")
 
-    if (value != "") {
+    if (value != "" && !utils.hasClass(column, "submitting")) {
+      utils.addClass(column, "submitting")
+
       request['ajax'].get("/search", {q: value}, function(response){
-        let resp = JSON.parse(response)
+        let resp = null
 
-        if (resp['data'] != null && resp['data']['name'] != null) {
+        try {
+          resp = JSON.parse(response)
+        } catch(err) {
+          alert('An error occurred.')
+        }
+
+        if (resp != null && resp['data'] != null && resp['data']['name'] != null) {
           window.location = "/chats/" + resp['data']['name']
         }
+
+        utils.removeClass(column, "submitting")
       })
     }
 
