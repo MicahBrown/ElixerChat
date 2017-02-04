@@ -6,9 +6,7 @@
         <a class="chat-users-count"><i class="fa fa-user-group"></i></a>
         <div id="clock" class="clock" data-deadline="<%= deadline(@chat) %>" title="Time left for this chat room to be active">
           <div class="face">
-            <span class="hours">00</span> :
-            <span class="minutes">00</span> :
-            <span class="seconds">00</span>
+            <span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span>
           </div>
           <div class="inner"></div>
           <!--a href="<%#= root_path(@conn, :index) %>">1DayChat</a-->
