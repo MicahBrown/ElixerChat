@@ -6,6 +6,6 @@ defmodule Daychat.SearchView do
   end
 
   def render("chat.json", %{search: chat}) do
-    %{name: chat.name}
+    %{token: chat.token}
   end
 end

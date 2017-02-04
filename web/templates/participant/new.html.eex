@@ -9,7 +9,7 @@
     <div class="">
       <%= submit "Enter", style: "background: #fff; color: #555; border: 0;", id: "participant-submit" %>
       <%= render "form.html", changeset: @changeset,
-                              action: chat_participant_path(@conn, :create, @chat.name) %>
+                              action: chat_participant_path(@conn, :create, @chat.token) %>
     </div>
   </div>
 </div>

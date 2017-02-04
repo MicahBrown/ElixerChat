@@ -17,10 +17,10 @@
   </div>
   <div class="fixed-container" style="background: #fff;">
     <div class="gutter-highlight"></div>
-    <ul class="chat" id="chat-<%= @chat.token %>"
-                     data-user-token="<%= Phoenix.Token.sign(@conn, "user_token", @current_user.token) %>"
-                     data-chat-token="<%= Phoenix.Token.sign(@conn, "chat_token", @chat.token) %>"
-                     data-chat-name="<%= @chat.name %>"
+    <ul class="chat" id="chat"
+                     data-user-auth-key="<%= Phoenix.Token.sign(@conn, "user_auth_key", @current_user.auth_key) %>"
+                     data-chat-auth-key="<%= Phoenix.Token.sign(@conn, "chat_auth_key", @chat.auth_key) %>"
+                     data-chat-token="<%= @chat.token %>"
                      style="padding-bottom: 12.5rem;">
       <%= for message <- @messages do %>
         <%= render Daychat.MessageView, "message.html", message: message, participants: @participants %>
@@ -33,7 +33,7 @@
       <div style="position: absolute; right: 1rem; top: 1rem;" onclick="this.parentNode.remove()">x</div>
     <% end %>
     <div class="container">
-      <%= form_for @message_changeset, chat_message_url(@conn, :create, @chat.name), [id: "message-form"], fn f -> %>
+      <%= form_for @message_changeset, chat_message_url(@conn, :create, @chat.token), [id: "message-form"], fn f -> %>
         <%= submit "Send", class: "u-pull-right", style: "height: 64px; margin: 0px; padding: 0 20px;" %>
         <div style="overflow: hidden; padding-right: 1rem;">
           <%= textarea f, :body, style: "width: 100%; resize: none; margin: 0;", id: "message-body" %>
@@ -58,13 +58,13 @@
     <div><i class="fa fa-link"></i> Link</div>
     <button id="url-button" type="submit" class="u-pull-right" data-clipboard-target="#chat-url">Copy</button>
     <div style="overflow: hidden; padding-right: .5em;">
-      <input type="text" value="<%= chat_url(@conn, :show, @chat.name) %>" style="width: 100%;" id="chat-url" />
+      <input type="text" value="<%= chat_url(@conn, :show, @chat.token) %>" style="width: 100%;" id="chat-url" />
     </div>
 
     <div><i class="fa fa-tag"></i> Token (entered on the homepage)</div>
     <button id="token-button" type="submit" class="u-pull-right" data-clipboard-target="#chat-token">Copy</button>
     <div style="overflow: hidden; padding-right: .5em;">
-      <input type="text" value="<%= @chat.name %>" style="width: 100%;" id="chat-token" />
+      <input type="text" value="<%= @chat.token %>" style="width: 100%;" id="chat-token" />
     </div>
   </div>
 </div>
