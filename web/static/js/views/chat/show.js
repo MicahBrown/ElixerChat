@@ -158,6 +158,7 @@ var loadChannel = function(){
     if (value != "") {
       room.push("message:new", value)
       messageInput.value = ""
+      messageInput.focus()
     }
 
     return false;
