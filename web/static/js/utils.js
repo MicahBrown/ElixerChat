@@ -32,3 +32,7 @@ export function findAncestor(el, className) {
   while ((el = el.parentElement) && !hasClass(el, className));
   return el;
 }
+
+export function insertAfter(referenceNode, newNode) {
+  referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}

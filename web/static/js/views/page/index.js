@@ -56,8 +56,23 @@ let loadIndex = function(){
           alert('An error occurred.')
         }
 
-        if (resp != null && resp['data'] != null && resp['data']['name'] != null) {
-          window.location = "/chats/" + resp['data']['name']
+        if (resp != null) {
+          if (resp['data'] != null && resp['data']['name'] != null) {
+            window.location = "/chats/" + resp['data']['name']
+          } else {
+            if (input.nextElementSibling != null) {
+              input.nextElementSibling.remove()
+            }
+
+            let newNode = document.createElement("div")
+            newNode.innerHTML = "<i class='fa fa-warning'></i> Invalid Token"
+            newNode.style.opacity = 0
+            utils.addClass(newNode, "error")
+            utils.insertAfter(input, newNode)
+
+            Velocity(newNode, {opacity: 1}, 500)
+            sizeControls()
+          }
         }
 
         utils.removeClass(column, "submitting")
