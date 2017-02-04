@@ -134,15 +134,9 @@ defmodule Daychat.ChatController do
 
     case participant_insert_response do
       {:ok, participant} ->
-        log_body = new_participant_message(participant)
-        log_changeset = Daychat.Message.log_changeset(%Daychat.Message{chat: chat}, %{body: log_body})
-        Repo.insert(log_changeset)
+        ChatLog.new_participant(chat, participant) |> Repo.insert
       {:error, _changeset} ->
         :error
     end
-  end
-
-  defp new_participant_message(participant) do
-    "this is the message"
   end
 end
