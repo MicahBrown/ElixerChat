@@ -25,7 +25,7 @@ defmodule Daychat.ParticipantController do
       {:ok, _participant} ->
         conn
         |> put_flash(:info, "Participant created successfully.")
-        |> redirect(to: chat_path(conn, :show, conn.assigns[:chat].name))
+        |> redirect(to: chat_path(conn, :show, conn.assigns[:chat].token))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -70,7 +70,7 @@ defmodule Daychat.ParticipantController do
 
   defp find_chat(conn, _) do
     chat_id = conn.params["chat_id"]
-    chat = Repo.get_by!(Chat, name: chat_id)
+    chat = Repo.get_by!(Chat, token: chat_id)
 
     conn |> assign(:chat, chat)
   end
@@ -82,7 +82,7 @@ defmodule Daychat.ParticipantController do
       {:ok, _msg} ->
         conn
       {:error, _msg} ->
-        new_participant_path = chat_participant_path(conn, :new, conn.assigns[:chat].name)
+        new_participant_path = chat_participant_path(conn, :new, conn.assigns[:chat].token)
         conn
         |> redirect(to: new_participant_path)
         |> halt

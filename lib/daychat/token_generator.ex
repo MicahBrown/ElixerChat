@@ -1,4 +1,4 @@
-defmodule NameGenerator do
+defmodule TokenGenerator do
   import Ecto.Query
 
   alias Daychat.Noun
@@ -10,15 +10,15 @@ defmodule NameGenerator do
     "silver", "teal", "white", "yellow"
   ]
 
-  def get_unique_for(mod_name, column) do
-    comp = generate()
-    name = compile(comp)
+  def get_unique_for(model_name, column) do
+    comp  = generate()
+    token = compile(comp)
 
-    if length(existing(mod_name, column, name)) > 0 do
-      get_unique_for(mod_name, column)
+    if length(existing(model_name, column, token)) > 0 do
+      get_unique_for(model_name, column)
     else
       increment_weight!(comp[:noun])
-      name
+      token
     end
   end
 
@@ -82,9 +82,9 @@ defmodule NameGenerator do
     %{number: nil, color: nil, noun: nil}
   end
 
-  defp existing(mod_name, column, name) do
-    query = from object in mod_name,
-      where: field(object, ^column) == ^name,
+  defp existing(model_name, column, token) do
+    query = from object in model_name,
+      where: field(object, ^column) == ^token,
       limit: 1
 
     Daychat.Repo.all(query)

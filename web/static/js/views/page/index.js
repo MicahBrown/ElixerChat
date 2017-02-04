@@ -40,7 +40,7 @@ let loadIndex = function(){
   let form = document.getElementById("search-form")
 
   var submitTokenForm = function(){
-    let input = document.getElementById("search_name")
+    let input = document.getElementById("search_token")
     let value = input.value.trim()
     let column = utils.findAncestor(input, "control-column")
 
@@ -57,8 +57,8 @@ let loadIndex = function(){
         }
 
         if (resp != null) {
-          if (resp['data'] != null && resp['data']['name'] != null) {
-            window.location = "/chats/" + resp['data']['name']
+          if (resp['data'] != null && resp['data']['token'] != null) {
+            window.location = "/chats/" + resp['data']['token']
           } else {
             if (input.nextElementSibling != null) {
               input.nextElementSibling.remove()

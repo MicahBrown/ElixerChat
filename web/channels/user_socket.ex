@@ -19,14 +19,14 @@ defmodule Daychat.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(%{"token" => token}, socket) do
-    case Phoenix.Token.verify(socket, "user_token", token) do
-      {:ok, user_token} ->
-        user   = Daychat.Repo.get_by!(Daychat.User, token: user_token)
+  def connect(%{"auth_key" => auth_key}, socket) do
+    case Phoenix.Token.verify(socket, "user_auth_key", auth_key) do
+      {:ok, user_auth_key} ->
+        user   = Daychat.Repo.get_by!(Daychat.User, auth_key: user_auth_key)
         socket =
           socket
           |> assign(:user, user)
-          |> assign(:user_name, user.name)
+          |> assign(:user_token, user.token)
 
         {:ok, socket}
       {:error, _} ->

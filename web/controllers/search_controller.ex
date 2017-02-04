@@ -3,8 +3,8 @@ defmodule Daychat.SearchController do
 
   alias Daychat.Chat
 
-  def index(conn, %{"q" => name}) do
-    chat = Repo.get_by(Chat, name: name)
+  def index(conn, %{"q" => token}) do
+    chat = Repo.get_by(Chat, token: token)
 
     render(conn, "index.json", chat: chat)
   end

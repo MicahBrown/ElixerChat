@@ -2,8 +2,8 @@ defmodule Daychat.Chat do
   use Daychat.Web, :model
 
   schema "chats" do
-    field :name, :string
     field :token, :string
+    field :auth_key, :string
     field :participants_count, :integer
     belongs_to :user, Daychat.User
     has_many :participants, Daychat.Participant
@@ -21,9 +21,9 @@ defmodule Daychat.Chat do
     |> cast_assoc(:user, required: true)
     |> generate_name
     |> generate_token
-    |> validate_required([:name, :token])
-    |> validate_length(:name, max: 32)
-    |> validate_length(:token, max: 128)
+    |> validate_required([:token, :auth_key])
+    |> validate_length(:token, max: 32)
+    |> validate_length(:auth_key, max: 128)
     |> validate_inclusion(:participants_count, 0..20)
   end
 
@@ -33,18 +33,18 @@ defmodule Daychat.Chat do
   end
 
   defp generate_name(changeset) do
-    unless get_change(changeset, :name) do
-      name = NameGenerator.get_unique_for(Daychat.Chat, :name)
+    unless get_change(changeset, :token) do
+      token = TokenGenerator.get_unique_for(Daychat.Chat, :token)
 
-      put_change(changeset, :name, name)
+      put_change(changeset, :token, token)
     else
       changeset
     end
   end
 
   def generate_token(changeset) do
-    unless get_change(changeset, :token) do
-      put_change(changeset, :token, Tokenizer.generate)
+    unless get_change(changeset, :auth_key) do
+      put_change(changeset, :auth_key, Keygen.generate)
     else
       changeset
     end

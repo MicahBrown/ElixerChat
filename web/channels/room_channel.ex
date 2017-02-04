@@ -4,10 +4,10 @@ defmodule Daychat.RoomChannel do
   alias Daychat.Participant
   alias Daychat.Chat
 
-  def join("room:" <> _id, %{"token" => token}, socket) do
-    case Phoenix.Token.verify(socket, "chat_token", token) do
-      {:ok, chat_token} ->
-        chat = Daychat.Repo.get_by!(Chat, token: chat_token)
+  def join("room:" <> _id, %{"auth_key" => auth_key}, socket) do
+    case Phoenix.Token.verify(socket, "chat_auth_key", auth_key) do
+      {:ok, chat_auth_key} ->
+        chat = Daychat.Repo.get_by!(Chat, auth_key: chat_auth_key)
         part = load_participant(socket, chat)
 
         if part do
@@ -31,7 +31,7 @@ defmodule Daychat.RoomChannel do
 
 
   def handle_info(:after_join, socket) do
-    Presence.track(socket, socket.assigns.user_name, %{
+    Presence.track(socket, socket.assigns.user_token, %{
       online_at: :os.system_time(:milli_seconds)
     })
     push socket, "presence_state", Presence.list(socket)
@@ -45,7 +45,7 @@ defmodule Daychat.RoomChannel do
       |> Daychat.Repo.insert!
 
     broadcast! socket, "message:new", %{
-      user: socket.assigns.user_name,
+      user: socket.assigns.user_token,
       body: message.body,
       color: socket.assigns.color,
       timestamp: Daychat.MessageView.timestamp(message)

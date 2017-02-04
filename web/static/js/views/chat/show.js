@@ -101,11 +101,11 @@ var loadMessages = function(){
 }
 
 var loadChannel = function(){
-  let chat      = document.getElementsByClassName("chat")[0]
+  let chat      = document.getElementById("chat")
+  let chatKey   = chat.dataset.chatAuthKey
   let chatToken = chat.dataset.chatToken
-  let chatName  = chat.dataset.chatName
-  let userToken = chat.dataset.userToken
-  let socket    = new Socket("/socket", {params: {token: userToken}})
+  let userKey   = chat.dataset.userAuthKey
+  let socket    = new Socket("/socket", {params: {auth_key: userKey}})
   socket.connect()
 
   let presences = {}
@@ -136,7 +136,7 @@ var loadChannel = function(){
   }
 
   // Channels
-  let room = socket.channel("room:" + chatName, {token: chatToken})
+  let room = socket.channel("room:" + chatToken, {auth_key: chatKey})
   room.on("presence_state", state => {
     presences = Presence.syncState(presences, state)
     render(presences)
