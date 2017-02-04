@@ -123,6 +123,7 @@
   overflow-wrap: break-word;
   hyphens: auto;
 }
+.message .message-body p { margin: 0; }
 
 .chat-menu-wrapper {
   position: relative;

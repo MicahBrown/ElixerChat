@@ -9,6 +9,6 @@
     </div>
   </div>
   <div class="message-content">
-    <p class="message-body"><%= @message.body %></p>
+    <div class="message-body"><%= display_body(@message) %></div>
   </div>
 </li>

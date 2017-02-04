@@ -21,4 +21,8 @@ defmodule Daychat.MessageView do
     |> Ecto.DateTime.cast!
     |> DateTimeFormatter.to_datetime
   end
+
+  def display_body(message) do
+    message.body |> Phoenix.HTML.Format.text_to_html
+  end
 end
