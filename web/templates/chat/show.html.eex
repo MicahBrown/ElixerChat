@@ -102,7 +102,7 @@
 }
 .message.bot:not(.first) .message-body { padding-top: 0.5rem; }
 .message .message-details,
-.message .message-content { padding-left: 1rem; padding-right: 7.75rem; width: 100%; }
+.message .message-content { padding-left: 1rem; padding-right: 9rem; width: 100%; }
 .message .message-details {
   position: relative;
   color: #333;
