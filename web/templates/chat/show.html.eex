@@ -4,9 +4,15 @@
       <div class="container">
         <a class="chat-share-link"><i class="fa fa-share-alt"></i><span class="show-for-medium"> Share</span></a>
         <a class="chat-users-count"><i class="fa fa-user-group"></i></a>
-        <span class="title">
-          <a href="<%= root_path(@conn, :index) %>">1DayChat</a>
-        </span>
+        <div id="clock" class="clock" data-deadline="<%= deadline(@chat) %>">
+          <div class="face">
+            <span class="hours">00</span> :
+            <span class="minutes">00</span> :
+            <span class="seconds">00</span>
+          </div>
+          <div class="inner"></div>
+          <!--a href="<%#= root_path(@conn, :index) %>">1DayChat</a-->
+        </div>
       </div>
     </div>
   </div>
@@ -131,18 +137,27 @@
 .chat-menu a:hover { color: #eee; cursor: pointer; }
 .chat-menu .container > a:first-child { background: #555; }
 
-.chat-menu .title {
+.chat-menu .clock {
   float: right;
   position: relative;
+  color: #fff;
 }
-.chat-menu .title a {
+.chat-menu .clock .face {
+  position: relative;
+  z-index: 501;
+  padding: 2.5px 1.5rem;
+  font-weight: bold;
+}
+.chat-menu .clock .inner {
   position: absolute;
+  z-index: 500;
   right: 0;
   top: 0;
+  height:103%;
+  width: 100%;
   font-weight: bold;
   background: #5193ff;
   border-radius: 0 0 11px 11px;
-  padding: 2.5px 1.5rem;
 }
 .canvas { background: #ededff; }
 /*.chat-menu-wrapper .chat-menu.clone {
