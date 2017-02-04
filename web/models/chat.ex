@@ -44,7 +44,7 @@ defmodule Daychat.Chat do
 
   def generate_token(changeset) do
     unless get_change(changeset, :auth_key) do
-      put_change(changeset, :auth_key, Keygen.generate)
+      put_change(changeset, :auth_key, AuthKeyGenerator.generate)
     else
       changeset
     end

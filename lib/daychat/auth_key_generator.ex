@@ -1,4 +1,4 @@
-defmodule Keygen do
+defmodule AuthKeyGenerator do
   @size 11
   @charset "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ" |> String.codepoints # Base58
 
