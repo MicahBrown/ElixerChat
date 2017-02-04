@@ -23,8 +23,7 @@ defmodule Daychat.ChatController do
 
     case Repo.insert(changeset) do
       {:ok, chat} ->
-        participant = Ecto.build_assoc(chat, :participants, user: current_user(conn), chat: chat)
-        Repo.insert(participant)
+        insert_creator_participant_and_log(conn, chat)
 
         conn
         |> put_flash(:info, "Chat created successfully.")
@@ -125,5 +124,25 @@ defmodule Daychat.ChatController do
         |> redirect(to: root_path(conn, :index))
         |> halt
     end
+  end
+
+  defp insert_creator_participant_and_log(conn, chat) do
+    participant_insert_response =
+      chat
+      |> Ecto.build_assoc(:participants, user: current_user(conn), chat: chat)
+      |> Repo.insert
+
+    case participant_insert_response do
+      {:ok, participant} ->
+        log_body = new_participant_message(participant)
+        log_changeset = Daychat.Message.log_changeset(%Daychat.Message{chat: chat}, %{body: log_body})
+        Repo.insert(log_changeset)
+      {:error, _changeset} ->
+        :error
+    end
+  end
+
+  defp new_participant_message(participant) do
+    "this is the message"
   end
 end

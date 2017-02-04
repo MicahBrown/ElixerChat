@@ -20,6 +20,13 @@ defmodule Daychat.Message do
     |> validate_required([:body])
   end
 
+  def log_changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:body])
+    |> cast_assoc(:chat, required: true)
+    |> validate_required([:body])
+  end
+
   def new_changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [])
