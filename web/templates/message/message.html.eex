@@ -1,8 +1,7 @@
-<% participant = Enum.find(@participants, fn(p) -> p.user_id == @message.user_id end) %>
-<li class="message" data-user="<%= @message.user.token %>" data-time="<%= timestamp(@message) %>">
+<li class="message" data-user="<%= user_token(@message) %>" data-time="<%= timestamp(@message) %>">
   <div class="message-details">
     <div class="message-author">
-      <span style="color: <%= Daychat.Participant.color(participant) %>"><i class="fa fa-user-circle"></i> <%= @message.user.token %></span>
+      <%= author(@message, @participants) %>
     </div>
     <div class="message-gutter">
       <time></time>
