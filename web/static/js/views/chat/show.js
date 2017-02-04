@@ -65,7 +65,7 @@ var processMessage = function(message){
 
   utils.addClass(message, 'processed');
 
-  var sibling     = message.previousElementSibling,
+  let sibling     = message.previousElementSibling,
       time        = message.getElementsByTagName('time')[0],
       messageUser = message.dataset.user,
       messageTime = message.dataset.time;
@@ -74,7 +74,7 @@ var processMessage = function(message){
     utils.addClass(message, 'first');
     convertTimeToLocal(time, messageTime);
   } else {
-    var siblingUser = sibling.dataset.user,
+    let siblingUser = sibling.dataset.user,
         siblingTime = sibling.dataset.time;
 
     if (siblingTime == messageTime) {
@@ -84,10 +84,16 @@ var processMessage = function(message){
     }
 
     if (siblingUser == messageUser) {
-      var user = message.getElementsByClassName('message-author')[0]
+      let user = message.getElementsByClassName('message-author')[0]
       user.remove();
     }
+  }
 
+  if (messageUser == "BOT") {
+    utils.addClass(message, 'bot')
+    let user = message.getElementsByClassName('message-author')[0]
+    if (user != undefined)
+      user.remove();
   }
 
   return message;

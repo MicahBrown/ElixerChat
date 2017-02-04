@@ -127,14 +127,11 @@ defmodule Daychat.ChatController do
   end
 
   defp insert_creator_participant_and_log(conn, chat) do
-    participant_insert_response =
-      chat
-      |> Ecto.build_assoc(:participants, user: current_user(conn), chat: chat)
-      |> Repo.insert
+    participant_changeset = Daychat.Participant.changeset(%Daychat.Participant{chat: chat, user: current_user(conn)})
 
-    case participant_insert_response do
+    case Repo.insert(participant_changeset) do
       {:ok, participant} ->
-        ChatLog.new_participant(chat, participant) |> Repo.insert
+        ChatLog.new_participant(chat, participant, current_user(conn)) |> Repo.insert
       {:error, _changeset} ->
         :error
     end

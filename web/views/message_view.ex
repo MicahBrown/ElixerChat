@@ -22,9 +22,10 @@ defmodule Daychat.MessageView do
     |> DateTimeFormatter.to_datetime
   end
 
-  def display_body(message) do
-    message.body |> Phoenix.HTML.Format.text_to_html
-  end
+  def display_body(message), do: formatted_body(message.user, message.body)
+  defp formatted_body(nil, body), do: raw(body)
+  defp formatted_body(user, body), do: Phoenix.HTML.Format.text_to_html(body)
+
 
   def user_token(message), do: token(message.user)
   defp token(nil), do: "BOT"

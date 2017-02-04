@@ -25,6 +25,7 @@ defmodule Daychat.Chat do
     |> validate_length(:token, max: 32)
     |> validate_length(:auth_key, max: 128)
     |> validate_inclusion(:participants_count, 0..20)
+    |> set_participant_count
   end
 
   def new_changeset(struct, params \\ %{}) do
@@ -35,6 +36,14 @@ defmodule Daychat.Chat do
     unless get_change(changeset, :token) do
       token = TokenGenerator.get_unique(Daychat.Chat)
       put_change(changeset, :token, token)
+    else
+      changeset
+    end
+  end
+
+  defp set_participant_count(changeset) do
+    unless get_change(changeset, :participants_count) do
+      put_change(changeset, :participants_count, 0)
     else
       changeset
     end
