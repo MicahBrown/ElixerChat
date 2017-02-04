@@ -40,7 +40,8 @@ defmodule Daychat.ChatController do
     participants = Repo.all from p in Participant, where: [chat_id: ^chat.id]
     messages = Repo.all from m in Daychat.Message,
                 where: [chat_id: ^chat.id],
-                preload: [:user]
+                preload: [:user],
+                order_by: m.inserted_at
 
     conn
     |> assign(:message_changeset, message_changeset)
