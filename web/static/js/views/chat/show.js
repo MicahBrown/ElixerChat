@@ -179,6 +179,19 @@ var loadChannel = function(){
     }
   }
 
+  let formatMessageBody = (body) => {
+    let safe_body  = utils.escapeHtml(body)
+    let paragraphs = safe_body.split("\n\n")
+    let returned   = ""
+
+    paragraphs.forEach(function(paragraph){
+      returned += "<p>" + paragraph.trim() + "</p>"
+    })
+
+    returned = returned.replace(/\n/g, "<br>")
+
+    return returned
+  }
 
   let renderMessage = (message) => {
     let messageElement = document.createElement("li")
@@ -194,7 +207,7 @@ var loadChannel = function(){
         </div>
       </div>
       <div class="message-content">
-        <p class="message-body">${message.body}</p>
+        <div class="message-body">${formatMessageBody(message.body)}</div>
       </div>
     `
     utils.addClass(messageElement, 'message')
