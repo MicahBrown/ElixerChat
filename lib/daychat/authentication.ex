@@ -29,14 +29,14 @@ defmodule Authentication do
 
   defp get_current_user(conn) do
     if id = get_session(conn, :user_id) do
-      Daychat.Repo.get_by(Daychat.User, token: id)
+      Daychat.Repo.get_by(Daychat.User, auth_key: id)
     else
       nil
     end
   end
 
   defp put_current_user(conn, user) do
-    put_session(conn, :user_id, user.token)
+    put_session(conn, :user_id, user.auth_key)
   end
 
   defp assign_current_user(conn, user) do

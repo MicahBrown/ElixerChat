@@ -28,13 +28,13 @@ defmodule Daychat.ChatController do
 
         conn
         |> put_flash(:info, "Chat created successfully.")
-        |> redirect(to: chat_path(conn, :show, chat.name()))
+        |> redirect(to: chat_path(conn, :show, chat.token()))
       {:error, _changeset} ->
         redirect(conn, to: root_path(conn, :index))
     end
   end
 
-  def show(conn, %{"id" => _name}) do
+  def show(conn, %{"id" => _token}) do
     chat = conn.assigns[:chat]
     message_changeset = Daychat.Message.new_changeset(%Daychat.Message{})
     participants = Repo.all from p in Participant, where: [chat_id: ^chat.id]
@@ -87,7 +87,7 @@ defmodule Daychat.ChatController do
 
     conn =
       unless part_of_chat?(conn, participants) do
-        new_participant_path = chat_participant_path(conn, :new, conn.assigns[:chat].name)
+        new_participant_path = chat_participant_path(conn, :new, conn.assigns[:chat].token)
 
         conn
         |> redirect(to: new_participant_path)
@@ -109,7 +109,7 @@ defmodule Daychat.ChatController do
 
   defp find_chat(conn, _) do
     chat_id = conn.params["id"]
-    chat = Repo.get_by!(Chat, name: chat_id)
+    chat = Repo.get_by!(Chat, token: chat_id)
 
     conn |> assign(:chat, chat)
   end
