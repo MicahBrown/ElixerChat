@@ -29,7 +29,7 @@ defmodule Daychat.ChatController do
         conn
         |> put_flash(:info, "Chat created successfully.")
         |> redirect(to: chat_path(conn, :show, chat.name()))
-      {:error, changeset} ->
+      {:error, _changeset} ->
         redirect(conn, to: root_path(conn, :index))
     end
   end
