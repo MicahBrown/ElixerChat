@@ -239,3 +239,6 @@ body.down .chat-menu-wrapper .chat-menu.clone {
   35% { opacity: 0; }
 }
 </style>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.9.0/styles/default.min.css">
+<script src="//cdn.jsdelivr.net/highlight.js/9.9.0/highlight.min.js"></script>

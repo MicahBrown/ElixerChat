@@ -24,7 +24,14 @@ defmodule Daychat.MessageView do
 
   def display_body(message), do: formatted_body(message.user, message.body)
   defp formatted_body(nil, body), do: raw(body)
-  defp formatted_body(user, body), do: Phoenix.HTML.Format.text_to_html(body)
+  defp formatted_body(_user, body), do: body
+
+  defp insert_brs(text) do
+    text
+    |> String.split("\n", trim: true)
+    |> Enum.map(&Phoenix.HTML.raw/1)
+    |> Enum.intersperse([Phoenix.HTML.Tag.tag(:br), ?\n])
+  end
 
 
   def user_token(message), do: token(message.user)

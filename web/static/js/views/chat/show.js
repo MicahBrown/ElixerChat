@@ -58,6 +58,30 @@ let convertTimeToLocal = function(el, time){
   el.title     = local.format("MMMM Do YYYY, h:mm A");
 }
 
+let md = new Remarkable('commonmark', {
+  html: false,
+  breaks: true,
+  linkify: true,
+  linkTarget: '_blank',
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(lang, str).value;
+      } catch (err) {}
+    }
+
+    try {
+      return hljs.highlightAuto(str).value;
+    } catch (err) {}
+
+    return ''; // use external default escaping
+  }
+});
+md.block.ruler.disable([ 'table', 'footnote', 'heading', 'lheading', 'hr', 'list', 'blockquote' ]);
+md.core.ruler.enable(['linkify'])
+// md.core.ruler.enable([ 'abbr' ])
+// md.core.ruler.disable([ 'references' ]);
+
 let processMessage = function(message){
   if (utils.hasClass(message, 'processed')) {
     return false;
@@ -95,6 +119,10 @@ let processMessage = function(message){
       user.remove()
 
     utils.addClass(message, 'bot')
+  } else {
+    let body = message.getElementsByClassName('message-body')[0]
+
+    body.innerHTML = md.render(body.innerHTML)
   }
 
   return message
@@ -191,16 +219,7 @@ let loadChannel = () => {
     if (message.user != "BOT")
       body = utils.escapeHtml(body)
 
-    let paragraphs = body.split("\n\n")
-    let returned   = ""
-
-    paragraphs.forEach(function(paragraph){
-      returned += "<p>" + paragraph.trim() + "</p>"
-    })
-
-    returned = returned.replace(/\n/g, "<br>")
-
-    return returned
+    return body
   }
 
   let renderMessage = (message) => {
