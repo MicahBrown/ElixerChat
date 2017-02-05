@@ -123,7 +123,9 @@
   width: 100%;
   padding-right: 1rem;
   z-index: 374;
+  border-top: 1px solid transparent;
 }
+.message .message-gutter.show-ruler { border-top-color: #ccc; }
 .message .message-body {
   margin: 0;
   overflow-wrap: break-word;

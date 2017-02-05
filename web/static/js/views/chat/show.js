@@ -82,6 +82,21 @@ md.core.ruler.enable(['linkify'])
 // md.core.ruler.enable([ 'abbr' ])
 // md.core.ruler.disable([ 'references' ]);
 
+let initMessageTime = function(time, messageTime) {
+  let parent = time.parentNode
+
+  convertTimeToLocal(time, messageTime)
+
+  time.onmouseover = function(){
+    utils.addClass(parent, "show-ruler")
+  }
+  time.onmouseout = function(){
+    utils.removeClass(parent, "show-ruler")
+  }
+  time.onclick = function(){
+    utils.toggleClass(parent, "show-ruler")
+  }
+}
 let processMessage = function(message){
   if (utils.hasClass(message, 'processed')) {
     return false;
@@ -96,7 +111,7 @@ let processMessage = function(message){
 
   if (sibling == null) {
     utils.addClass(message, 'first');
-    convertTimeToLocal(time, messageTime);
+    initMessageTime(time, messageTime);
   } else {
     let siblingUser = sibling.dataset.user,
         siblingTime = sibling.dataset.time;
@@ -104,7 +119,7 @@ let processMessage = function(message){
     if (siblingTime == messageTime) {
       time.remove();
     } else {
-      convertTimeToLocal(time, messageTime);
+      initMessageTime(time, messageTime);
     }
 
     if (siblingUser == messageUser) {

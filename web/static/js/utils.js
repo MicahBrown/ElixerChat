@@ -28,6 +28,14 @@ export function removeClass(el, className) {
   }
 }
 
+export function toggleClass(el, className) {
+  if (hasClass(el, className)) {
+    removeClass(el, className)
+  } else {
+    addClass(el, className)
+  }
+}
+
 export function findAncestor(el, className) {
   while ((el = el.parentElement) && !hasClass(el, className));
   return el;
