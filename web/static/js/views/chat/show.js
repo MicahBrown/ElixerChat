@@ -19,38 +19,6 @@ export default class View extends MainView {
   }
 }
 
-
-// var sticky = {
-//   sticky_after: 150,
-//   init: function() {
-//     this.scroll();
-//     this.events();
-//   },
-
-//   scroll: function() {
-//     this.header = document.getElementsByClassName("chat-menu")[0];
-
-//     if(window.scrollY > this.header.offsetHeight) {
-//       addClass(this.header, "clone");
-//     } else {
-//       removeClass(this.header, "clone");
-//     }
-
-//     if(window.scrollY > this.sticky_after) {
-//       addClass(document.body, "down");
-//     }
-//     else {
-//       removeClass(document.body, "down");
-//     }
-//   },
-
-//   events: function() {
-//     window.addEventListener("scroll", this.scroll.bind(this));
-//   }
-// };
-
-// document.addEventListener("DOMContentLoaded", sticky.init.bind(sticky));
-
 let convertTimeToLocal = function(el, time){
   let m     = moment.utc(time),
       local = m.local();
@@ -65,7 +33,7 @@ let md = new Remarkable('commonmark', {
   linkTarget: '_blank'
 });
 md.block.ruler.disable([ 'fences', 'table', 'footnote', 'heading', 'lheading', 'hr', 'list', 'blockquote' ]);
-md.core.ruler.enable(['linkify'])
+md.core.ruler.enable(['linkify']);
 
 let initMessageTime = function(time, messageTime) {
   let parent = time.parentNode
@@ -332,7 +300,8 @@ let loadHeaderLinks = function(){
 }
 
 let loadClock = () => {
-  let clock = document.getElementById('clock')
+  let clock = document.getElementById('clock'),
+      clockInterval;
 
   function getTimeRemaining(endtime) {
     let t = Date.parse(endtime) - Date.parse(new Date());
@@ -348,8 +317,6 @@ let loadClock = () => {
       'seconds': seconds
     };
   }
-
-  let clockInterval;
 
   function initializeClock(clock, endtime) {
     let hoursSpan = clock.querySelector('.hours');
