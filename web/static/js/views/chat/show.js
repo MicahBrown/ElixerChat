@@ -77,7 +77,7 @@ let md = new Remarkable('commonmark', {
     return ''; // use external default escaping
   }
 });
-md.block.ruler.disable([ 'table', 'footnote', 'heading', 'lheading', 'hr', 'list', 'blockquote' ]);
+md.block.ruler.disable([ 'fences', 'table', 'footnote', 'heading', 'lheading', 'hr', 'list', 'blockquote' ]);
 md.core.ruler.enable(['linkify'])
 // md.core.ruler.enable([ 'abbr' ])
 // md.core.ruler.disable([ 'references' ]);
