@@ -11,7 +11,7 @@ config :daychat,
 
 # Configures the endpoint
 config :daychat, Daychat.Endpoint,
-  url: [host: "192.168.1.68"],
+  url: [host: "localhost"],
   secret_key_base: "gi54i5B/YVRYkcQPEEp4tyFkLP56WnhpkpWHCmuddk/XUG3AjJGO1aPWb36gmsF0",
   render_errors: [view: Daychat.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Daychat.PubSub,
