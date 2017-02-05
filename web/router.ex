@@ -21,6 +21,7 @@ defmodule Daychat.Router do
       resources "/messages", MessageController, only: [:create]
     end
 
+    resources "/wiki", WikiController, only: [:show]
     resources "/search", SearchController, only: [:index]
 
     get "/", PageController, :index, as: :root
