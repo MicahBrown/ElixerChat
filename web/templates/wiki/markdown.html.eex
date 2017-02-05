@@ -1,0 +1,88 @@
+<div class="header"><a href="<%= root_path(@conn, :index) %>">1DayChat</a></div>
+<div class="container">
+  <h1 style="margin-top: 40px">Markdown Guide</h1>
+  <h3 style="margin-bottom: 0;">Formatted Text</h3>
+  <p>
+    You can format text a couple different ways. Bold and italics.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Example</th>
+        <th>Input</th>
+        <th>Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="background: #eee;">Italic</td>
+        <td>*Italic Text*</td>
+        <td><em>Italic Text</em></td>
+      </tr>
+      <tr>
+        <td style="background: #eee;">Bold</td>
+        <td>**Bold Text**</td>
+        <td><strong>Bold Text</strong></td>
+      </tr>
+      <tr>
+        <td style="background: #eee;">Both</td>
+        <td>***Bold & Italic Text***</td>
+        <td><strong><em>Bold & Italic Text</em></strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><b>Note:</b> You can also use underscore (_) wrappers instead of the asterisk (*).</p>
+
+  <h3 style="margin-bottom: 0;">Links & Images</h3>
+  <p>Links and images are also allowed. Posting URLs will be converted to links automatically.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Example</th>
+        <th>Input</th>
+        <th>Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="background: #eee;">Link</td>
+        <td>[name of link](<%= root_url(@conn, :index) %>)</td>
+        <td><a href="<%= root_url(@conn, :index) %>" target="_blank">name of link</a></td>
+      </tr>
+      <tr>
+        <td style="background: #eee;">Image</td>
+        <td>![image](http://placehold.it/200x50)</td>
+        <td><img src="http://placehold.it/100x50" alt="img"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-bottom: 0;">Code Blocks</h3>
+  <p>Inline code highlighting with backticks (`) is supported.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Example</th>
+        <th>Input</th>
+        <th>Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="background: #eee;">Inline Code</td>
+        <td>`inline code`</td>
+        <td><code>inline code</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<style>
+table { width:100%; font-size: 80%; }
+td, th { border-bottom: 0; padding: 1rem !important; }
+td { background: #f7f7f7; }
+th { background: #ddd; }
+</style>
