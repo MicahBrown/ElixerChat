@@ -32,7 +32,7 @@
                 <p>
                   You can start posting messages in the chat window below.
                   Some markdown formatting is supported
-                  (<a>see all options <sub><i class="fa fa-external-link"></i></sub></a>).
+                  (<a target="_blank" href="<%= wiki_url(@conn, :show, :markdown) %>">see all options <sub><i class="fa fa-external-link"></i></sub></a>).
                 </p>
                 <div class="text-center">
                   Examples:<br/>
