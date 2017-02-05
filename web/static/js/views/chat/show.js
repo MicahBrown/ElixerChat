@@ -62,25 +62,10 @@ let md = new Remarkable('commonmark', {
   html: false,
   breaks: true,
   linkify: true,
-  linkTarget: '_blank',
-  highlight: function (str, lang) {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return hljs.highlight(lang, str).value;
-      } catch (err) {}
-    }
-
-    try {
-      return hljs.highlightAuto(str).value;
-    } catch (err) {}
-
-    return ''; // use external default escaping
-  }
+  linkTarget: '_blank'
 });
 md.block.ruler.disable([ 'fences', 'table', 'footnote', 'heading', 'lheading', 'hr', 'list', 'blockquote' ]);
 md.core.ruler.enable(['linkify'])
-// md.core.ruler.enable([ 'abbr' ])
-// md.core.ruler.disable([ 'references' ]);
 
 let initMessageTime = function(time, messageTime) {
   let parent = time.parentNode
