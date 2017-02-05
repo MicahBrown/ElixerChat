@@ -47,3 +47,92 @@ body {
 }
 
 a { text-decoration: none; }
+
+
+.g-recaptcha { display: inline-block; }
+
+
+// Home page styling
+.control {
+  position: relative;
+  width: 100%;
+}
+.control-column {
+  color: #fff;
+  z-index: 50;
+  position: relative;
+  &.submitting:before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    content: '';
+    background: rgba(0,0,0,0.5);
+  }
+  &.submitting:after {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    margin-top: -25px;
+    margin-left: -25px;
+    border-radius: 50%;
+    border: 3px solid #ccc;
+    border-top-color: #07d;
+    animation: spinner .6s linear infinite;
+  }
+}
+
+@keyframes spinner {
+  to {transform: rotate(360deg);}
+}
+
+.control-display { padding: 50px 1rem; }
+.control-display.bottom { display: none; }
+.control-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 49;
+}
+.control-pattern {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  background-image: url('/images/pattern.png');
+}
+.control-background {
+  height: 50%;
+  background: #555;
+  &.alt { background: #5193ff; }
+}
+
+@media (min-width: 550px) {
+  .control-column {
+    width: 50%;
+    float: left;
+  }
+  .control-background {
+    float: left;
+    width: 50%;
+    height: 100%;
+  }
+}
+
+.control-button {
+  margin: 0 0.5rem;
+  background: #fff;
+  color: #555;
+  border: 0;
+  &.alt { color: #5193ff; }
+}
+
+.error { text-align: left; color: yellow; }
