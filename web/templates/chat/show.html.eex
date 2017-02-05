@@ -126,12 +126,14 @@
   border-top: 1px solid transparent;
 }
 .message .message-gutter.show-ruler { border-top-color: #ccc; }
+.message .message-gutter.show-ruler time { font-weight: bold; }
 .message .message-body {
   margin: 0;
   overflow-wrap: break-word;
   hyphens: auto;
   z-index: 375;
   position: relative;
+  overflow-x: auto;
 }
 .message .message-body p { margin: 0; }
 
@@ -241,6 +243,8 @@ body.down .chat-menu-wrapper .chat-menu.clone {
 }
 
 .message-body pre { margin: 0; padding: 0.75rem 0; }
+.message-body code { padding: .125rem .3rem; font-size: 85%; white-space: pre-wrap; }
+.message-body pre > code { white-space: pre; padding: 1rem 1.5rem; }
 
 @keyframes blinker {
   35% { opacity: 0; }
