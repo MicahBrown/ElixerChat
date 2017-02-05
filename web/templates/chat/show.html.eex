@@ -22,6 +22,29 @@
                      data-chat-auth-key="<%= Phoenix.Token.sign(@conn, "chat_auth_key", @chat.auth_key) %>"
                      data-chat-token="<%= @chat.token %>"
                      style="padding-bottom: 12.5rem;">
+
+      <li class="message first processed bot" data-user="BOT">
+        <div class="message-content">
+          <div class="message-body text-center">
+            <h2><i class="fa fa-comments-o"></i> Welcome to the Chat!</h2>
+            <div class="banner">
+              <div>
+                <p>
+                  You can start posting messages in the chat window below.
+                  Some markdown formatting is supported
+                  (<a>see all options <sub><i class="fa fa-external-link"></i></sub></a>).
+                </p>
+                <div class="text-center">
+                  Examples:<br/>
+                  _italic text_ &#8594; <em>italic text</em><br/>
+                  **bold text** &#8594; <strong>bold text</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
       <%= for message <- @messages do %>
         <%= render Daychat.MessageView, "message.html", message: message, participants: @participants %>
       <% end %>

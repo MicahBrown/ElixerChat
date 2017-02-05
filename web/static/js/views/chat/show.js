@@ -105,27 +105,21 @@ let processMessage = function(message){
   utils.addClass(message, 'processed');
 
   let sibling     = message.previousElementSibling,
+      siblingUser = sibling.dataset.user,
+      siblingTime = sibling.dataset.time,
       time        = message.getElementsByTagName('time')[0],
       messageUser = message.dataset.user,
       messageTime = message.dataset.time;
 
-  if (sibling == null) {
-    utils.addClass(message, 'first');
-    initMessageTime(time, messageTime);
+  if (siblingTime == messageTime) {
+    time.remove();
   } else {
-    let siblingUser = sibling.dataset.user,
-        siblingTime = sibling.dataset.time;
+    initMessageTime(time, messageTime);
+  }
 
-    if (siblingTime == messageTime) {
-      time.remove();
-    } else {
-      initMessageTime(time, messageTime);
-    }
-
-    if (siblingUser == messageUser) {
-      let user = message.getElementsByClassName('message-author')[0]
-      user.remove();
-    }
+  if (siblingUser == messageUser) {
+    let user = message.getElementsByClassName('message-author')[0]
+    user.remove();
   }
 
   if (messageUser == "BOT") {
