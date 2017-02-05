@@ -1,13 +1,13 @@
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-<div style="min-height: 100%; background: #5193ff; color: #fff;">
-  <div class="header" style="text-align: center; background: #555; line-height: 1; padding: 1rem; font-weight: bold; color:#fff;">
+<div class="solid-wrap">
+  <div class="header">
     <a href="<%= root_path(@conn, :index) %>">1DayChat</a>
   </div>
-  <div class="container" style="text-align: center; padding: 40px 0;">
+  <div class="container text-center" style="padding: 40px 0;">
     <h2>Join the Discussion</h2>
-    <div class="">
-      <%= submit "Enter", style: "background: #fff; color: #555; border: 0;", id: "participant-submit" %>
+    <div>
+      <%= submit "Enter", class: "button reverse", id: "participant-submit" %>
       <%= render "form.html", changeset: @changeset,
                               action: chat_participant_path(@conn, :create, @chat.token) %>
     </div>

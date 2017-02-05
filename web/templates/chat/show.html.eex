@@ -15,7 +15,7 @@
       </div>
     </div>
   </div>
-  <div class="fixed-container" style="background: #fff;">
+  <div class="fixed-container">
     <div class="gutter-highlight"></div>
     <ul class="chat" id="chat"
                      data-user-auth-key="<%= Phoenix.Token.sign(@conn, "user_auth_key", @current_user.auth_key) %>"
@@ -34,9 +34,11 @@
     <% end %>
     <div class="container">
       <%= form_for @message_changeset, chat_message_url(@conn, :create, @chat.token), [id: "message-form"], fn f -> %>
-        <%= submit "Send", class: "u-pull-right", style: "height: 64px; margin: 0px; padding: 0 20px;" %>
-        <div style="overflow: hidden; padding-right: 1rem;">
-          <%= textarea f, :body, style: "width: 100%; resize: none; margin: 0;", id: "message-body" %>
+        <div class="fluid-field no-margin">
+          <%= submit "Send", class: "fluid-field-pull", style: "height: 64px;" %>
+          <div class="fluid-field-wrap">
+            <%= textarea f, :body, style: "resize: none;", id: "message-body" %>
+          </div>
         </div>
      </div>
       <% end %>
@@ -56,15 +58,19 @@
     <h1>Share This Chat</h1>
 
     <div><i class="fa fa-link"></i> Link</div>
-    <button id="url-button" type="submit" class="u-pull-right" data-clipboard-target="#chat-url">Copy</button>
-    <div style="overflow: hidden; padding-right: .5em;">
-      <input type="text" value="<%= chat_url(@conn, :show, @chat.token) %>" style="width: 100%;" id="chat-url" />
+    <div class="fluid-field">
+      <button id="url-button" type="submit" class="fluid-field-pull" data-clipboard-target="#chat-url">Copy</button>
+      <div class="fluid-field-wrap">
+        <input type="text" value="<%= chat_url(@conn, :show, @chat.token) %>" id="chat-url" />
+      </div>
     </div>
 
     <div><i class="fa fa-tag"></i> Token (entered on the homepage)</div>
-    <button id="token-button" type="submit" class="u-pull-right" data-clipboard-target="#chat-token">Copy</button>
-    <div style="overflow: hidden; padding-right: .5em;">
-      <input type="text" value="<%= @chat.token %>" style="width: 100%;" id="chat-token" />
+    <div class="fluid-field">
+      <button id="token-button" type="submit" class="fluid-field-pull" data-clipboard-target="#chat-token">Copy</button>
+      <div class="fluid-field-wrap">
+        <input type="text" value="<%= @chat.token %>" id="chat-token" />
+      </div>
     </div>
   </div>
 </div>

@@ -1,21 +1,23 @@
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-<div style="background: transparent url('https://subtlepatterns.com/patterns/geometry2.png') repeat scroll 0% 0%; min-height: 100%; position: relative;">
-  <div class="header" style="text-align: center; background: #555; line-height: 1; padding: 1rem; font-weight: bold; color:#fff;">
-    1DayChat
-  </div>
-  <div class="content" style="text-align: center; padding-bottom: 200px;">
-    <h1 style="margin-top:75px">Start Chatting Instantly!</h1>
-    <ul style="text-align: left; display: inline-block; margin-bottom: 75px">
-      <li>Chat rooms last for 24 hours</li>
-      <li>No sign-up required</li>
-    </ul>
+<div class="pattern-wrap">
+  <div class="header">1DayChat</div>
+  <div class="content text-center">
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Start Chatting Instantly!</h1>
+        <ul class="text-left" style="display: inline-block;">
+          <li>Chat rooms last for 24 hours</li>
+          <li>No sign-up required</li>
+        </ul>
+      </div>
+    </div>
 
     <div class="control u-cf">
       <div class="control-column">
         <div class="control-display top">
           <h4>Begin New Chat Room</h4>
-          <%= submit Phoenix.HTML.raw("<i class='fa fa-plus-circle'></i> Start Chat"), class: "control-button" %>
+          <%= submit Phoenix.HTML.raw("<i class='fa fa-plus-circle'></i> Start Chat"), class: "control-button button reverse" %>
         </div>
         <div class="control-display bottom">
           <h4>Prove Your Humanity</h4>
@@ -26,15 +28,17 @@
       <div class="control-column">
         <div class="control-display top">
           <h4>Join Existing Chat Room</h4>
-          <%= submit Phoenix.HTML.raw("<i class='fa fa-handshake-o'></i> Join Chat"), class: "control-button alt" %>
+          <%= submit Phoenix.HTML.raw("<i class='fa fa-handshake-o'></i> Join Chat"), class: "control-button button reverse" %>
         </div>
         <div class="control-display bottom">
           <h4>Enter Room Token</h4>
 
-          <%= form_for @conn, search_path(@conn, :index), [as: :search, method: :get, id: "search-form", style: "margin: 0; padding: 0 40px;"], fn f -> %>
-            <%= submit "Go", class: "u-pull-right", style: "margin: 0px; padding: 0 20px; background: #555; border: 0; color: #fff;" %>
-            <div style="overflow: hidden; padding-right: 1rem;">
-              <%= text_input f, :token, style: "width: 100%; margin: 0; color: #555;" %>
+          <%= form_for @conn, search_path(@conn, :index), [as: :search, method: :get, id: "search-form"], fn f -> %>
+            <div class="fluid-field no-margin">
+              <%= submit "Go", class: "fluid-field-pull button" %>
+              <div class="fluid-field-wrap">
+                <%= text_input f, :token %>
+              </div>
             </div>
           <% end %>
         </div>
@@ -46,25 +50,25 @@
       </div>
     </div>
 
-    <div class="steps" style="margin-bottom: 100px;">
+    <div class="jumbotron">
       <div class="container">
-        <h2 style="margin-top: 100px;">Communicate with Your Peers in <em>1, 2, 3</em></h2>
-        <div class="row">
-          <div class="columns four" style="margin-bottom: 1rem; background: #eee; box-shadow: 0 3px 3px rgba(0,0,0,0.2);">
-            <div style="margin: 30px 0;">
-              <div><i style="font-size: 4rem;" class="fa fa-plus-circle"></i></div>
+        <h2>Communicate with Your Peers in <em>1, 2, 3</em></h2>
+        <div class="row steps">
+          <div class="columns four">
+            <div>
+              <div><i class="fa fa-plus-circle"></i></div>
               <strong>1. Create Room</strong>
             </div>
           </div>
-          <div class="columns four" style="margin-bottom: 1rem; background: #eee; box-shadow: 0 3px 3px rgba(0,0,0,0.2);">
-            <div style="margin: 30px 0;">
-              <div><i style="font-size: 4rem;" class="fa fa-share-alt"></i></div>
+          <div class="columns four">
+            <div>
+              <div><i class="fa fa-share-alt"></i></div>
               <strong>2. Share Link</strong>
             </div>
           </div>
-          <div class="columns four" style="margin-bottom: 1rem; background: #eee; box-shadow: 0 3px 3px rgba(0,0,0,0.2);">
-            <div style="margin: 30px 0;">
-              <div><i style="font-size: 4rem;" class="fa fa-comments-o"></i></div>
+          <div class="columns four">
+            <div>
+              <div><i class="fa fa-comments-o"></i></div>
               <strong>3. Chat!</strong>
             </div>
           </div>
@@ -72,6 +76,7 @@
       </div>
     </div>
   </div>
+  <div style="height: 200px;"></div>
   <div class="footer" style="height: 200px; background: #ddd; position: absolute; left:0; bottom: 0; width: 100%;">
   </div>
 </div>
