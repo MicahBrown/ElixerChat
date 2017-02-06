@@ -122,17 +122,17 @@
     z-index: 501;
     padding: 2.5px 1.5rem;
     font-weight: bold;
-    .inner {
-      position: absolute;
-      z-index: 500;
-      right: 0;
-      top: 0;
-      height:103%;
-      width: 100%;
-      font-weight: bold;
-      background: #5193ff;
-      border-radius: 0 0 11px 11px;
-    }
+  }
+  .inner {
+    position: absolute;
+    z-index: 500;
+    right: 0;
+    top: 0;
+    height:103%;
+    width: 100%;
+    font-weight: bold;
+    background: #5193ff;
+    border-radius: 0 0 11px 11px;
   }
 }
 
