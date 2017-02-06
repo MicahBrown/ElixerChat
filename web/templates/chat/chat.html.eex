@@ -1,0 +1,76 @@
+<div class="chat-menu-wrapper">
+  <div class="chat-menu">
+    <div class="container">
+      <a class="chat-share-link"><i class="fa fa-share-alt"></i><span class="show-for-medium"> Share</span></a>
+      <a class="chat-users-count"><i class="fa fa-user-group"></i></a>
+      <div id="clock" class="clock" data-deadline="<%= deadline(@chat) %>" title="Time left for this chat room to be active">
+        <div class="face">
+          <i class="fa fa-clock-o"></i>
+          <span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span>
+        </div>
+        <div class="inner"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="fixed-container">
+  <div class="gutter-highlight"></div>
+  <ul class="chat" id="chat"
+                   data-user-auth-key="<%= Phoenix.Token.sign(@conn, "user_auth_key", @user.auth_key) %>"
+                   data-chat-auth-key="<%= Phoenix.Token.sign(@conn, "chat_auth_key", @chat.auth_key) %>"
+                   data-chat-token="<%= @chat.token %>"
+                   style="padding-bottom: 12.5rem;">
+
+    <%= render Daychat.MessageView, "init_message.html", conn: @conn %>
+
+    <%= for message <- @messages do %>
+      <%= render Daychat.MessageView, "message.html", message: message, participants: @participants %>
+    <% end %>
+  </ul>
+</div>
+
+<div class="actions">
+  <%= if Mix.env == :dev do %>
+    <div style="position: absolute; right: 1rem; top: 1rem;" onclick="this.parentNode.remove()">x</div>
+  <% end %>
+  <div class="container">
+    <%= form_for @conn, chat_message_url(@conn, :create, @chat.token), [as: :message, id: "message-form"], fn f -> %>
+      <div class="fluid-field no-margin">
+        <%= submit "Send", class: "fluid-field-pull", style: "height: 64px;" %>
+        <div class="fluid-field-wrap">
+          <%= textarea f, :body, style: "resize: none;", id: "message-body" %>
+        </div>
+      </div>
+   </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="modal" id="chat-users-modal">
+  <h1>Online Chat Participants</h1>
+  <div class="chat-users">
+    <ul class="chat-users-list" class="list-unstyled">
+      <li>Loading online users...</li>
+    </ul>
+  </div>
+</div>
+
+<div class="modal" id="share-modal">
+  <h1>Share This Chat</h1>
+
+  <div><i class="fa fa-link"></i> Link</div>
+  <div class="fluid-field">
+    <button id="url-button" type="submit" class="fluid-field-pull" data-clipboard-target="#chat-url">Copy</button>
+    <div class="fluid-field-wrap">
+      <input type="text" value="<%= chat_url(@conn, :show, @chat.token) %>" id="chat-url" />
+    </div>
+  </div>
+
+  <div><i class="fa fa-tag"></i> Token (entered on the homepage)</div>
+  <div class="fluid-field">
+    <button id="token-button" type="submit" class="fluid-field-pull" data-clipboard-target="#chat-token">Copy</button>
+    <div class="fluid-field-wrap">
+      <input type="text" value="<%= @chat.token %>" id="chat-token" />
+    </div>
+  </div>
+</div>
