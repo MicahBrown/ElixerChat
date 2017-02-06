@@ -311,7 +311,7 @@ let loadClock = () => {
     let hours = Math.floor((t / (1000 * 60 * 60)) % 24);
     // let days = Math.floor(t / (1000 * 60 * 60 * 24));
     return {
-      // 'total': t,
+      'total': t,
       // 'days': days,
       'hours': hours,
       'minutes': minutes,
