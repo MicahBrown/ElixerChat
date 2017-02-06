@@ -84,7 +84,7 @@ let processMessage = function(message){
   } else {
     let body = message.getElementsByClassName('message-body')[0]
 
-    body.innerHTML = md.render(body.innerHTML)
+    body.innerHTML = md.render(body.textContent)
   }
 
   return message
