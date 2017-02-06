@@ -26,12 +26,12 @@ defmodule Daychat.MessageView do
   defp formatted_body(nil, body), do: raw(body)
   defp formatted_body(_user, body), do: body
 
-  defp insert_brs(text) do
-    text
-    |> String.split("\n", trim: true)
-    |> Enum.map(&Phoenix.HTML.raw/1)
-    |> Enum.intersperse([Phoenix.HTML.Tag.tag(:br), ?\n])
-  end
+  # defp insert_brs(text) do
+  #   text
+  #   |> String.split("\n", trim: true)
+  #   |> Enum.map(&Phoenix.HTML.raw/1)
+  #   |> Enum.intersperse([Phoenix.HTML.Tag.tag(:br), ?\n])
+  # end
 
 
   def user_token(message), do: token(message.user)
@@ -46,7 +46,6 @@ defmodule Daychat.MessageView do
   defp color(participant), do: Daychat.Participant.color(participant)
 
   def author(message, participants) do
-    content = Phoenix.HTML.Tag.content_tag(:i, "", class: "fa fa-user-circle")
     content = raw("<i class='fa fa-user-circle'></i> #{user_token(message)}")
     Phoenix.HTML.Tag.content_tag(:span, content, style: "color: #{participant_color(message, participants)}")
   end
