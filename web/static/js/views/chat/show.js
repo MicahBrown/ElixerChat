@@ -161,16 +161,17 @@ let loadChannel = () => {
     return false;
   }
 
-  messageInput.onkeydown = (e) => {
-    if (e.keyCode == 13 && (e.ctrlKey || e.metaKey)) {
-      messageInput.value = messageInput.value + "\n"
-      return false;
-    }
-  }
+  // messageInput.onkeydown = (e) => {
+  //   if (e.keyCode == 13 && (e.ctrlKey || e.metaKey)) {
+  //     messageInput.value = messageInput.value + "\n"
+  //     return false;
+  //   }
+  // }
 
   messageForm.onsubmit = submitMessageForm
   messageInput.onkeypress = (e) => {
-    if (e.keyCode == 13 && !e.ctrlKey) {
+    if (e.keyCode == 13) {
+    // if (e.keyCode == 13 && !e.ctrlKey) {
       submitMessageForm(e);
       return false;
     }
