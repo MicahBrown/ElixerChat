@@ -10,7 +10,6 @@
             <span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span>
           </div>
           <div class="inner"></div>
-          <!--a href="<%#= root_path(@conn, :index) %>">1DayChat</a-->
         </div>
       </div>
     </div>
@@ -56,7 +55,7 @@
       <div style="position: absolute; right: 1rem; top: 1rem;" onclick="this.parentNode.remove()">x</div>
     <% end %>
     <div class="container">
-      <%= form_for @message_changeset, chat_message_url(@conn, :create, @chat.token), [id: "message-form"], fn f -> %>
+      <%= form_for @conn, chat_message_url(@conn, :create, @chat.token), [as: :message, id: "message-form"], fn f -> %>
         <div class="fluid-field no-margin">
           <%= submit "Send", class: "fluid-field-pull", style: "height: 64px;" %>
           <div class="fluid-field-wrap">
