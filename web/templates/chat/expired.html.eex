@@ -1,0 +1,16 @@
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<div class="solid-wrap">
+  <div class="header">
+    <a href="<%= root_path(@conn, :index) %>">1DayChat</a>
+  </div>
+  <div class="container text-center" style="padding: 40px 0;">
+    <h2>This Chat Has Expired</h2>
+    <div>
+      <%= submit "Start New Chat", class: "button reverse", id: "chat-submit" %>
+      <div id="chat-form-toggle" style="display: none;">
+        <%= render "form.html", conn: @conn %>
+      </div>
+    </div>
+  </div>
+</div>
