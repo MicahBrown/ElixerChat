@@ -57,4 +57,20 @@ defmodule Daychat.Chat do
       changeset
     end
   end
+
+  def expired?(chat) do
+    Ecto.DateTime.compare(Ecto.DateTime.utc, expiration(chat)) == :gt
+  end
+
+  def expiration(chat) do
+    chat.inserted_at
+    |> Ecto.DateTime.cast!
+    |> Ecto.DateTime.to_erl
+    |> :calendar.datetime_to_gregorian_seconds
+    |> add_day
+    |> :calendar.gregorian_seconds_to_datetime
+    |> Ecto.DateTime.from_erl
+  end
+
+  defp add_day(datetime), do: datetime + (60 * 60 * 24)
 end

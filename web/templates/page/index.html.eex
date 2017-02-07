@@ -21,8 +21,7 @@
         </div>
         <div class="control-display bottom">
           <h4>Prove Your Humanity</h4>
-          <%= render Daychat.ChatView, "form.html", changeset: @changeset,
-                              action: chat_path(@conn, :create) %>
+          <%= render Daychat.ChatView, "form.html", conn: @conn %>
         </div>
       </div>
       <div class="control-column">

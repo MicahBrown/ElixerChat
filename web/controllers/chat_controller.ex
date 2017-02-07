@@ -6,6 +6,7 @@ defmodule Daychat.ChatController do
 
   plug :find_chat when action in [:show]
   plug :verify_recaptcha when action in [:create]
+  plug :check_expiration when action in [:show]
   plug :require_user when action in [:create, :show]
   plug :require_participant when action in [:show]
 
@@ -132,6 +133,16 @@ defmodule Daychat.ChatController do
         ChatLog.new_participant(chat, participant, current_user(conn)) |> Repo.insert
       {:error, _changeset} ->
         :error
+    end
+  end
+
+  defp check_expiration(conn, chat) do
+    if Daychat.Chat.expired?(conn.assigns[:chat]) do
+      conn
+      |> render("expired.html", chat: chat)
+      |> halt
+    else
+      conn
     end
   end
 end
