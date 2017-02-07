@@ -4,6 +4,7 @@ defmodule Daychat.MessageController do
   alias Daychat.Message
 
   plug :find_chat
+  plug :check_expiration
 
   # def index(conn, _params) do
   #   messages = Repo.all(Message)
@@ -60,5 +61,13 @@ defmodule Daychat.MessageController do
     chat = Repo.get_by!(Daychat.Chat, token: chat_id)
 
     conn |> assign(:chat, chat)
+  end
+
+  defp check_expiration(conn, chat) do
+    if Daychat.Chat.expired?(conn.assigns[:chat]) do
+      halt(conn)
+    else
+      conn
+    end
   end
 end
