@@ -28,6 +28,7 @@
         <div class="control-display top">
           <h4>Join Existing Chat Room</h4>
           <%= submit Phoenix.HTML.raw("<i class='fa fa-handshake-o'></i> Join Chat"), class: "control-button button reverse" %>
+          <br/><small>Token Required</small>
         </div>
         <div class="control-display bottom">
           <h4>Enter Room Token</h4>
