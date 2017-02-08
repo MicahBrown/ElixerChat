@@ -10,10 +10,9 @@ defmodule Daychat.ChatController do
   plug :require_user when action in [:create, :show]
   plug :require_participant when action in [:show]
 
-  # def index(conn, _params) do
-  #   chats = Repo.all(Chat)
-  #   render(conn, "index.html", chats: chats)
-  # end
+  def index(conn, _params) do
+    render(conn, "expired.html")
+  end
 
   def new(conn, _) do
     redirect(conn, to: root_path(conn, :index))
@@ -136,10 +135,10 @@ defmodule Daychat.ChatController do
     end
   end
 
-  defp check_expiration(conn, chat) do
+  defp check_expiration(conn, _) do
     if Daychat.Chat.expired?(conn.assigns[:chat]) do
       conn
-      |> render("expired.html", chat: chat)
+      |> redirect(to: expired_chat_path(conn, :index))
       |> halt
     else
       conn
