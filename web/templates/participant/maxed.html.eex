@@ -1,0 +1,8 @@
+<div class="solid-wrap">
+  <div class="header">
+    <a href="<%= root_path(@conn, :index) %>">1DayChat</a>
+  </div>
+  <div class="container text-center" style="padding: 40px 0;">
+    <h2>This Chat Has Met Capacity</h2>
+  </div>
+</div>
