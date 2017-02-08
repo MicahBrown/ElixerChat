@@ -33,7 +33,7 @@
         <div class="control-display bottom">
           <h4>Enter Room Token</h4>
 
-          <%= form_for @conn, search_path(@conn, :index), [as: :search, method: :get, id: "search-form"], fn f -> %>
+          <%= form_for @conn, search_path(@conn, :show), [as: :search, method: :get, id: "search-form"], fn f -> %>
             <div class="fluid-field no-margin">
               <%= submit "Go", class: "fluid-field-pull button" %>
               <div class="fluid-field-wrap">
