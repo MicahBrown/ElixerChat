@@ -21,6 +21,8 @@ defmodule Daychat.Router do
       resources "/messages", MessageController, only: [:create]
     end
 
+    get "/expired", ChatController, :index, as: :expired_chat
+
     resources "/wiki", WikiController, only: [:show]
     resources "/search", SearchController, only: [:index]
 
