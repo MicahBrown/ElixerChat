@@ -10,11 +10,6 @@ defmodule Daychat.ParticipantController do
   plug :verify_recaptcha when action in [:create]
   plug :require_user when action in [:create]
 
-  # def index(conn, _params) do
-  #   participants = Repo.all(Participant)
-  #   render(conn, "index.html", participants: participants)
-  # end
-
   def new(conn, _params) do
     changeset = Participant.new_changeset(%Participant{})
     render(conn, "new.html", changeset: changeset)
@@ -48,43 +43,6 @@ defmodule Daychat.ParticipantController do
         render(conn, "new.html", changeset: changeset)
     end
   end
-
-  # def show(conn, %{"id" => id}) do
-  #   participant = Repo.get!(Participant, id)
-  #   render(conn, "show.html", participant: participant)
-  # end
-
-  # def edit(conn, %{"id" => id}) do
-  #   participant = Repo.get!(Participant, id)
-  #   changeset = Participant.changeset(participant)
-  #   render(conn, "edit.html", participant: participant, changeset: changeset)
-  # end
-
-  # def update(conn, %{"id" => id, "participant" => participant_params}) do
-  #   participant = Repo.get!(Participant, id)
-  #   changeset = Participant.changeset(participant, participant_params)
-
-  #   case Repo.update(changeset) do
-  #     {:ok, participant} ->
-  #       conn
-  #       |> put_flash(:info, "Participant updated successfully.")
-  #       |> redirect(to: participant_path(conn, :show, participant))
-  #     {:error, changeset} ->
-  #       render(conn, "edit.html", participant: participant, changeset: changeset)
-  #   end
-  # end
-
-  # def delete(conn, %{"id" => id}) do
-  #   participant = Repo.get!(Participant, id)
-
-  #   # Here we use delete! (with a bang) because we expect
-  #   # it to always work (and if it does not, it will raise).
-  #   Repo.delete!(participant)
-
-  #   conn
-  #   |> put_flash(:info, "Participant deleted successfully.")
-  #   |> redirect(to: participant_path(conn, :index))
-  # end
 
   defp find_chat(conn, _) do
     chat_id = conn.params["chat_id"]

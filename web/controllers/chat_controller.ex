@@ -47,38 +47,6 @@ defmodule Daychat.ChatController do
     |> render("show.html", chat: chat)
   end
 
-  # def edit(conn, %{"id" => id}) do
-  #   chat = Repo.get!(Chat, id)
-  #   changeset = Chat.changeset(chat)
-  #   render(conn, "edit.html", chat: chat, changeset: changeset)
-  # end
-
-  # def update(conn, %{"id" => id, "chat" => chat_params}) do
-  #   chat = Repo.get!(Chat, id)
-  #   changeset = Chat.changeset(chat, chat_params)
-
-  #   case Repo.update(changeset) do
-  #     {:ok, chat} ->
-  #       conn
-  #       |> put_flash(:info, "Chat updated successfully.")
-  #       |> redirect(to: chat_path(conn, :show, chat))
-  #     {:error, changeset} ->
-  #       render(conn, "edit.html", chat: chat, changeset: changeset)
-  #   end
-  # end
-
-  # def delete(conn, %{"id" => id}) do
-  #   chat = Repo.get!(Chat, id)
-
-  #   # Here we use delete! (with a bang) because we expect
-  #   # it to always work (and if it does not, it will raise).
-  #   Repo.delete!(chat)
-
-  #   conn
-  #   |> put_flash(:info, "Chat deleted successfully.")
-  #   |> redirect(to: chat_path(conn, :index))
-  # end
-
   defp require_participant(conn, _) do
     participants = Repo.all(Ecto.assoc(current_user(conn), :participants))
 
