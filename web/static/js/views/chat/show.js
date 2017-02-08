@@ -333,6 +333,8 @@ let loadClock = () => {
 
       if (t.total <= 0) {
         clearInterval(clockInterval);
+
+        window.location = "/expired";
       }
     }
 
