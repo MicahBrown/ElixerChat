@@ -14,7 +14,7 @@ defmodule TokenGenerator do
   defp find_unique(target, comp), do: find_unique(target, comp, existing(target, comp))
   defp find_unique({model, column}, _comp, existing) when length(existing) > 0, do: get_unique(model, column)
   defp find_unique(_target, comp, existing) when length(existing) <= 0 do
-    reset_weight!(comp[:noun])
+    # reset_weight!(comp[:noun]) # don't necessarily need yet
     compile(comp)
   end
 
