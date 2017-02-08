@@ -87,8 +87,8 @@ defmodule TokenGenerator do
     Daychat.Repo.all(query)
   end
 
-  defp reset_weight!(noun) do
-    changeset = Noun.changeset(noun, %{weight: 0})
-    Daychat.Repo.update!(changeset)
-  end
+  # defp reset_weight!(noun) do
+  #   changeset = Noun.changeset(noun, %{weight: 0})
+  #   Daychat.Repo.update!(changeset)
+  # end
 end
