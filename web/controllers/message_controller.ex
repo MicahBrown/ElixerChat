@@ -63,7 +63,7 @@ defmodule Daychat.MessageController do
     conn |> assign(:chat, chat)
   end
 
-  defp check_expiration(conn, chat) do
+  defp check_expiration(conn, _) do
     if Daychat.Chat.expired?(conn.assigns[:chat]) do
       halt(conn)
     else
