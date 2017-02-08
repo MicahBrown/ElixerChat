@@ -5,6 +5,7 @@ defmodule Daychat.ParticipantController do
   alias Daychat.Chat
 
   plug :find_chat
+  plug :check_expiration when action in [:new]
   plug :verify_recaptcha when action in [:create]
   plug :require_user when action in [:create]
 
@@ -89,6 +90,16 @@ defmodule Daychat.ParticipantController do
     chat = Repo.get_by!(Chat, token: chat_id)
 
     conn |> assign(:chat, chat)
+  end
+
+  defp check_expiration(conn, _) do
+    if Daychat.Chat.expired?(conn.assigns[:chat]) do
+      conn
+      |> redirect(to: expired_chat_path(conn, :index))
+      |> halt
+    else
+      conn
+    end
   end
 
   defp verify_recaptcha(conn, _) do
