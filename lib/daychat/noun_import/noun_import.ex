@@ -8,7 +8,7 @@ defmodule NounImport do
     |> Enum.each(fn(word) -> insert_word(word) end)
   end
 
-  defp get_words do
+  def get_words do
     File.read!(@path)
     |> String.split("\n")
     |> Enum.map(fn(x) -> String.trim(x, "\\n") end)
