@@ -3,8 +3,6 @@ defmodule Daychat.SearchControllerTest do
 
   import Daychat.Fixtures
 
-  alias Daychat.Chat
-
   test "shows chosen resource", %{conn: conn} do
     chat = fixture!(:chat)
     conn = get conn, search_path(conn, :show, q: chat.token)

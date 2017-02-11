@@ -5,7 +5,7 @@ defmodule Daychat.ChatControllerTest do
 
   alias Daychat.Repo
   alias Daychat.Chat
-  alias Daychat.Participant
+  # alias Daychat.Participant
   @valid_attrs %{}
   @invalid_attrs %{}
 

@@ -3,10 +3,8 @@ defmodule Daychat.MessageControllerTest do
 
   import Daychat.Fixtures
 
-  alias Daychat.Message
   alias Daychat.Chat
   @valid_attrs %{body: "some content"}
-  @invalid_attrs %{}
 
   # setup %{conn: conn} do
   #   {:ok, conn: put_req_header(conn, "accept", "application/json")}

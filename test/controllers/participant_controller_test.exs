@@ -6,7 +6,6 @@ defmodule Daychat.ParticipantControllerTest do
   alias Daychat.Participant
   alias Daychat.Chat
   @valid_attrs %{position: 42}
-  @invalid_attrs %{}
 
   test "renders form for new resources", %{conn: conn} do
     chat = fixture!(:chat)
