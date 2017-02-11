@@ -31,8 +31,8 @@ defmodule Daychat.Participant do
   end
 
   defp set_position(changeset) do
-    unless get_change(changeset, :position) do
-      chat     = changeset.data.chat
+    chat = changeset.data.chat
+    unless get_change(changeset, :position) || !Ecto.assoc_loaded?(chat) do
       position = chat.participants_count + 1
 
       put_change(changeset, :position, position)
@@ -45,4 +45,6 @@ defmodule Daychat.Participant do
     color_index = participant.position
     elem(@color_palette, color_index)
   end
+
+  def palette, do: @color_palette
 end
