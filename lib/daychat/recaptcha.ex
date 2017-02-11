@@ -1,6 +1,10 @@
 defmodule Recaptcha do
   def verify(resp) do
-    get_api_response(resp) |> resolve_api_response
+    if Mix.env == :test && resp == "true" do
+      verified_response() # always pass verification in test env.
+    else
+      get_api_response(resp) |> resolve_api_response
+    end
   end
 
   def key do
@@ -31,7 +35,7 @@ defmodule Recaptcha do
   defp resolve_api_response(%{"success" => verified}) do
     case verified do
       true ->
-        {:ok, "verified"}
+        verified_response()
       false ->
         invalid_response()
       _ ->
@@ -41,4 +45,5 @@ defmodule Recaptcha do
   defp resolve_api_response(_api_resp), do: invalid_response()
 
   defp invalid_response, do: {:error, "invalid response"}
+  defp verified_response, do: {:ok, "verified"}
 end
