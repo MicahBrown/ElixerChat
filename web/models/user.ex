@@ -33,7 +33,7 @@ defmodule Daychat.User do
     end
   end
 
-  def generate_auth_key(changeset) do
+  defp generate_auth_key(changeset) do
     unless get_change(changeset, :auth_key) do
       auth_key = AuthKeyGenerator.get_unique(Daychat.User)
       put_change(changeset, :auth_key, auth_key)
