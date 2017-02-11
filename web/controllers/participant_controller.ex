@@ -5,8 +5,8 @@ defmodule Daychat.ParticipantController do
   alias Daychat.Chat
 
   plug :find_chat
-  plug :check_expiration when action in [:new]
-  plug :check_limit when action in [:new]
+  plug :check_expiration when action in [:new, :create]
+  plug :check_limit when action in [:new, :create]
   plug :verify_recaptcha when action in [:create]
   plug :require_user when action in [:create]
 
