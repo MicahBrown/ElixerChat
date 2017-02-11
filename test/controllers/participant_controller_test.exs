@@ -33,16 +33,6 @@ defmodule Daychat.ParticipantControllerTest do
     assert html_response(conn, 200) =~ "ParticipantMaxedView"
   end
 
-  defp add_participants(chat, n) when n < 0, do: chat
-  defp add_participants(chat, n) do
-    chat = Repo.get!(Chat, chat.id)
-    user = fixture!(:user)
-
-    Participant.changeset(%Participant{user: user, chat: chat}) |> Repo.insert!
-
-    add_participants(chat, n - 1)
-  end
-
   test "renders page not found when chat id is nonexistent", %{conn: conn} do
     assert_error_sent 404, fn ->
       get conn, chat_participant_path(conn, :new, -1)

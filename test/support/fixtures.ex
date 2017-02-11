@@ -23,4 +23,14 @@ defmodule Daychat.Fixtures do
   def fixture!(name, attrs \\ %{}) do
     Repo.insert! fixture(name, attrs)
   end
+
+  def add_participants(chat, n) when n < 0, do: Repo.get!(Chat, chat.id)
+  def add_participants(chat, n) do
+    chat = Repo.get!(Chat, chat.id)
+    user = fixture!(:user)
+
+    Participant.changeset(%Participant{user: user, chat: chat}) |> Repo.insert!
+
+    add_participants(chat, n - 1)
+  end
 end
