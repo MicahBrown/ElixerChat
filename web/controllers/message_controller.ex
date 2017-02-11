@@ -31,7 +31,9 @@ defmodule Daychat.MessageController do
 
   defp check_expiration(conn, _) do
     if Daychat.Chat.expired?(conn.assigns[:chat]) do
-      halt(conn)
+      conn
+      |> redirect(to: expired_chat_path(conn, :index))
+      |> halt
     else
       conn
     end

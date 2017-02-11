@@ -51,6 +51,19 @@ defmodule Daychat.ChatControllerTest do
     assert redirected_to(conn) == chat_participant_path(conn, :new, chat.token)
   end
 
+  test "redirects to expired status page if chat has expired", %{conn: conn} do
+    day_in_seconds = (24 * 60 * 60) + 1
+    time_in_seconds = Ecto.DateTime.utc |> Ecto.DateTime.to_erl |> :calendar.datetime_to_gregorian_seconds
+    day_ago_datetime = (time_in_seconds - day_in_seconds) |> :calendar.gregorian_seconds_to_datetime |> Ecto.DateTime.from_erl
+
+    chat = fixture!(:chat)
+    changeset = Chat.changeset(chat) |> put_change(:inserted_at, day_ago_datetime)
+    expired_chat = Repo.update!(changeset)
+
+    conn = get conn, chat_path(conn, :show, expired_chat.token)
+    assert redirected_to(conn) == "/expired"
+  end
+
   test "renders page not found when id is nonexistent", %{conn: conn} do
     assert_error_sent 404, fn ->
       get conn, chat_path(conn, :show, -1)
