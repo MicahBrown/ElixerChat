@@ -45,7 +45,7 @@ defmodule Daychat.Chat do
     end
   end
 
-  def generate_token(changeset) do
+  defp generate_token(changeset) do
     unless get_change(changeset, :auth_key) do
       auth_key = AuthKeyGenerator.get_unique(Daychat.Chat)
       put_change(changeset, :auth_key, auth_key)
@@ -58,7 +58,7 @@ defmodule Daychat.Chat do
     Ecto.DateTime.compare(Ecto.DateTime.utc, expiration(chat)) == :gt
   end
 
-  def expiration(chat) do
+  defp expiration(chat) do
     chat.inserted_at
     |> Ecto.DateTime.cast!
     |> Ecto.DateTime.to_erl
