@@ -1,9 +1,3 @@
-<%= form_for @changeset, @action, [style: "display: none;", id: "participant-form"], fn _f -> %>
-  <%= if false && @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
-    </div>
-  <% end %>
-
+<%= form_for @conn, chat_participant_path(@conn, :create, @chat.token), [as: :participant, style: "display: none;", id: "participant-form"], fn _f -> %>
   <div class="g-recaptcha" data-sitekey="<%= Recaptcha.key %>" data-callback="submitParticipantForm"></div>
 <% end %>

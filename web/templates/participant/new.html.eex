@@ -8,8 +8,7 @@
     <h2>Join the Discussion</h2>
     <div>
       <%= submit "Enter", class: "button reverse", id: "participant-submit" %>
-      <%= render "form.html", changeset: @changeset,
-                              action: chat_participant_path(@conn, :create, @chat.token) %>
+      <%= render "form.html", conn: @conn, chat: @chat %>
     </div>
   </div>
 </div>

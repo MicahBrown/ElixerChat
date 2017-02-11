@@ -28,10 +28,6 @@ defmodule Daychat.Chat do
     |> set_participant_count
   end
 
-  def new_changeset(struct, params \\ %{}) do
-    struct |> cast(params, [])
-  end
-
   defp generate_name(changeset) do
     unless get_change(changeset, :token) do
       token = TokenGenerator.get_unique(Daychat.Chat)

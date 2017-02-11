@@ -26,9 +26,4 @@ defmodule Daychat.Message do
     |> cast_assoc(:chat, required: true)
     |> validate_required([:body])
   end
-
-  def new_changeset(struct, params \\ %{}) do
-    struct
-    |> cast(params, [])
-  end
 end

@@ -11,8 +11,7 @@ defmodule Daychat.ParticipantController do
   plug :require_user when action in [:create]
 
   def new(conn, _params) do
-    changeset = Participant.new_changeset(%Participant{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html")
   end
 
   def create(conn, _params) do

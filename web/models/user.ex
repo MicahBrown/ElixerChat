@@ -24,10 +24,6 @@ defmodule Daychat.User do
     |> validate_length(:auth_key, max: 255)
   end
 
-  def new_changeset(struct, params \\ %{}) do
-    struct |> cast(params, [])
-  end
-
   defp generate_token(changeset) do
     unless get_change(changeset, :token) do
       token = TokenGenerator.get_unique(Daychat.User)
