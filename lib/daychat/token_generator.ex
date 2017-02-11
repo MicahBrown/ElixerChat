@@ -61,15 +61,21 @@ defmodule TokenGenerator do
   end
 
   defp get_noun(comp) do
-    weight_query = from noun in Noun,
-      select: max(noun.weight)
-    max_weight = hd Daychat.Repo.all(weight_query)
+    noun =
+      if Mix.env == :test do
+        word = NounImport.get_words |> Enum.random
+        %Noun{word: word}
+      else
+        # weight_query = from noun in Noun,
+        #   select: max(noun.weight)
+        # max_weight = hd Daychat.Repo.all(weight_query)
 
-    noun_query = from noun in Noun,
-      where: noun.weight == ^max_weight,
-      order_by: fragment("RANDOM()"),
-      limit: 1
-    noun = hd Daychat.Repo.all(noun_query)
+        noun_query = from noun in Noun,
+          # where: noun.weight == ^max_weight,
+          order_by: fragment("RANDOM()"),
+          limit: 1
+        hd Daychat.Repo.all(noun_query)
+      end
 
     %{comp | noun: noun}
   end
