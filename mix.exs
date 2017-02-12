@@ -40,7 +40,8 @@ defmodule Daychat.Mixfile do
      {:cowboy, "~> 1.0"},
      {:inflex, "~> 1.7.0"},
      {:httpoison, "~> 0.10.0"},
-     {:poison, "~> 3.0", override: true}]
+     {:poison, "~> 3.0", override: true},
+     {:hound, "~> 1.0"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
