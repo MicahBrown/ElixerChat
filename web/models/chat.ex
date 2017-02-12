@@ -58,7 +58,7 @@ defmodule Daychat.Chat do
     Ecto.DateTime.compare(Ecto.DateTime.utc, expiration(chat)) == :gt
   end
 
-  defp expiration(chat) do
+  def expiration(chat) do
     chat.inserted_at
     |> Ecto.DateTime.cast!
     |> Ecto.DateTime.to_erl
