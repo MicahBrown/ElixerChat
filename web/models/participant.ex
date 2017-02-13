@@ -2,13 +2,13 @@ defmodule Daychat.Participant do
   use Daychat.Web, :model
 
   @color_palette {
-    "#ECC51E", "#441382", "#DE5000", # orange,         yellow,       purple
-    "#87CDE6", "#B5171F", "#B3B568", # light blue,     red,          buff
-    "#636E6D", "#529D24", "#C96FAF", # gray,           green,        pink
-    "#2D63B0", "#DC6D4A", "#1E188E", # blue,           peach,        violet
-    "#1E188E", "#6D0C84", "#E7E437", # light orange,   light purple, light yellow
-    "#6C130E", "#7EA413", "#5A250D", # reddish brown,  light green,  brown
-    "#D52108", "#202711"             # reddish orange, olive green
+    "#529D24", "#2D63B0", "#DC6D4A",
+    "#5A250D", "#D52108", "#6D0C84",
+    "#E28F09", "#1E188E", "#7EA413",
+    "#6C130E", "#E7E437", "#636E6D",
+    "#ECC51E", "#441382", "#DE5000",
+    "#87CDE6", "#B5171F", "#B3B568",
+    "#C96FAF", "#202711"
   }
 
   schema "participants" do
@@ -42,7 +42,7 @@ defmodule Daychat.Participant do
   end
 
   def color(participant) do
-    color_index = participant.position
+    color_index = participant.position - 1
     elem(@color_palette, color_index)
   end
 
