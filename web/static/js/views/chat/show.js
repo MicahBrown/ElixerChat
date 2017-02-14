@@ -146,14 +146,46 @@ let loadChannel = () => {
 
   room.join()
 
+  // https://gist.github.com/mattheworiordan/1084831
+  _.rateLimit = function(func, rate, async) {
+    var queue = [];
+    var timeOutRef = false;
+    var currentlyEmptyingQueue = false;
+
+    var emptyQueue = function() {
+      if (queue.length) {
+        currentlyEmptyingQueue = true;
+        _.delay(function() {
+          if (async) {
+            _.defer(function() { queue.shift().call(); });
+          } else {
+            queue.shift().call();
+          }
+          emptyQueue();
+        }, rate);
+      } else {
+        currentlyEmptyingQueue = false;
+      }
+    };
+
+    return function() {
+      var args = _.map(arguments, function(e) { return e; }); // get arguments into an array
+      queue.push( _.bind.apply(this, [func, this].concat(args)) ); // call apply so that we can pass in arguments as parameters as opposed to an array
+      if (!currentlyEmptyingQueue) { emptyQueue(); }
+    };
+  };
 
   let messageForm = document.getElementById("message-form")
   let messageInput = document.getElementById("message-body")
+  let messagePost = (value) => {
+    room.push("message:new", value)
+  }
+  let rateLimitedMessagePost = _.rateLimit(messagePost, 750)
 
   let submitMessageForm = (e) => {
     let value = messageInput.value.trim()
     if (value != "") {
-      room.push("message:new", value)
+      rateLimitedMessagePost(value)
       messageInput.value = ""
       messageInput.focus()
     }
