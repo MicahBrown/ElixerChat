@@ -18,6 +18,7 @@ defmodule Daychat.Message do
     |> cast_assoc(:chat, required: true)
     |> cast_assoc(:user, required: true)
     |> validate_required([:body])
+    |> validate_length(:body, max: 4000)
   end
 
   def log_changeset(struct, params \\ %{}) do
