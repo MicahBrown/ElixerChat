@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>404 - Page Not Found</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+
+  <body>
+    <div class="container" style="position: relative; height: 100%;">
+      <!-- <h1>404 - Page Not Found</h1>
+      <p>This isn't the page you were looking for.</p> -->
+      <strong style="font-size: 8rem">Uh oh!</strong>
+      <p style="font-size: 3rem;">We couldn't find<br/>the page you were<br/> looking for.</p>
+
+      <p style="font-size: 3rem;"><a href="/"><i class="fa fa-home"></i> Go Home</a></p>
+      <strong style="position: absolute; bottom: 0; right: 0; font-size: 30rem; color: #eee; z-index: -1;">404</strong>
+    </div>
+  </body>
+</html>
