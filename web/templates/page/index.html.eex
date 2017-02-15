@@ -76,7 +76,7 @@
       </div>
     </div>
   </div>
-  <div style="height: 200px;"></div>
-  <div class="footer" style="height: 200px; background: #ddd; position: absolute; left:0; bottom: 0; width: 100%;">
+  <div class="footer" style="padding: 2rem 0; background: #ddd; width: 100%; text-align: center;">
+    1DayChat &copy; 2017
   </div>
 </div>
