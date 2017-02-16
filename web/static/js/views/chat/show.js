@@ -146,41 +146,37 @@ let loadChannel = () => {
 
   room.join()
 
-  // https://gist.github.com/mattheworiordan/1084831
-  _.rateLimit = function(func, rate, async) {
-    var queue = [];
-    var timeOutRef = false;
-    var currentlyEmptyingQueue = false;
+  // source: https://jsfiddle.net/dandv/47cbj/
+  function rateLimit(fn, delay, context) {
+    let queue = [],
+        timer = null;
 
-    var emptyQueue = function() {
-      if (queue.length) {
-        currentlyEmptyingQueue = true;
-        _.delay(function() {
-          if (async) {
-            _.defer(function() { queue.shift().call(); });
-          } else {
-            queue.shift().call();
-          }
-          emptyQueue();
-        }, rate);
-      } else {
-        currentlyEmptyingQueue = false;
+    function processQueue() {
+      let item = queue.shift();
+      if (item)
+        fn.apply(item.context, item.arguments);
+      if (queue.length === 0)
+        clearInterval(timer), timer = null;
+    }
+
+    return function limited() {
+      queue.push({
+        context: context || this,
+        arguments: [].slice.call(arguments)
+      });
+      if (!timer) {
+        processQueue();  // start immediately on the first invocation
+        timer = setInterval(processQueue, delay);
       }
-    };
-
-    return function() {
-      var args = _.map(arguments, function(e) { return e; }); // get arguments into an array
-      queue.push( _.bind.apply(this, [func, this].concat(args)) ); // call apply so that we can pass in arguments as parameters as opposed to an array
-      if (!currentlyEmptyingQueue) { emptyQueue(); }
-    };
-  };
+    }
+  }
 
   let messageForm = document.getElementById("message-form")
   let messageInput = document.getElementById("message-body")
   let messagePost = (value) => {
     room.push("message:new", value)
   }
-  let rateLimitedMessagePost = _.rateLimit(messagePost, 750)
+  let rateLimitedMessagePost = rateLimit(messagePost, 750)
 
   let submitMessageForm = (e) => {
     let value = messageInput.value.trim()
