@@ -53,7 +53,7 @@
       </tr>
       <tr>
         <td style="background: #eee;">Image</td>
-        <td>![image](http://placehold.it/200x50)</td>
+        <td>![image](http://placehold.it/100x50)</td>
         <td><img src="http://placehold.it/100x50" alt="img"></td>
       </tr>
     </tbody>
