@@ -35,11 +35,12 @@
   <% end %>
   <div class="container">
     <%= form_for @conn, chat_message_url(@conn, :create, @chat.token), [as: :message, id: "message-form"], fn f -> %>
-      <div class="fluid-field no-margin">
+      <div class="fluid-field no-margin" style="position: relative;">
         <%= submit "Send", class: "fluid-field-pull", style: "height: 64px;" %>
         <div class="fluid-field-wrap">
           <%= textarea f, :body, style: "resize: none;", id: "message-body" %>
         </div>
+        <span id="message-error" class="error" style="position: absolute; top: 100%; left: 0;"></span>
       </div>
    </div>
     <% end %>

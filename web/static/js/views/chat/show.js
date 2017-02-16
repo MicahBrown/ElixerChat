@@ -173,6 +173,7 @@ let loadChannel = () => {
 
   let messageForm = document.getElementById("message-form")
   let messageInput = document.getElementById("message-body")
+  let messageErrors = document.getElementById("message-error")
   let messagePost = (value) => {
     room.push("message:new", value)
   }
@@ -180,10 +181,18 @@ let loadChannel = () => {
 
   let submitMessageForm = (e) => {
     let value = messageInput.value.trim()
-    if (value != "") {
-      rateLimitedMessagePost(value)
-      messageInput.value = ""
-      messageInput.focus()
+
+    if (value.length > 4000) {
+      messageErrors.innerHTML = "<i class='fa fa-warning'></i> Message cannot exceed 4000 characters"
+    }
+    else {
+      messageErrors.innerHTML = ""
+
+      if (value != "") {
+        rateLimitedMessagePost(value)
+        messageInput.value = ""
+        messageInput.focus()
+      }
     }
 
     return false;
