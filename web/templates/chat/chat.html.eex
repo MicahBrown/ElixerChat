@@ -74,4 +74,8 @@
       <input type="text" value="<%= @chat.token %>" id="chat-token" />
     </div>
   </div>
+
+  <p>
+    <a href="mailto:?subject=Join My Conversation&body=Follow this link to join my temporary chatroom on 1daychat.com:%0D%0A%0D%0A<%= chat_url(@conn, :show, @chat.token) %>"><i class="fa fa-envelope"></i> E-mail Link</a>
+  </p>
 </div>
