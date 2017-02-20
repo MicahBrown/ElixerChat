@@ -19,6 +19,7 @@
                    data-user-auth-key="<%= Phoenix.Token.sign(@conn, "user_auth_key", @user.auth_key) %>"
                    data-chat-auth-key="<%= Phoenix.Token.sign(@conn, "chat_auth_key", @chat.auth_key) %>"
                    data-chat-token="<%= @chat.token %>"
+                   data-user-token="<%= @user.token %>"
                    style="padding-bottom: 12.5rem;">
 
     <%= render Daychat.MessageView, "init_message.html", conn: @conn %>
@@ -41,6 +42,11 @@
           <%= textarea f, :body, style: "resize: none;", id: "message-body" %>
         </div>
         <span id="message-error" class="error" style="position: absolute; top: 100%; left: 0;"></span>
+        <small id="message-alerts-settings" style="position: absolute; bottom: 100%; left: 0;">
+          <button style="border: 0; background: none; line-height: 1; text-transform: none; padding: 0; margin: 0; height: auto;" data-alerts="true">
+            <i class="fa fa-volume-up" style="color: #555;"></i> Alerts On
+          </button>
+        </small>
       </div>
    </div>
     <% end %>

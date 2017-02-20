@@ -102,6 +102,7 @@ let loadChannel = () => {
   let chatKey   = chat.dataset.chatAuthKey
   let chatToken = chat.dataset.chatToken
   let userKey   = chat.dataset.userAuthKey
+  let userToken = chat.dataset.userToken
   let socket    = new Socket("/socket", {params: {auth_key: userKey}})
   socket.connect()
 
@@ -222,6 +223,17 @@ let loadChannel = () => {
     return body
   }
 
+  ion.sound({
+    sounds: [
+      {
+        name: "alert"
+      }
+    ],
+    volume: 0.5,
+    path: "/audio/",
+    preload: true
+  });
+
   let renderMessage = (message) => {
     let messageElement = document.createElement("li")
     messageElement.dataset.user = message.user
@@ -243,7 +255,6 @@ let loadChannel = () => {
 
     chat.appendChild(messageElement)
     processMessage(messageElement)
-    window.scrollTo(0, document.body.scrollHeight)
   }
 
   let actions = document.getElementsByClassName("actions")[0]
@@ -260,7 +271,29 @@ let loadChannel = () => {
   utils.addEvent(window, "resize", sizeToFit)
   sizeToFit();
 
-  room.on("message:new", message => renderMessage(message))
+  let messageAlertSettings = document.getElementById("message-alerts-settings")
+  let messageAlertToggle = messageAlertSettings.getElementsByTagName("button")[0]
+  let messageAlerts = messageAlertToggle.dataset.alerts
+
+  if (typeof(messageAlerts) === "string")
+    messageAlerts = messageAlerts == "true";
+
+  messageAlertToggle.onclick = (e) => {
+    messageAlerts = !messageAlerts
+    messageAlertToggle.dataset.alerts = messageAlerts
+    messageAlertToggle.innerHTML = messageAlerts ? '<i class="fa fa-volume-up" style="color: #555;"></i> Alerts On' : '<i class="fa fa-volume-off" style="color: #555;"></i> Alerts Off'
+  }
+
+  let postMessage = (message) => {
+    renderMessage(message);
+    window.scrollTo(0, document.body.scrollHeight)
+
+    if (messageAlerts && message.user != userToken) {
+      ion.sound.play("alert");
+    }
+  }
+
+  room.on("message:new", message => postMessage(message))
 }
 
 let loadHeaderLinks = function(){
