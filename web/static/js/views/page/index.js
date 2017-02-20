@@ -89,12 +89,13 @@ let loadIndex = function(){
 
   let control = document.getElementsByClassName("control")[0]
   let columns = control.getElementsByClassName("control-column")
+  let columnsAry = [].slice.call(columns)
   let overlay = control.getElementsByClassName("control-overlay")[0]
 
   var sizeControls = function(){
     let index = 0
 
-    for (var column of columns) {
+    columnsAry.forEach(function(column){
       let floatStyle = window.getComputedStyle(column)["float"]
       let colOverlay = overlay.getElementsByClassName("control-background")[index]
 
@@ -104,26 +105,27 @@ let loadIndex = function(){
         colOverlay.style.height = null
       }
 
-      index += 1
-    }
+      index += 1;
+    });
   }
 
-  var loadControl = function(){
+  let loadControl = () => {
     if (control == null || columns == null || overlay == null) {
       return false
     }
 
     let buttons = document.getElementsByClassName("control-button")
-    for (var button of buttons) {
+    let buttonsAry = [].slice.call(buttons)
+    buttonsAry.forEach(function(button){
       initializeButton(button)
-    }
+    });
 
-    utils.addEvent(window, "resize", sizeControls)
-    loadRoomSearch()
-    sizeControls()
+    utils.addEvent(window, "resize", sizeControls);
+    loadRoomSearch();
+    sizeControls();
   }
 
-  loadControl()
+  loadControl();
 }
 
 var submitChatForm = function(){
