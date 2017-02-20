@@ -281,7 +281,7 @@ let loadChannel = () => {
   messageAlertToggle.onclick = (e) => {
     messageAlerts = !messageAlerts
     messageAlertToggle.dataset.alerts = messageAlerts
-    messageAlertToggle.innerHTML = messageAlerts ? '<i class="fa fa-volume-up" style="color: #555;"></i> Alerts On' : '<i class="fa fa-volume-off" style="color: #555;"></i> Alerts Off'
+    messageAlertToggle.innerHTML = messageAlerts ? '<i class="fa fa-fw fa-volume-up" style="color: #555;"></i> Alerts On' : '<i class="fa fa-fw fa-volume-off" style="color: #555;"></i> Alerts Off'
   }
 
   let postMessage = (message) => {
