@@ -18,7 +18,7 @@ defmodule Daychat.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Daychat, []},
-     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
+     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :sentry, :logger, :gettext,
                     :phoenix_ecto, :postgrex, :httpoison]]
   end
 
@@ -41,7 +41,8 @@ defmodule Daychat.Mixfile do
      {:inflex, "~> 1.7.0"},
      {:httpoison, "~> 0.10.0"},
      {:poison, "~> 3.0", override: true},
-     {:hound, "~> 1.0"}]
+     {:hound, "~> 1.0"},
+     {:sentry, "~> 1.0"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

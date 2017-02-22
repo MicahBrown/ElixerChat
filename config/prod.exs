@@ -65,6 +65,14 @@ config :logger, level: :info
 #     config :daychat, Daychat.Endpoint, server: true
 #
 
+config :sentry,
+  dsn: System.get_env("SENTRY_PUBLIC") <> ":" System.get_env("SENTRY_SECRET") <> "@sentry.io/" <> System.get_env("SENTRY_ID"),
+  environment_name: :prod,
+  tags: %{
+    env: "production"
+  },
+  included_environments: [:prod]
+
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
 # import_config "prod.secret.exs"
