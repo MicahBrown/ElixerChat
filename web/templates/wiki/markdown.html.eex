@@ -79,10 +79,3 @@
     </tbody>
   </table>
 </div>
-
-<style>
-table { width:100%; font-size: 80%; }
-td, th { border-bottom: 0; padding: 1rem !important; }
-td { background: #f7f7f7; }
-th { background: #ddd; }
-</style>

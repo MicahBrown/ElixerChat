@@ -58,3 +58,9 @@ a { text-decoration: none; }
 }
 .error { text-align: left; color: yellow; font-size: 1.25rem; }
 .g-recaptcha { display: inline-block; }
+
+
+table { width:100%; font-size: 80%; }
+td, th { border-bottom: 0; padding: 1rem !important; }
+td { background: #f7f7f7; }
+th { background: #ddd; }
