@@ -9,7 +9,7 @@ defmodule Daychat.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/", from: :daychat, gzip: false,
-    only: ~w(css fonts images js audio favicon.ico robots.txt)
+    only: ~w(css fonts images js audio google8e0f1910f4115c51.html favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
