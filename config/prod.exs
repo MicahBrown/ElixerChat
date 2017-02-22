@@ -66,7 +66,7 @@ config :logger, level: :info
 #
 
 config :sentry,
-  dsn: System.get_env("SENTRY_PUBLIC") <> ":" <> System.get_env("SENTRY_SECRET") <> "@sentry.io/" <> System.get_env("SENTRY_ID"),
+  dsn: "https://#{System.get_env("SENTRY_PUBLIC")}:#{System.get_env("SENTRY_SECRET")}@sentry.io/#{System.get_env("SENTRY_ID")}",
   environment_name: :prod,
   tags: %{
     env: "production"
