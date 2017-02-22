@@ -1,5 +1,7 @@
 defmodule Daychat.Router do
   use Daychat.Web, :router
+  use Plug.ErrorHandler
+  use Sentry.Plug
 
   pipeline :browser do
     plug :accepts, ["html"]
