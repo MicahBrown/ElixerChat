@@ -28,20 +28,16 @@
       <div class="control-column">
         <div class="control-display top">
           <h4>Join Existing Chat Room</h4>
-          <%= submit Phoenix.HTML.raw("<i class='fa fa-handshake-o'></i> Join Chat"), class: "control-button button reverse" %>
-          <br/><small>Token Required</small>
-        </div>
-        <div class="control-display bottom">
-          <h4>Enter Room Token</h4>
-
           <%= form_for @conn, search_path(@conn, :show), [as: :search, method: :get, id: "search-form"], fn f -> %>
-            <div class="fluid-field no-margin">
-              <%= submit "Go", class: "fluid-field-pull button" %>
+            <div class="fluid-field" style="max-width: 400px; margin: 0 auto;">
+              <%= submit Phoenix.HTML.raw("<i class='fa fa-handshake-o'></i> Join Chat"), class: "fluid-field-pull button reverse" %>
               <div class="fluid-field-wrap">
-                <%= text_input f, :token %>
+                <%= text_input f, :token, placeholder: "Room Token", style: "background: #fff8dc; border: 0;" %>
               </div>
             </div>
           <% end %>
+        </div>
+        <div class="control-display bottom">
         </div>
       </div>
       <div class="control-overlay">
