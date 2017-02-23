@@ -30,7 +30,7 @@
           <h4>Join Existing Chat Room</h4>
           <%= form_for @conn, search_path(@conn, :show), [as: :search, method: :get, id: "search-form"], fn f -> %>
             <div class="fluid-field" style="max-width: 400px; margin: 0 auto;">
-              <%= submit Phoenix.HTML.raw("<i class='fa fa-handshake-o'></i> Join Chat"), class: "fluid-field-pull button reverse" %>
+              <%= submit Phoenix.HTML.raw("<i class='fa fa-handshake-o'></i> Join Chat"), class: "fluid-field-pull button" %>
               <div class="fluid-field-wrap">
                 <%= text_input f, :token, placeholder: "Room Token", style: "background: #fff8dc; border: 0;" %>
               </div>

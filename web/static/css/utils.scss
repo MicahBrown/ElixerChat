@@ -57,7 +57,9 @@
   &.reverse {
     background: #fff;
     color: #555;
+    &:hover { color: #555; }
   }
+  &:hover { color: #fff; opacity: 0.9; }
 }
 .modal .button {
   border: 1px solid #bbb;
