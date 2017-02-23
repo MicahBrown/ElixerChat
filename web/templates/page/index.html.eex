@@ -7,8 +7,8 @@
       <div class="container">
         <h1>Start Chatting Instantly!</h1>
         <ul class="text-left" style="display: inline-block;">
-          <li>Chat rooms last for 24 hours</li>
-          <li>No sign-up required</li>
+          <li>Chat rooms expire after 24 hours.</li>
+          <li>No sign up required.</li>
           <li>Free!</li>
         </ul>
       </div>
