@@ -5,7 +5,7 @@
   <div class="content text-center">
     <div class="jumbotron">
       <div class="container">
-        <h1>Start Chatting Instantly!</h1>
+        <h1>Begin Chatting Instantly!</h1>
         <ul class="text-left" style="display: inline-block;">
           <li>Chat rooms expire after 24 hours.</li>
           <li>No sign up required.</li>
@@ -17,7 +17,7 @@
     <div class="control u-cf">
       <div class="control-column">
         <div class="control-display top">
-          <h4>Begin New Chat Room</h4>
+          <h4>Start New Chat Room</h4>
           <%= submit Phoenix.HTML.raw("<i class='fa fa-plus-circle'></i> Start Chat"), class: "control-button button reverse" %>
         </div>
         <div class="control-display bottom">
