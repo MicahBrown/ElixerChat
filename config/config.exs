@@ -22,6 +22,15 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+
+config :sentry,
+  dsn: "https://#{System.get_env("SENTRY_PUBLIC")}:#{System.get_env("SENTRY_SECRET")}@sentry.io/#{System.get_env("SENTRY_ID")}",
+  environment_name: :prod,
+  tags: %{
+    env: "production"
+  },
+  included_environments: [:prod]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
