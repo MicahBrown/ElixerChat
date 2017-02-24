@@ -24,10 +24,7 @@ defmodule Daychat.UserSocket do
     case Phoenix.Token.verify(socket, "user_auth_key", auth_key) do
       {:ok, user_auth_key} ->
         user   = Daychat.Repo.get_by!(Daychat.User, auth_key: user_auth_key)
-        socket =
-          socket
-          |> assign(:user, user)
-          |> assign(:user_token, user.token)
+        socket = assign(socket, :user, user)
 
         {:ok, socket}
       {:error, _} ->

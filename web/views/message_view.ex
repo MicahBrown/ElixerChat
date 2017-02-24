@@ -34,9 +34,9 @@ defmodule Daychat.MessageView do
   # end
 
 
-  def user_token(message), do: token(message.user)
-  defp token(nil), do: "BOT"
-  defp token(user), do: user.token
+  def user_name(message), do: name(message.user)
+  defp name(nil), do: "BOT"
+  defp name(user), do: user.name
 
   def participant_color(message, participants) do
     participant = Enum.find(participants, fn(p) -> p.user_id == message.user_id end)
@@ -46,7 +46,7 @@ defmodule Daychat.MessageView do
   defp color(participant), do: Daychat.Participant.color(participant)
 
   def author(message, participants) do
-    content = raw("<i class='fa fa-user-circle'></i> #{user_token(message)}")
+    content = raw("<i class='fa fa-user-circle'></i> #{user_name(message)}")
     Phoenix.HTML.Tag.content_tag(:span, content, style: "color: #{participant_color(message, participants)}")
   end
 end
