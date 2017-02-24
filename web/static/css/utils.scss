@@ -8,9 +8,12 @@
 .fluid-field {
   margin-bottom: 1.5rem;
   .fluid-field-pull {
+    background: #555;
+    color: #fff;
     float: right;
     margin: 0px;
     padding: 0 20px;
+    border: 0;
   }
   .fluid-field-wrap {
     overflow: hidden;
@@ -37,7 +40,7 @@
   z-index: 1000;
   left: 0;
   top: 0;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.85);
   padding-top: 5rem;
   height: 100%;
   width: 100%;
@@ -47,7 +50,6 @@
   optgroup,
   select,
   textarea { color: #555; }
-  button { background: #555; color: #fff; }
 }
 
 .button {
