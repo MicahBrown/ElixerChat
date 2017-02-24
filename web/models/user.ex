@@ -3,6 +3,7 @@ defmodule Daychat.User do
 
   schema "users" do
     field :token, :string
+    field :name, :string
     field :auth_key, :string
     has_many :chats, Daychat.Chat
     has_many :participants, Daychat.Participant
@@ -16,11 +17,13 @@ defmodule Daychat.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [])
+    |> cast(params, [:name])
     |> generate_token
     |> generate_auth_key
-    |> validate_required([:token, :auth_key])
+    |> fill_blank_name
+    |> validate_required([:token, :auth_key, :name])
     |> validate_length(:token, max: 32)
+    |> validate_length(:name, max: 32)
     |> validate_length(:auth_key, max: 255)
   end
 
@@ -37,6 +40,15 @@ defmodule Daychat.User do
     unless get_change(changeset, :auth_key) do
       auth_key = AuthKeyGenerator.get_unique(Daychat.User)
       put_change(changeset, :auth_key, auth_key)
+    else
+      changeset
+    end
+  end
+
+  defp fill_blank_name(changeset) do
+    unless get_change(changeset, :name) do
+      token = get_change(changeset, :token)
+      put_change(changeset, :name, token)
     else
       changeset
     end
