@@ -20,9 +20,9 @@
       <% end %>
     <% end %>
 
-    <hr/>
-
     <div class="participant-section">
+      <hr/>
+
       <div><b>Share This Link</b></div>
       <div class="fluid-field">
         <button id="url-button" type="submit" class="fluid-field-pull" data-clipboard-target="#chat-url">Copy</button>
