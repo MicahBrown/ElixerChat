@@ -14,7 +14,7 @@ defmodule Authentication do
   end
 
   def current_user(conn) do
-    conn.assigns["current_user"]
+    conn.assigns.current_user
   end
 
   def set_current_user(conn, _) do
