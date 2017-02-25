@@ -217,7 +217,7 @@ let loadChannel = () => {
 
   let formatMessageBody = (message) => {
     let body = message.body
-    if (message.user != "BOT")
+    if (message.token != "BOT")
       body = utils.escapeHtml(body)
 
     return body
