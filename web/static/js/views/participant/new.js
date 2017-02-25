@@ -16,6 +16,7 @@ let loadParticipantForm = () => {
   let formSubmit = document.getElementById("participant-submit")
   let form       = document.getElementById("participant-form")
   let urlBtn     = document.getElementById("url-button")
+  let userField  = document.getElementById("user-name")
 
   new Clipboard(urlBtn);
 
@@ -33,6 +34,11 @@ let loadParticipantForm = () => {
       })
       return false;
     }
+  }
+
+  form.onsubmit = () => {
+    let value = userField.value.trim();
+    userField.value = value;
   }
 }
 

@@ -9,7 +9,7 @@
       <div class="participant-section">
         <div>
           <%= label f, :name, "Set Display Name" %>
-          <input type="text" placeholder="(optional)" name="name" style="width: 100%;" />
+          <input type="text" id="user-name" maxlength="32" placeholder="(optional)" name="name" style="width: 100%;" />
         </div>
         <%= submit "Enter", id: "participant-submit", class: "participant-submit" %>
       </div>
