@@ -25,7 +25,7 @@ config :logger, :console,
 
 config :sentry,
   dsn: "https://#{System.get_env("SENTRY_PUBLIC")}:#{System.get_env("SENTRY_SECRET")}@sentry.io/#{System.get_env("SENTRY_ID")}",
-  environment_name: :prod,
+  environment_name: Mix.env,
   tags: %{
     env: "production"
   },
