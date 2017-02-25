@@ -24,7 +24,7 @@ defmodule Daychat.ParticipantTest do
     user = fixture!(:user)
     chat = fixture!(:chat) |> add_participants(5)
     participant = Participant.changeset(%Participant{chat: chat, user: user}) |> Repo.insert!
-    position = participant.position
+    position = participant.position - 1
 
     assert Participant.color(participant) == elem(Participant.palette, position)
   end
