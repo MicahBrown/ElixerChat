@@ -19,7 +19,7 @@ defmodule Daychat.ParticipantController do
     user = current_user(conn)
 
     case Participant.insert_with_log!(user, chat, params["name"]) do
-      {:ok, {participant, user, log}} ->
+      {:ok, {_participant, _user, log}} ->
         Daychat.Endpoint.broadcast!("room:#{chat.token}", "message:new", %{
           user: "BOT",
           body: log.body,

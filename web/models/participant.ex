@@ -58,7 +58,7 @@ defmodule Daychat.Participant do
       user =
         if name_update && String.length(name_update) > 0 do
           user_changeset = Daychat.User.changeset(user, %{name: name_update})
-          user = Daychat.Repo.update!(user_changeset)
+          Daychat.Repo.update!(user_changeset)
         else
           user
         end
