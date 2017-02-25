@@ -6,8 +6,7 @@ defmodule Authentication do
       changeset = Daychat.User.changeset(%Daychat.User{})
       user      = Daychat.Repo.insert!(changeset)
 
-      put_current_user(conn, user)
-      assign_current_user(conn, user)
+      put_current_user(conn, user) |> assign_current_user(user)
     else
       conn
     end
