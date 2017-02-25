@@ -45,7 +45,8 @@ defmodule Daychat.RoomChannel do
       |> Daychat.Repo.insert!
 
     broadcast! socket, "message:new", %{
-      user: socket.assigns.user.name,
+      name: socket.assigns.user.name,
+      token: socket.assigns.user.token,
       body: message.body,
       color: socket.assigns.color,
       timestamp: Daychat.MessageView.timestamp(message)
