@@ -115,6 +115,7 @@ let loadChannel = () => {
   let listBy = (user, {metas: metas}) => {
     return {
       user: user,
+      name: metas[0].name,
       onlineAt: formatTimestamp(metas[0].online_at)
     }
   }
@@ -126,7 +127,7 @@ let loadChannel = () => {
     userCount.innerHTML = "<i class='fa fa-group'></i><span class='user-count'> " + count + " " + (count == 1 ? "User" : "Users") + "</span> Online"
     userList.innerHTML = Presence.list(presences, listBy)
       .map(presence => `
-        <li>${presence.user}</li>
+        <li>${presence.name}</li>
       `)
       .join("")
 
