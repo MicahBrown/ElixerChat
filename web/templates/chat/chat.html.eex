@@ -51,7 +51,7 @@
 </div>
 
 <div class="modal" id="chat-users-modal">
-  <h1>Online Chat Participants</h1>
+  <h1>Online Users</h1>
   <div class="chat-users">
     <ul class="chat-users-list" class="list-unstyled">
       <li>Loading online users...</li>
