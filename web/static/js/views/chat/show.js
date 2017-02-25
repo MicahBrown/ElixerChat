@@ -357,8 +357,8 @@ let loadHeaderLinks = function(){
   }
 
   utils.addEvent(shareLink, 'click', (e) => {
-    let modal   = toggleModal('share-modal')
-    let urlBtn = document.getElementById("url-button")
+    let modal    = toggleModal('share-modal')
+    let urlBtn   = document.getElementById("url-button")
     let tokenBtn = document.getElementById("token-button")
 
     new Clipboard(urlBtn);
