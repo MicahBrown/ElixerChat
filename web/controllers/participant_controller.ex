@@ -45,7 +45,8 @@ defmodule Daychat.ParticipantController do
 
   defp find_chat(conn, _) do
     chat_id = conn.params["chat_id"]
-    chat = Repo.get_by!(Chat, token: chat_id)
+    query = from c in Chat, preload: [:user]
+    chat = Repo.get_by!(query, token: chat_id)
 
     conn |> assign(:chat, chat)
   end
