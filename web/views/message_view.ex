@@ -38,6 +38,10 @@ defmodule Daychat.MessageView do
   defp name(nil), do: "BOT"
   defp name(user), do: user.name
 
+  def user_token(message), do: token(message.user)
+  defp token(nil), do: "BOT"
+  defp token(user), do: user.token
+
   def participant_color(message, participants) do
     participant = Enum.find(participants, fn(p) -> p.user_id == message.user_id end)
     color(participant)
