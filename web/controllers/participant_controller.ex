@@ -14,26 +14,18 @@ defmodule Daychat.ParticipantController do
     render(conn, "new.html")
   end
 
-  def create(conn, _params) do
+  def create(conn, params) do
     chat = conn.assigns[:chat]
     user = current_user(conn)
-    changeset = Participant.changeset(%Participant{user: user, chat: chat})
 
-    case Repo.insert(changeset) do
-      {:ok, participant} ->
-        log_changeset = ChatLog.new_participant(chat, participant, user)
-
-        case Repo.insert(log_changeset) do
-          {:ok, message} ->
-            Daychat.Endpoint.broadcast!("room:#{chat.token}", "message:new", %{
-              user: "BOT",
-              body: message.body,
-              color: "#000000",
-              timestamp: Daychat.MessageView.timestamp(message)
-            })
-          {:error, _log_changeset} ->
-            :error
-        end
+    case Participant.insert_with_log!(user, chat, params["name"]) do
+      {:ok, {participant, user, log}} ->
+        Daychat.Endpoint.broadcast!("room:#{chat.token}", "message:new", %{
+          user: "BOT",
+          body: log.body,
+          color: "#000000",
+          timestamp: Daychat.MessageView.timestamp(log)
+        })
 
         conn
         |> put_flash(:info, "Participant created successfully.")

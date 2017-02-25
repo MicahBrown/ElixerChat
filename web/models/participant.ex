@@ -47,4 +47,27 @@ defmodule Daychat.Participant do
   end
 
   def palette, do: @color_palette
+
+  def insert_with_log!(user, chat, name_update \\ nil) do
+    Daychat.Repo.transaction fn ->
+      participant =
+        %Daychat.Participant{user: user, chat: chat}
+        |> Daychat.Participant.changeset
+        |> Daychat.Repo.insert!
+
+      user =
+        if name_update && String.length(name_update) > 0 do
+          user_changeset = Daychat.User.changeset(user, %{name: name_update})
+          user = Daychat.Repo.update!(user_changeset)
+        else
+          user
+        end
+
+      log_changeset = ChatLog.new_participant(chat, participant, user)
+
+      log = Daychat.Repo.insert!(log_changeset)
+
+      {participant, user, log}
+    end
+  end
 end
