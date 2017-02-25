@@ -31,9 +31,6 @@
 </div>
 
 <div class="actions">
-  <%= if Mix.env == :dev do %>
-    <div style="position: absolute; right: 1rem; top: 1rem;" onclick="this.parentNode.remove()">x</div>
-  <% end %>
   <div class="container">
     <%= form_for @conn, chat_message_url(@conn, :create, @chat.token), [as: :message, id: "message-form"], fn f -> %>
       <div class="fluid-field no-margin" style="position: relative;">
