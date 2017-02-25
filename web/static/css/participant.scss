@@ -1,0 +1,14 @@
+.participant-submit {
+  width: 100%;
+  background: #49C54E;
+  color: #fff;
+  border: 0;
+  box-shadow: 0 2px 2px rgba(0,0,0,0.1);
+  &:hover { color: #fff; background: #4DCF56; }
+}
+
+.participant-section {
+  text-align: left;
+  max-width: 400px;
+  margin: auto;
+}

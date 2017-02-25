@@ -1,3 +1,0 @@
-<%= form_for @conn, chat_participant_path(@conn, :create, @chat.token), [as: :participant, style: "display: none;", id: "participant-form"], fn _f -> %>
-  <div class="g-recaptcha" data-sitekey="<%= Recaptcha.key %>" data-callback="submitParticipantForm"></div>
-<% end %>
