@@ -28,29 +28,29 @@ defmodule Daychat.User do
   end
 
   defp generate_token(changeset) do
-    unless get_change(changeset, :token) do
+    if get_change(changeset, :token) || changeset.data.token do
+      changeset
+    else
       token = TokenGenerator.get_unique(Daychat.User)
       put_change(changeset, :token, token)
-    else
-      changeset
     end
   end
 
   defp generate_auth_key(changeset) do
-    unless get_change(changeset, :auth_key) do
+    if get_change(changeset, :auth_key) || changeset.data.auth_key do
+      changeset
+    else
       auth_key = AuthKeyGenerator.get_unique(Daychat.User)
       put_change(changeset, :auth_key, auth_key)
-    else
-      changeset
     end
   end
 
   defp fill_blank_name(changeset) do
-    unless get_change(changeset, :name) do
+    if get_change(changeset, :name) || changeset.data.name do
+      changeset
+    else
       token = get_change(changeset, :token)
       put_change(changeset, :name, token)
-    else
-      changeset
     end
   end
 end
