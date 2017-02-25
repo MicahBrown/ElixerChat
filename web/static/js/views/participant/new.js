@@ -20,17 +20,19 @@ let loadParticipantForm = () => {
   new Clipboard(urlBtn);
 
   formSubmit.onclick = () => {
-    Velocity(formSubmit, {opacity: 0}, 500, function(){
-      var section = utils.findAncestor(formSubmit, "participant-section")
-      var sibling = section.nextElementSibling
+    var section = utils.findAncestor(formSubmit, "participant-section")
+    var sibling = section.nextElementSibling
 
-      section.style.display = "none"
-      sibling.style.opacity = 0
-      sibling.style.display = "block"
+    if (sibling != null) {
+      Velocity(formSubmit, {opacity: 0}, 500, function(){
+        section.style.display = "none"
+        sibling.style.opacity = 0
+        sibling.style.display = "block"
 
-      Velocity(sibling, {opacity: 1}, 500)
-    })
-    return false;
+        Velocity(sibling, {opacity: 1}, 500)
+      })
+      return false;
+    }
   }
 }
 

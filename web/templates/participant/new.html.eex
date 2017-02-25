@@ -13,9 +13,11 @@
         </div>
         <%= submit "Enter", id: "participant-submit", class: "participant-submit" %>
       </div>
-      <div class="participant-section" style="display: none; text-align: center;">
-        <div class="g-recaptcha" data-sitekey="<%= Recaptcha.key %>" data-callback="submitParticipantForm"></div>
-      </div>
+      <%= if @conn.assigns.current_user != @chat.user do %>
+        <div class="participant-section" style="display: none; text-align: center;">
+          <div class="g-recaptcha" data-sitekey="<%= Recaptcha.key %>" data-callback="submitParticipantForm"></div>
+        </div>
+      <% end %>
     <% end %>
 
     <hr/>

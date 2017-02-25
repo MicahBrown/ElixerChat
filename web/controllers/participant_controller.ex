@@ -61,7 +61,7 @@ defmodule Daychat.ParticipantController do
     end
   end
 
-  def check_limit(conn, _) do
+  defp check_limit(conn, _) do
     chat = conn.assigns[:chat]
 
     if chat.participants_count >= 20 do
@@ -73,17 +73,26 @@ defmodule Daychat.ParticipantController do
     end
   end
 
-  defp verify_recaptcha(conn, _) do
-    response = conn.body_params["g-recaptcha-response"]
+  defp need_verification?(conn) do
+    user = conn.assigns.chat.user
+    user != current_user(conn)
+  end
 
-    case Recaptcha.verify(response) do
-      {:ok, _msg} ->
-        conn
-      {:error, _msg} ->
-        new_participant_path = chat_participant_path(conn, :new, conn.assigns[:chat].token)
-        conn
-        |> redirect(to: new_participant_path)
-        |> halt
+  defp verify_recaptcha(conn, _) do
+    if need_verification?(conn) do
+      response = conn.body_params["g-recaptcha-response"]
+
+      case Recaptcha.verify(response) do
+        {:ok, _msg} ->
+          conn
+        {:error, _msg} ->
+          new_participant_path = chat_participant_path(conn, :new, conn.assigns[:chat].token)
+          conn
+          |> redirect(to: new_participant_path)
+          |> halt
+      end
+    else
+      conn
     end
   end
 end
