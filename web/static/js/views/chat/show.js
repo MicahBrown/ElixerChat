@@ -236,12 +236,12 @@ let loadChannel = () => {
 
   let renderMessage = (message) => {
     let messageElement = document.createElement("li")
-    messageElement.dataset.user = message.user
+    messageElement.dataset.user = message.token
     messageElement.dataset.time = message.timestamp
     messageElement.innerHTML = `
       <div class="message-details">
         <div class="message-author">
-          <span style="color: ${message.color}"><i class="fa fa-user-circle"></i> ${message.user}</span>
+          <span style="color: ${message.color}"><i class="fa fa-user-circle"></i> ${message.name}</span>
         </div>
         <div class="message-gutter">
           <time></time>
@@ -288,7 +288,7 @@ let loadChannel = () => {
     renderMessage(message);
     window.scrollTo(0, document.body.scrollHeight)
 
-    if (messageAlerts && message.user != userToken) {
+    if (messageAlerts && message.token != userToken) {
       ion.sound.play("alert");
     }
   }
@@ -357,8 +357,8 @@ let loadHeaderLinks = function(){
   }
 
   utils.addEvent(shareLink, 'click', (e) => {
-    let modal   = toggleModal('share-modal')
-    let urlBtn = document.getElementById("url-button")
+    let modal    = toggleModal('share-modal')
+    let urlBtn   = document.getElementById("url-button")
     let tokenBtn = document.getElementById("token-button")
 
     new Clipboard(urlBtn);

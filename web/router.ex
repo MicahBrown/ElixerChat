@@ -2,6 +2,7 @@ defmodule Daychat.Router do
   use Daychat.Web, :router
   use Plug.ErrorHandler
   use Sentry.Plug
+  import Authentication
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -15,8 +16,12 @@ defmodule Daychat.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug :set_current_user
+  end
+
   scope "/", Daychat do
-    pipe_through :browser # Use the default browser stack
+    pipe_through [:browser, :auth] # Use the default browser stack
 
     resources "/chats", ChatController, only: [:new, :create, :show] do
       resources "/participants", ParticipantController, only: [:new, :create]
@@ -34,5 +39,12 @@ defmodule Daychat.Router do
   # Other scopes may use custom stacks.
   # scope "/api", Daychat do
   #   pipe_through :api
+  # end
+
+  # Below scope skips the authentication
+  # scope "/", Daychat do
+  #   pipe_through :browser
+
+  #   get "/login", SessionsController, :login
   # end
 end

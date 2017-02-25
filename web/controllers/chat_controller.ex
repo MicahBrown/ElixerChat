@@ -23,8 +23,6 @@ defmodule Daychat.ChatController do
 
     case Repo.insert(changeset) do
       {:ok, chat} ->
-        insert_creator_participant_and_log(conn, chat)
-
         conn
         |> put_flash(:info, "Chat created successfully.")
         |> redirect(to: chat_path(conn, :show, chat.token()))
@@ -89,17 +87,6 @@ defmodule Daychat.ChatController do
         conn
         |> redirect(to: root_path(conn, :index))
         |> halt
-    end
-  end
-
-  defp insert_creator_participant_and_log(conn, chat) do
-    participant_changeset = Daychat.Participant.changeset(%Daychat.Participant{chat: chat, user: current_user(conn)})
-
-    case Repo.insert(participant_changeset) do
-      {:ok, participant} ->
-        ChatLog.new_participant(chat, participant, current_user(conn)) |> Repo.insert
-      {:error, _changeset} ->
-        :error
     end
   end
 

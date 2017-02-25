@@ -31,7 +31,7 @@ defmodule Daychat.RoomChannel do
 
 
   def handle_info(:after_join, socket) do
-    Presence.track(socket, socket.assigns.user_token, %{
+    Presence.track(socket, socket.assigns.user.token, %{
       online_at: :os.system_time(:milli_seconds)
     })
     push socket, "presence_state", Presence.list(socket)
@@ -45,7 +45,8 @@ defmodule Daychat.RoomChannel do
       |> Daychat.Repo.insert!
 
     broadcast! socket, "message:new", %{
-      user: socket.assigns.user_token,
+      name: socket.assigns.user.name,
+      token: socket.assigns.user.token,
       body: message.body,
       color: socket.assigns.color,
       timestamp: Daychat.MessageView.timestamp(message)

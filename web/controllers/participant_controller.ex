@@ -14,26 +14,18 @@ defmodule Daychat.ParticipantController do
     render(conn, "new.html")
   end
 
-  def create(conn, _params) do
+  def create(conn, params) do
     chat = conn.assigns[:chat]
     user = current_user(conn)
-    changeset = Participant.changeset(%Participant{user: user, chat: chat})
 
-    case Repo.insert(changeset) do
-      {:ok, participant} ->
-        log_changeset = ChatLog.new_participant(chat, participant, user)
-
-        case Repo.insert(log_changeset) do
-          {:ok, message} ->
-            Daychat.Endpoint.broadcast!("room:#{chat.token}", "message:new", %{
-              user: "BOT",
-              body: message.body,
-              color: "#000000",
-              timestamp: Daychat.MessageView.timestamp(message)
-            })
-          {:error, _log_changeset} ->
-            :error
-        end
+    case Participant.insert_with_log!(user, chat, params["name"]) do
+      {:ok, {_participant, _user, log}} ->
+        Daychat.Endpoint.broadcast!("room:#{chat.token}", "message:new", %{
+          user: "BOT",
+          body: log.body,
+          color: "#000000",
+          timestamp: Daychat.MessageView.timestamp(log)
+        })
 
         conn
         |> put_flash(:info, "Participant created successfully.")
@@ -45,7 +37,8 @@ defmodule Daychat.ParticipantController do
 
   defp find_chat(conn, _) do
     chat_id = conn.params["chat_id"]
-    chat = Repo.get_by!(Chat, token: chat_id)
+    query = from c in Chat, preload: [:user]
+    chat = Repo.get_by!(query, token: chat_id)
 
     conn |> assign(:chat, chat)
   end
@@ -60,7 +53,7 @@ defmodule Daychat.ParticipantController do
     end
   end
 
-  def check_limit(conn, _) do
+  defp check_limit(conn, _) do
     chat = conn.assigns[:chat]
 
     if chat.participants_count >= 20 do
@@ -72,17 +65,26 @@ defmodule Daychat.ParticipantController do
     end
   end
 
-  defp verify_recaptcha(conn, _) do
-    response = conn.body_params["g-recaptcha-response"]
+  defp need_verification?(conn) do
+    user = conn.assigns.chat.user
+    user != current_user(conn)
+  end
 
-    case Recaptcha.verify(response) do
-      {:ok, _msg} ->
-        conn
-      {:error, _msg} ->
-        new_participant_path = chat_participant_path(conn, :new, conn.assigns[:chat].token)
-        conn
-        |> redirect(to: new_participant_path)
-        |> halt
+  defp verify_recaptcha(conn, _) do
+    if need_verification?(conn) do
+      response = conn.body_params["g-recaptcha-response"]
+
+      case Recaptcha.verify(response) do
+        {:ok, _msg} ->
+          conn
+        {:error, _msg} ->
+          new_participant_path = chat_participant_path(conn, :new, conn.assigns[:chat].token)
+          conn
+          |> redirect(to: new_participant_path)
+          |> halt
+      end
+    else
+      conn
     end
   end
 end

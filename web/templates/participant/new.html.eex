@@ -5,9 +5,31 @@
   </div>
   <div class="container text-center" style="padding: 40px 0;">
     <h2>Join the Discussion</h2>
-    <div>
-      <%= submit "Enter", class: "button reverse", id: "participant-submit" %>
-      <%= render "form.html", conn: @conn, chat: @chat %>
+    <%= form_for @conn, chat_participant_path(@conn, :create, @chat.token), [as: :participant, id: "participant-form"], fn f -> %>
+      <div class="participant-section">
+        <div>
+          <%= label f, :name, "Set Display Name" %>
+          <input type="text" placeholder="(optional)" name="name" style="width: 100%;" />
+        </div>
+        <%= submit "Enter", id: "participant-submit", class: "participant-submit" %>
+      </div>
+      <%= if @conn.assigns.current_user != @chat.user do %>
+        <div class="participant-section" style="display: none; text-align: center;">
+          <div class="g-recaptcha" data-sitekey="<%= Recaptcha.key %>" data-callback="submitParticipantForm"></div>
+        </div>
+      <% end %>
+    <% end %>
+
+    <hr/>
+
+    <div class="participant-section">
+      <div><b>Share This Link</b></div>
+      <div class="fluid-field">
+        <button id="url-button" type="submit" class="fluid-field-pull" data-clipboard-target="#chat-url">Copy</button>
+        <div class="fluid-field-wrap">
+          <input type="text" value="<%= chat_url(@conn, :show, @chat.token) %>" id="chat-url" />
+        </div>
+      </div>
     </div>
   </div>
 </div>
