@@ -1,5 +1,6 @@
 import MainView from '../main';
 import * as utils from '../../utils';
+import * as recaptcha from '../../recaptcha';
 import * as request from '../../ajax';
 
 export default class View extends MainView {
@@ -18,20 +19,26 @@ let loadIndex = function(){
     let top    = utils.findAncestor(button, "control-display")
     let bottom = top.nextElementSibling
     let column = utils.findAncestor(top, "control-column")
+    let grecaptcha = bottom.getElementsByClassName("g-recaptcha")[0]
+    let verificationRequired = recaptcha.setVerifcationRequirement(grecaptcha)
 
     button.onclick = function(){
-      let displayHeight = top.offsetHeight
-      column.style.minHeight = displayHeight + "px"
-      Velocity(top, {opacity: 0}, 500, function(){
-        top.style.display = "none"
-        bottom.style.opacity = 0
-        bottom.style.display = "block"
-        Velocity(bottom, {opacity: 1}, 500, function(){
-          column.style.minHeight = null
+      if (verificationRequired) {
+        let displayHeight = top.offsetHeight
+        column.style.minHeight = displayHeight + "px"
+        Velocity(top, {opacity: 0}, 500, function(){
+          top.style.display = "none"
+          bottom.style.opacity = 0
+          bottom.style.display = "block"
+          Velocity(bottom, {opacity: 1}, 500, function(){
+            column.style.minHeight = null
 
-          sizeControls()
+            sizeControls()
+          })
         })
-      })
+      } else {
+        submitChatForm()
+      }
 
       return false;
     }

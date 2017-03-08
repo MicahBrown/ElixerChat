@@ -1,3 +1,6 @@
 <%= form_for @conn, chat_path(@conn, :create), [as: :chat, id: "chat-form"], fn _f -> %>
-  <div class="g-recaptcha" data-sitekey="<%= Recaptcha.key %>" data-callback="submitChatForm"></div>
+  <div class="g-recaptcha"
+       data-sitekey="<%= Recaptcha.key %>"
+       data-callback="submitChatForm"
+       data-required="<%= Recaptcha.verification_required? %>"></div>
 <% end %>
