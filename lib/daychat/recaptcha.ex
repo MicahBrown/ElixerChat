@@ -1,6 +1,6 @@
 defmodule Recaptcha do
   def verify(resp) do
-    if Mix.env == :test && resp == "true" do
+    unless verification_required?() do
       verified_response() # always pass verification in test env.
     else
       get_api_response(resp) |> resolve_api_response
@@ -13,6 +13,10 @@ defmodule Recaptcha do
 
   def secret do
     System.get_env("RECAPTCHA_SECRET")
+  end
+
+  def verification_required? do
+    System.get_env("REQUIRE_VERIFICATION") == "true"
   end
 
   defp url(resp) do

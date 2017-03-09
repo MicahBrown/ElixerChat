@@ -1,5 +1,6 @@
 import MainView from '../main';
 import * as utils from "../../utils";
+import * as recaptcha from "../../recaptcha";
 
 export default class View extends MainView {
   mount() {
@@ -17,6 +18,8 @@ let loadParticipantForm = () => {
   let form       = document.getElementById("participant-form")
   let urlBtn     = document.getElementById("url-button")
   let userField  = document.getElementById("user-name")
+  let grecaptcha = bottom.getElementsByClassName("g-recaptcha")[0]
+  let verificationRequired = recaptcha.setVerifcationRequirement(grecaptcha)
 
   new Clipboard(urlBtn);
 
@@ -24,7 +27,7 @@ let loadParticipantForm = () => {
     var section = utils.findAncestor(formSubmit, "participant-section")
     var sibling = section.nextElementSibling
 
-    if (sibling != null) {
+    if (verificationRequired) {
       Velocity(formSubmit, {opacity: 0}, 500, function(){
         section.style.display = "none"
         sibling.style.opacity = 0
@@ -32,8 +35,11 @@ let loadParticipantForm = () => {
 
         Velocity(sibling, {opacity: 1}, 500)
       })
-      return false;
+    } else {
+      submitParticipantForm();
     }
+
+    return false;
   }
 
   form.onsubmit = () => {
