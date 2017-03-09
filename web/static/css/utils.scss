@@ -24,6 +24,8 @@
       width: 100%;
       margin: 0;
       border: 0;
+      background: #fff8dc;
+      &:focus { background: #fff; }
     }
   }
 }
