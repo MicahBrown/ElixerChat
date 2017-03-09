@@ -22,6 +22,15 @@ import "phoenix_html"
 import MainView from './views/main';
 import loadView from './views/loader';
 
+// Create remove function if not exist
+if (!('remove' in Element.prototype)) {
+  Element.prototype.remove = function() {
+    if (this.parentNode) {
+      this.parentNode.removeChild(this);
+    }
+  };
+}
+
 var handleDOMContentLoaded = function() {
   // Get the current view name
   const viewName = document.getElementsByTagName('body')[0].dataset.jsViewName;
