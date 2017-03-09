@@ -66,7 +66,7 @@
   <div class="fluid-field">
     <button id="url-button" type="submit" class="fluid-field-pull" data-clipboard-target="#chat-url">Copy</button>
     <div class="fluid-field-wrap">
-      <input type="text" value="<%= chat_url(@conn, :show, @chat.token) %>" id="chat-url" />
+      <input type="text" value="<%= chat_url(@conn, :show, @chat.token) %>" id="chat-url" readonly />
     </div>
   </div>
 
@@ -74,7 +74,7 @@
   <div class="fluid-field">
     <button id="token-button" type="submit" class="fluid-field-pull" data-clipboard-target="#chat-token">Copy</button>
     <div class="fluid-field-wrap">
-      <input type="text" value="<%= @chat.token %>" id="chat-token" />
+      <input type="text" value="<%= @chat.token %>" id="chat-token" readonly />
     </div>
   </div>
 
