@@ -18,7 +18,7 @@ let loadParticipantForm = () => {
   let form       = document.getElementById("participant-form")
   let urlBtn     = document.getElementById("url-button")
   let userField  = document.getElementById("user-name")
-  let grecaptcha = bottom.getElementsByClassName("g-recaptcha")[0]
+  let grecaptcha = form.getElementsByClassName("g-recaptcha")[0]
   let verificationRequired = recaptcha.setVerifcationRequirement(grecaptcha)
 
   new Clipboard(urlBtn);
