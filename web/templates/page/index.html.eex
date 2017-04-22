@@ -1,7 +1,7 @@
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 <div class="pattern-wrap">
-  <div class="header">1DayChat</div>
+  <div class="header"><img title="1DayChat" alt="Logo" src="<%= static_path(@conn, "/images/logo.svg") %>" /></div>
   <div class="content text-center">
     <div class="jumbotron">
       <div class="container">

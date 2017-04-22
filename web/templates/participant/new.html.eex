@@ -1,7 +1,9 @@
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <div class="solid-wrap">
   <div class="header">
-    <a href="<%= root_path(@conn, :index) %>">1DayChat</a>
+    <a href="<%= root_path(@conn, :index) %>">
+      <img title="1DayChat" alt="Logo" src="<%= static_path(@conn, "/images/logo.svg") %>" />
+    </a>
   </div>
   <div class="container text-center" style="padding-top: 40px; padding-bottom: 40px;">
     <h2>Join the Discussion</h2>
